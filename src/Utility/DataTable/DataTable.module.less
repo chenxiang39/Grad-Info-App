@@ -1,0 +1,49 @@
+@import '../../Styles/font.less';
+@import '../../Styles/color.less';
+.header thead tr th{
+    background-color: transparent;
+    font-family: @defaultfont;
+    color: @deepRed;
+    font-weight: bolder;
+    border-color: @deepRed;
+}
+.header thead tr{
+    font-family: @defaultfont;
+    color: @deepRed;
+    font-weight: bolder;
+    border-color: @deepRed;
+}
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+}
+.button{
+    margin-top: 3rem;
+    color: @deepRed;
+    font-family: @defaultfont;
+    font-weight: bolder;
+    width: 9rem;
+    height: 3rem;
+    border: 2px solid @deepRed ;
+    border-radius: 6px;
+}
+.topButton{
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+.Pbutton{
+    color: white;
+}
+.historyBtn{
+    border: none;
+}
+:global{
+    .ant-modal-header {
+        background-color: @deepRed;
+    }
+}
+
+.modalTitle{
+    color: white;
+    font-family: @defaultfont;  
+}
