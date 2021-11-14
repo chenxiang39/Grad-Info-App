@@ -2,7 +2,7 @@ import React from 'react'
 import TopDataBar from '../../../Utility/TopDataBar/TopDataBar';
 import {StudentInfoDataModel} from '../../../Model/StudentInfoDataModel';
 import { TransferDataModel } from '../../../Model/TransferDataModel';
-import DataTable from '../../../Utility/DataTable/DataTable';
+import CourseDataTable from '../../../Utility/DataTable/CourseDataTable';
 import TitleContent from '../../../Utility/TitleContent/TitleContent';
 import {CoursesTableDataModel} from '../../../Model/CoursesTableDataModel';
 export default function TransferRecords() {
@@ -100,8 +100,6 @@ export default function TransferRecords() {
     const DataTableProp = {
         tableData : tableData, 
         columns : columns,
-        needSelect : true ,
-        needAdd : false, 
         chooseDisableOrAble : CoursesTableDataModel.CoursesTableDataModelChooseDisableOrAble,
         filterCanChooseData: CoursesTableDataModel.CoursesTableDataModelItemCanApplyArray,
         filterDefaultChooseData: CoursesTableDataModel.CoursesTableDataModelDefaultChooseData,
@@ -110,7 +108,7 @@ export default function TransferRecords() {
         <div>
             <TopDataBar data = {legalStudentInfoData}></TopDataBar>
             <TitleContent title = {TransferTitle} data = {legalTransferData}></TitleContent>
-            <DataTable {...DataTableProp}></DataTable>
+            <CourseDataTable {...DataTableProp}></CourseDataTable>
         </div>
     )
 }

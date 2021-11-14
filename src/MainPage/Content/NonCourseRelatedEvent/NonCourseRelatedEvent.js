@@ -1,7 +1,7 @@
 import React from 'react'
 import TopDataBar from '../../../Utility/TopDataBar/TopDataBar';
 import {StudentInfoDataModel} from '../../../Model/StudentInfoDataModel';
-import DataTable from '../../../Utility/DataTable/DataTable';
+import EventDataTable from '../../../Utility/DataTable/EventDataTable';
 export default function NonCourseRelatedEvent() {
     let studentAcademicData = {
         Obj:"MS",
@@ -84,14 +84,12 @@ export default function NonCourseRelatedEvent() {
       const DataTableProp = {
         tableData : tableData, 
         columns : columns,
-        needSelect : false ,
-        needAdd : true, 
         codeDescriptionArr : codeDescriptionArr
     }
     return (
         <div>
             <TopDataBar data = {legalStudentInfoData}></TopDataBar>
-            <DataTable {...DataTableProp}></DataTable>
+            <EventDataTable {...DataTableProp}></EventDataTable>
         </div>
     )
 }

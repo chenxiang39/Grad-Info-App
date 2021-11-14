@@ -1,6 +1,6 @@
 import React from 'react'
 import TopDataBar from '../../../Utility/TopDataBar/TopDataBar';
-import DataTable from '../../../Utility/DataTable/DataTable';
+import CourseDataTable from '../../../Utility/DataTable/CourseDataTable';
 import {StudentInfoDataModel} from '../../../Model/StudentInfoDataModel';
 import {CoursesTableDataModel} from '../../../Model/CoursesTableDataModel';
 export default function AdmissionInfo() {
@@ -216,8 +216,6 @@ export default function AdmissionInfo() {
     const DataTableProp = {
         tableData : legaltableData, 
         columns : columns,
-        needSelect : true ,
-        needAdd : false, 
         chooseDisableOrAble : CoursesTableDataModel.CoursesTableDataModelChooseDisableOrAble,
         filterCanChooseData: CoursesTableDataModel.CoursesTableDataModelItemCanApplyArray,
         filterDefaultChooseData: CoursesTableDataModel.CoursesTableDataModelDefaultChooseData,
@@ -225,7 +223,7 @@ export default function AdmissionInfo() {
     return (
         <div>
             <TopDataBar data = {legalData}></TopDataBar>
-            <DataTable {...DataTableProp}></DataTable>
+            <CourseDataTable {...DataTableProp}></CourseDataTable>
         </div>
     )
 }
