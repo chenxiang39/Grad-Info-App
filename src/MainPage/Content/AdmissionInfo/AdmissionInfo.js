@@ -44,8 +44,8 @@ export default function AdmissionInfo() {
             dataIndex: 'gpts',
         },
         {
-            title: 'EX TYPE',
-            dataIndex: 'extype',
+            title: 'APPLY CODE',
+            dataIndex: 'applyCode',
         },
         {
             title: 'OPER',
@@ -68,10 +68,10 @@ export default function AdmissionInfo() {
             grade:"A",
             units:4.00,
             gpts:14.80,
-            extype:null,
+            applyCode:"V",
             oper: "VSS",
             transactiondate:"09/02/2021",
-            history:"This is the history",
+            history:"",
             apply:"applied"
         },
         {
@@ -84,126 +84,10 @@ export default function AdmissionInfo() {
             extype:null,
             oper: "VSS",
             transactiondate:"09/02/2021",
-            history:"This is the history",
+            history:"",
             apply:"apply"
         },
-        {
-            key:"3",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:"This is the history",
-            apply:"apply"
-        },
-        {
-            key:"4",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:"This is the history",
-            apply:"disable"
-        },
-        {
-            key:"5",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:"This is the history",
-            apply:"applied"
-        },
-        {
-            key:"6",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:"This is the history",
-            apply:"apply"
-        },
-        {
-            key:"7",
-            course:"EE-476L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:"This is the history",
-            apply:"apply"
-        },
-        {
-            key:"8",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:null,
-            apply:"apply"
-        },
-        {
-            key:"9",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:null,
-            apply:"apply"
-        },
-        {
-            key:"10",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:"This is the history",
-            apply:"applied"
-        },
-        {
-            key:"11",
-            course:"EE-477L",
-            term:"20103",
-            grade:"A",
-            units:4.00,
-            gpts:14.80,
-            extype:null,
-            oper: "VSS",
-            transactiondate:"09/02/2021",
-            history:"This is the history",
-            apply:"apply"
-        },
+       
     ]  
     let legalData = [];
     for(let key in studentAcademicData){
