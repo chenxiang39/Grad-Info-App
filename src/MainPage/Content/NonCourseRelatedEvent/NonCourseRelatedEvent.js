@@ -1,16 +1,16 @@
 import React from 'react'
 import TopDataBar from '../../../Utility/TopDataBar/TopDataBar';
-import {StudentInfoDataModel} from '../../../Model/StudentInfoDataModel';
+import {StudentPostDataModel} from '../../../Model/StudentPostDataModel';
 import EventDataTable from '../../../Utility/DataTable/EventDataTable';
 export default function NonCourseRelatedEvent() {
-    let studentAcademicData = {
-        Obj:"MS",
-        Major:"EE",
-        NDocs:"Mast",
-        Confu:"ENGR",
-        Admit:"20103",
-        ReAdmit:"ORG",
-        TransactionDate: "09/07/2010",
+    let StudentPostData = {
+        sp_obj:"MS",
+        sp_major:"EE",
+        sp_ndocs:"Mast",
+        sp_confu:"ENGR",
+        sp_admit:"20103",
+        sp_readmit:"ORG",
+        sp_transdate: "09/07/2010",
     }
     const columns = [
         {
@@ -70,13 +70,6 @@ export default function NonCourseRelatedEvent() {
             transactiondate:null,
         },
       ];
-      let legalStudentInfoData = [];
-      for(let key in studentAcademicData){
-          let newKey = StudentInfoDataModel.StudentInfoDataModelKey(key);
-          let newVal = StudentInfoDataModel.StudentInfoDataModelVal(studentAcademicData[key]);
-          let obj = {[newKey] : newVal};
-          legalStudentInfoData.push(obj);
-      }
       const codeDescriptionArr = {
           "LOA":"Leave of Absence for",
           "PROJ":"Project Completed"
@@ -86,9 +79,10 @@ export default function NonCourseRelatedEvent() {
         columns : columns,
         codeDescriptionArr : codeDescriptionArr
     }
+    let legalStudentPostData = StudentPostDataModel.StudentPostDataModelNonRelatedEventObjFinal(StudentPostData);
     return (
         <div>
-            <TopDataBar data = {legalStudentInfoData}></TopDataBar>
+            <TopDataBar data = {legalStudentPostData}></TopDataBar>
             <EventDataTable {...DataTableProp}></EventDataTable>
         </div>
     )

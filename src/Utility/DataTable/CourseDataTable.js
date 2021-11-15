@@ -6,14 +6,14 @@ import style from './DataTable.module.less'
 import moment from 'moment';
 export default function CourseDataTable(props) {
     var {tableData, columns} = props;
-    var DefaultChooseData = props.filterDefaultChooseData(tableData);
+    var DefaultChooseData = props.ChosedArray(tableData);
     var DefaultChooseDataKeys = DefaultChooseData.map(item => item.key);
     const [selectedRowKeys, setselectedRowKeys] = useState(DefaultChooseDataKeys);
     const [selectedRows, setselectedRows] = useState(DefaultChooseData);
     const [isHistoryModalVisible, setisHistoryModalVisible] = useState(false);
-    const [HistoryModalContent, setHistoryModalContent] = useState("");
-    const clickHistory = (history) => {
-        setHistoryModalContent(history);
+    const [currentcheckedHistoryArr, setcurrentcheckedHistoryArr] = useState([]);
+    const clickHistoryBtn = (historyArr) => {
+        setcurrentcheckedHistoryArr(historyArr);
         setisHistoryModalVisible(true);
     }
     const handleHistoryModalOk = () => {
@@ -22,12 +22,12 @@ export default function CourseDataTable(props) {
     const addHistoryColumn = () =>{
         columns = columns.map((item) => {
             let historyContent = {
-                render: history => {
-                    if(history !== null){
+                render: historyArr => {
+                    if(historyArr.length > 1){
                         return (
                             <Button
                                 key = {item}
-                                onClick = {() => clickHistory(history)}
+                                onClick = {() => clickHistoryBtn(historyArr)}
                                 shape="circle"
                                 size = "small"
                                 icon = {<InfoOutlined />}
@@ -45,12 +45,25 @@ export default function CourseDataTable(props) {
             }
         })
     }
+    const createHistoryContent = () =>{
+        let res = [];
+        for(let i = 0; i < currentcheckedHistoryArr.length; i++){
+            let item = currentcheckedHistoryArr[i];
+            let obj = (
+                <div key = {item + i} className = {style.historyItem}>
+                     {`Course ${item.course} was ${item.apply ? "applied":"unapplied"} by ${item.oper} on ${item.transactiondate}`}
+                </div>
+            )
+            res.push(obj);
+        }
+        return res;
+    }
     const handleOnChange = (selectedRowKeys, selectedRows) =>{
         setselectedRowKeys(selectedRowKeys);
         setselectedRows(selectedRows);
     }
     const selectAll = () =>{
-        const legalData = props.filterCanChooseData(tableData);
+        const legalData = props.CanBeChosedArray(tableData);
         if(legalData.length === selectedRowKeys.length){
             handleOnChange([],[]);
         }
@@ -58,7 +71,6 @@ export default function CourseDataTable(props) {
             const keys = legalData.map((item) => item.key);
             handleOnChange(keys, legalData);
         }
-        addHistoryColumn();
     }
     const submit = () =>{
         console.log(selectedRows);
@@ -66,7 +78,7 @@ export default function CourseDataTable(props) {
     const rowSelection = {
         selectedRowKeys,
         onChange: handleOnChange,
-        getCheckboxProps: (record) => props.chooseDisableOrAble(record)
+        getCheckboxProps: (record) => props.ChooseDisableOrAble(record)
     };
     addHistoryColumn();
     return (
@@ -84,7 +96,7 @@ export default function CourseDataTable(props) {
                             OK  
                         </Button>,]}
                     >
-                       {HistoryModalContent}
+                       {createHistoryContent()}
                 </Modal>
                 <Table
                     className = {style.header}

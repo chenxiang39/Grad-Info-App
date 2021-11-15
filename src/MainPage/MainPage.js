@@ -9,19 +9,20 @@ import TransferRecords from './Content/TransferRecords/TransferRecords';
 import NonCourseRelatedEvent from './Content/NonCourseRelatedEvent/NonCourseRelatedEvent';
 import Comments from './Content/Comments/Comments';
 import DegreeCheck from './Content/DegreeCheck/DegreeCheck';
+import { StudentInfoDataModel } from '../Model/StudentInfoDataModel';
 function MainPage(){
     let studentInfo = {
-        id:"1777-4041-99",
-        name: "Trojan",
-        ssn:"1777-4042-01",
-        post_numbers:["309","409","509"]  
+        student_id:"1777-4041-99",
+        student_name: "Trojan",
+        sp_post_numbers:["309","409","509"]  
     }
+    let legalStudentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
     return (
         
         <div>
             <Header></Header>
             <div className = {style.container}>
-                <StudentInfo data = {studentInfo}></StudentInfo>
+                <StudentInfo data = {legalStudentInfo}></StudentInfo>
                 <TopScrollNavBar></TopScrollNavBar>
                 <Routes>
                     <Route path="/ADMISSION%20INFO" element={<AdmissionInfo />} />

@@ -1,38 +1,11 @@
-var validate = require("validate.js");
-function StudentInfoDataModelKey(Key){
-    if(Key === "ReAdmit"){
-        return "Re Admit";
+function StudentInfoDataModelObj(dataObj){
+    let res = {
+        id: !!dataObj.student_id ? dataObj.student_id : "",
+        name: !! dataObj.student_name ? dataObj.student_name : "",
+        post_numbers: !! dataObj.sp_post_numbers ? dataObj.sp_post_numbers : []
     }
-    else if(Key === "TransactionDate"){
-        return "Transaction Date"
-    }
-    else if(Key === "EarnedUnits"){
-        return "Earned Units"
-    }
-    else if(Key === "RGUnits"){
-        return "RG Units"
-    }
-    else if(Key === "GPAApply"){
-        return "GPA Apply"
-    }
-    else if(Key === "GPAOverall"){
-        return "GPA Overall"
-    }
-    else{
-        return Key;
-    }
+    return res;
 }
-
-function StudentInfoDataModelVal(Val){
-    if(validate.isNumber(Val)){
-        return Val.toFixed(2);
-    }
-    else{
-        return Val;
-    }
-}
-
 export const StudentInfoDataModel = {
-    StudentInfoDataModelKey : StudentInfoDataModelKey,
-    StudentInfoDataModelVal : StudentInfoDataModelVal
+    StudentInfoDataModelObj : StudentInfoDataModelObj,
 }

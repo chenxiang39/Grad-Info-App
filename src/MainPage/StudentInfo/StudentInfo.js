@@ -18,9 +18,12 @@ function StudentInfo(props){
     return (
         <div className = {style.container}>
             <div className = {style.leftcontainer}>
-                <div><span className = {style.titleRed}>ID &nbsp; </span>{data.id}</div>
-                <div><span className = {style.titleRed}>NAME &nbsp; </span>{data.name}</div>
-                <div><span className = {style.titleRed}>SSN &nbsp; </span>{data.ssn}</div>
+                <div className = {style.leftItemContainer}>
+                    <span className = {style.titleRed}>ID &nbsp; </span>{data.id}
+                </div>
+                <div className = {style.leftItemContainer}>
+                    <span className = {style.titleRed}>NAME &nbsp; </span>{data.name}
+                </div>
             </div>
             <div className = {style.rightcontainer}>
                 <div><span className = {style.titleRed}>POST &nbsp; </span>{data.POST}</div>

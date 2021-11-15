@@ -1,5 +1,4 @@
-@import '../../Styles/font.less';
-@import '../../Styles/color.less';
+@import '../../Styles/global.less';
 .header thead tr th{
     background-color: transparent;
     font-family: @defaultfont;
@@ -37,12 +36,10 @@
 .historyBtn{
     border: none;
 }
-:global{
-    .ant-modal-header {
-        background-color: @deepRed;
-    }
+.historyItem{
+    font-family: @defaultfont;
+    font-size: 19px;
 }
-
 .modalTitle{
     color: white;
     font-family: @defaultfont;  
