@@ -4,6 +4,7 @@ import { InfoOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import moment from 'moment';
+import { NonCourseRelatedEventDataModel } from '../../Model/NonCourseRelatedEventDataModel';
 export default function EventDataTable(props) {
     var {tableData, columns} = props;
     var selectCodeOption = [];
@@ -28,7 +29,11 @@ export default function EventDataTable(props) {
             transactiondate : moment().format("MM/DD/YYYY"),
             oper:"VS5"
         }
-        console.log(obj);
+        if(! code || !relatedSemster || !eventDate){
+            alert("You must add all of items!");
+            return;
+        }
+        console.log(NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelObj(obj));
         setisAddModalVisible(false);
     }
     const handleCodeChange = (value) =>{

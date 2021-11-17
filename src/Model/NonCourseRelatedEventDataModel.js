@@ -13,7 +13,17 @@ function NonCourseRelatedEventDataModelArray(dataArr){
     }
     return arr;
 }
-
+function NonCourseRelatedEventDataModelObj(dataObj){
+    let curobj = {
+        event_code : dataObj.code,
+        event_description : dataObj.description,
+        ncrer_related : dataObj.related,
+        ncrer_oper : dataObj.oper,
+        ncrer_transdate : dataObj.transactiondate
+    }
+    return curobj;
+}
 export const NonCourseRelatedEventDataModel = {
-    NonCourseRelatedEventDataModelArray : NonCourseRelatedEventDataModelArray
+    NonCourseRelatedEventDataModelArray : NonCourseRelatedEventDataModelArray,
+    NonCourseRelatedEventDataModelObj : NonCourseRelatedEventDataModelObj
 }
