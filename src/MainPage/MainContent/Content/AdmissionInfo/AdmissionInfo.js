@@ -1,8 +1,8 @@
 import React from 'react'
-import TopDataBar from '../../../Utility/TopDataBar/TopDataBar';
-import {StudentPostDataModel} from '../../../Model/StudentPostDataModel';
-import CourseDataTable from '../../../Utility/DataTable/CourseDataTable';
-import { AdmissionCourseDataModel } from '../../../Model/AdmissionCourseDataModel';
+import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
+import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel';
+import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
+import { AdmissionCourseDataModel } from '../../../../Model/AdmissionCourseDataModel';
 export default function AdmissionInfo() {
     let StudentPostData = {
         sp_obj:"MS",

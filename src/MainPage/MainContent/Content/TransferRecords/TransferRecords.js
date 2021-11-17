@@ -1,10 +1,10 @@
 import React from 'react'
-import TopDataBar from '../../../Utility/TopDataBar/TopDataBar';
-import {StudentPostDataModel} from '../../../Model/StudentPostDataModel';
-import { TransferDataModel } from '../../../Model/TransferDataModel';
-import CourseDataTable from '../../../Utility/DataTable/CourseDataTable';
-import TitleContent from '../../../Utility/TitleContent/TitleContent';
-import { TransferCoursesDataModel } from '../../../Model/TransferCourseDataModel';
+import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
+import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel';
+import { TransferDataModel } from '../../../../Model/TransferDataModel';
+import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
+import TitleContent from '../../../../Utility/TitleContent/TitleContent';
+import { TransferCoursesDataModel } from '../../../../Model/TransferCourseDataModel';
 export default function TransferRecords() {
     let StudentPostData = {
         sp_obj:"MS",
@@ -110,20 +110,14 @@ export default function TransferRecords() {
       ];
     let TransferTitle = "Transfer Program of Study"
     let TransferData = {
-        CEEB:"2074",
-        INSTITUTIONNAME: "Carnegie-Mellon",
-        DATESOFATTENDANCE : "FA06"
-    }
-    let legalTransferData = [];
-    for(let key in TransferData){
-        let newKey = TransferDataModel.TransferDataModelKey(key);
-        let newVal = TransferDataModel.TransferDataModelVal(TransferData[key]);
-        let obj = {[newKey] : newVal};
-        legalTransferData.push(obj);
+        institution_ceeb:"2074",
+        institution_name: "Carnegie-Mellon",
+        institution_date_earned : "FA06"
     }
 
-    
+    let legalTransferData =　TransferDataModel.TransferDataModelLegalArr(TransferData);
     let legalTableData = TransferCoursesDataModel.TransferCoursesTableDataModelArray(tableData);
+
     const DataTableProp = {
         tableData : legalTableData, 
         columns : columns,

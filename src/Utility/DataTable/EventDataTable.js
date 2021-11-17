@@ -29,7 +29,7 @@ export default function EventDataTable(props) {
             transactiondate : moment().format("MM/DD/YYYY"),
             oper:"VS5"
         }
-        if(! code || !relatedSemster || !eventDate){
+        if(!code || !relatedSemster || !eventDate){
             alert("You must add all of items!");
             return;
         }
@@ -41,6 +41,11 @@ export default function EventDataTable(props) {
         setDescription(props.codeDescriptionArr[value])
     }
     const handleAddModalCancel = () =>{
+        setCode("");
+        setDescription("");
+        setEventDate("");
+        setRelatedSemster("");
+        setRelatedYear("");
         setisAddModalVisible(false);
     }
     const handleRelatedSemster = (value) =>{
@@ -75,7 +80,9 @@ export default function EventDataTable(props) {
                 layout="horizontal"
             >
             <Form.Item label="Code">
-              <Select onChange = {handleCodeChange}>
+              <Select 
+                value = {code}
+                onChange = {handleCodeChange}>
                 {selectCodeOptionSelect}
               </Select>
             </Form.Item>
@@ -133,6 +140,7 @@ export default function EventDataTable(props) {
                     {AddModalForm()}
                 </Modal>
                 <Table
+                    key = "EventTable"
                     className = {style.header}
                     columns = {columns}
                     dataSource = {tableData}

@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import 'antd/dist/antd.less';
 import { Button, Input } from 'antd';
 import style from './Comments.module.less'
-import CommentsDataTable from '../../../Utility/DataTable/CommentsDataTable'
-import {CommentsDataModel} from '../../../Model/CommentsDataModel'
+import CommentsDataTable from '../../../../Utility/DataTable/CommentsDataTable'
+import {CommentsDataModel} from '../../../../Model/CommentsDataModel'
 const { TextArea } = Input;
 export default function Comments(){
 const columns = [

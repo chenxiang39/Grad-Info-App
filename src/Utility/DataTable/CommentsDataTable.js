@@ -21,6 +21,10 @@ export default function CommentsDataTable(props) {
             transactiondate : moment().format("MM/DD/YYYY"),
             oper:"VS5"
         }
+        if(!curComment){
+            alert("You must add Comment!");
+            return;
+        }
         let realObj = CommentsDataModel.CommentsDataModelObj(obj);
         console.log(realObj);
         //save 
