@@ -121,6 +121,8 @@ export default function TransferRecords() {
         let obj = {[newKey] : newVal};
         legalTransferData.push(obj);
     }
+
+    
     let legalTableData = TransferCoursesDataModel.TransferCoursesTableDataModelArray(tableData);
     const DataTableProp = {
         tableData : legalTableData, 

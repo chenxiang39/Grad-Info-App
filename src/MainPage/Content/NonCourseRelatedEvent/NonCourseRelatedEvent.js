@@ -2,6 +2,7 @@ import React from 'react'
 import TopDataBar from '../../../Utility/TopDataBar/TopDataBar';
 import {StudentPostDataModel} from '../../../Model/StudentPostDataModel';
 import EventDataTable from '../../../Utility/DataTable/EventDataTable';
+import { NonCourseRelatedEventDataModel } from '../../../Model/NonCourseRelatedEventDataModel';
 export default function NonCourseRelatedEvent() {
     let StudentPostData = {
         sp_obj:"MS",
@@ -45,37 +46,27 @@ export default function NonCourseRelatedEvent() {
       ];   
       const tableData = [
         {
-            key:"1",
-            code:"LOA",
-            description:"Leave of Absence for",
-            related:"20113",
-            oper:null,
-            transactiondate:null,
+            event_code:"LOA",
+            event_description:"Leave of Absence for",
+            ncrer_related:"20113",
+            ncrer_oper:null,
+            ncrer_transdate:null,
         },
         {
-            key:"2",
-            code:"TIMEX",
-            related:"20221",
-            description:"Extension of Time Through",
-            oper:null,
-            transactiondate:null,
-        },
-        {
-            key:"3",
-            code:"READMIT",
-            related:"20114",
-            description:"Discontinuous enrollment",
-            extype:'N/A',
-            oper:null,
-            transactiondate:null,
+            event_code:"LOA",
+            event_description:"Leave of Absence for",
+            ncrer_related:"20114",
+            ncrer_oper:null,
+            ncrer_transdate:null,
         },
       ];
       const codeDescriptionArr = {
           "LOA":"Leave of Absence for",
           "PROJ":"Project Completed"
       }
+      let legalTableData = NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelArray(tableData);
       const DataTableProp = {
-        tableData : tableData, 
+        tableData : legalTableData, 
         columns : columns,
         codeDescriptionArr : codeDescriptionArr
     }
