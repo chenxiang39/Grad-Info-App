@@ -18,7 +18,7 @@ function TopScrollNavBar(){
     function createMenu(){
         return titleDataArr.map((data) => {
           let selected = current === data.title? style.selected : style.notselected;
-          let path = `/${data.title}`;
+          let path = `${data.title}`;
           return <Menu.Item key= {data.title} className = {[selected, style.item]}>
               {data.title}
               <MyLink to = {path}></MyLink>

@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
 import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel';
 import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
 import { AdmissionCourseDataModel } from '../../../../Model/AdmissionCourseDataModel';
+import {LoadStudentInfoByStudentID, StudentID} from '../../../../Redux/Slices/StudentInfo'
+import { useSelector } from 'react-redux';
 export default function AdmissionInfo() {
+    const curStudentID = useSelector(StudentID);
+    useEffect(async () => {
+        const data = await LoadStudentInfoByStudentID(curStudentID);
+        console.log(data);
+      });
+      
     let StudentPostData = {
         sp_obj:"MS",
         sp_major:"EE",

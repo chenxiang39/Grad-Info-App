@@ -1,0 +1,8 @@
+{
+    "Dev": {
+        "ReduxDevTool": true
+    },
+    "Api": {
+        "ServerIP":"http://localhost:8070"
+    }
+}
