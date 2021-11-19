@@ -1,21 +1,14 @@
 import React from 'react'
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
-import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel';
+import {StudentID, StudentPostData, StudentPostNumber, SaveStudentPostData} from '../../../../Redux/Slices/StudentInfo'
+import { useSelector , useDispatch} from 'react-redux';
 import EventDataTable from '../../../../Utility/DataTable/EventDataTable';
 import ExamCommitteeDataTable from '../../../../Utility/DataTable/ExamCommitteeDataTable'
 import ThesisCommitteeDataTable from '../../../../Utility/DataTable/ThesisCommitteeDataTable'
 import { NonCourseRelatedEventDataModel } from '../../../../Model/NonCourseRelatedEventDataModel';
 import { CommitteesDataModel } from '../../../../Model/CommitteesDataModel';
 export default function NonCourseRelatedEvent() {
-    let StudentPostData = {
-        sp_obj:"MS",
-        sp_major:"EE",
-        sp_ndocs:"Mast",
-        sp_confu:"ENGR",
-        sp_admit:"20103",
-        sp_readmit:"ORG",
-        sp_transdate: "09/07/2010",
-    }
+    let curStudentPostData = useSelector(StudentPostData);
     const examColumns = [
         {
             title: '#',
@@ -130,10 +123,9 @@ export default function NonCourseRelatedEvent() {
         tableData : legalThesisCommitteeTableData, 
         columns : thesisColumns,
       }
-    let legalStudentPostData = StudentPostDataModel.StudentPostDataModelNonRelatedEventObjFinal(StudentPostData);
     return (
         <div>
-            <TopDataBar data = {legalStudentPostData}></TopDataBar>
+            <TopDataBar data = {curStudentPostData}></TopDataBar>
             <EventDataTable {...EventDataTableProp}></EventDataTable>
             <ExamCommitteeDataTable {...examCommitteeDataTableProp}></ExamCommitteeDataTable>
             <ThesisCommitteeDataTable {...thesisCommitteeDataTableProp}></ThesisCommitteeDataTable>

@@ -4,8 +4,11 @@ import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './Search.module.less';
 import { useDispatch } from 'react-redux';
-import {SaveStudentID} from '../../Redux/Slices/StudentInfo'
+import {SaveStudentID, SaveStudentPostNumber, SaveStudentInfo, SaveStudentPostData} from '../../Redux/Slices/StudentInfo'
 import { useNavigate } from "react-router-dom";
+import {getStudentInfoByStudentID, getStudentPostDataByStudentIDAndPostNumber} from '../../Api/studentInfo' 
+import { StudentInfoDataModel } from '../../Model/StudentInfoDataModel';   
+import { StudentPostDataModel } from '../../Model/StudentPostDataModel';
 export default function Search() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -17,15 +20,29 @@ export default function Search() {
         dispatch(SaveStudentID(""));
       },[]);
       
-    const submit = () =>{
+    const submit = async () =>{
         if(!curSearchStudentID){
             alert("You must input USC ID!");
             return;
         }
-      
-        //success
-        dispatch(SaveStudentID(curSearchStudentID));
-        navigate("/MainContent");
+        let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
+        if(!!studentInfo){
+            studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
+            if(!studentInfo.id){
+                alert("USC ID is not exist!");
+                return;
+            }
+            else{
+                dispatch(SaveStudentID(curSearchStudentID));
+                //default first one
+                dispatch(SaveStudentPostNumber(studentInfo.post_numbers[0]));
+                dispatch(SaveStudentInfo(studentInfo));
+                const studentPostData = await getStudentPostDataByStudentIDAndPostNumber(curSearchStudentID,studentInfo.post_numbers[0]);
+                const legalstudentPostData = StudentPostDataModel.StudentPostDataModelObjFinal(studentPostData);
+                dispatch(SaveStudentPostData(legalstudentPostData));
+                navigate("/MainContent");
+            }
+        }
     }
     return (
         <div className = {style.container}>

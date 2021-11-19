@@ -1,4 +1,4 @@
-function TransferCoursesTableDataModelHistoryArr(historyArr){
+function TransferCourseTableDataModelHistoryArr(historyArr){
     let arr = [];
     for(let i = 0; i < historyArr.length; i++){
         let curobj = {
@@ -11,7 +11,7 @@ function TransferCoursesTableDataModelHistoryArr(historyArr){
     }
     return arr;
 }
-function TransferCoursesTableDataModelArray(tableData){
+function TransferCourseTableDataModelArray(tableData){
     let arr = [];
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
@@ -23,7 +23,7 @@ function TransferCoursesTableDataModelArray(tableData){
             gpts : !!tableData[i].tr_course_gpts ? tableData[i].tr_course_gpts.toFixed(2) : 0.00,
             applyCode : !!tableData[i].tr_course_apply_code ? tableData[i].tr_course_apply_code : "",
             oper : !!tableData[i].tr_course_oper ? tableData[i].tr_course_oper : "",
-            history : !!tableData[i].tr_course_history ? TransferCoursesTableDataModelHistoryArr(tableData[i].tr_course_history) : [],
+            history : !!tableData[i].tr_course_history ? TransferCourseTableDataModelHistoryArr(tableData[i].tr_course_history) : [],
             transactiondate: !!tableData[i].tr_course_transdate ? tableData[i].tr_course_transdate : "",
             apply : !!tableData[i].tr_course_apply_status ? tableData[i].tr_course_apply_status : false
         }
@@ -32,7 +32,7 @@ function TransferCoursesTableDataModelArray(tableData){
     return arr;
 }
 
-function TransferCoursesTableDataModelChooseDisableOrAble(item){
+function TransferCourseTableDataModelChooseDisableOrAble(item){
     if(item.applyCode === "X"){
         return {
             disabled: true,
@@ -45,21 +45,21 @@ function TransferCoursesTableDataModelChooseDisableOrAble(item){
         }
     }
 }
-function TransferCoursesTableDataModelItemCanBeChosedArray(tableData){
+function TransferCourseTableDataModelItemCanBeChosedArray(tableData){
     const result = tableData.filter((item) => {
         return item.applyCode !== "X";
     })
     return result;
 }
-function TransferCoursesTableDataModelItemChosedArray(tableData){
+function TransferCourseTableDataModelItemChosedArray(tableData){
     const result = tableData.filter((item) => {
         return item.apply === true;
     })
     return result;
 }
-export const TransferCoursesDataModel = {
-    TransferCoursesTableDataModelArray : TransferCoursesTableDataModelArray,
-    TransferCoursesTableDataModelChooseDisableOrAble : TransferCoursesTableDataModelChooseDisableOrAble,
-    TransferCoursesTableDataModelItemCanBeChosedArray : TransferCoursesTableDataModelItemCanBeChosedArray,
-    TransferCoursesTableDataModelItemChosedArray : TransferCoursesTableDataModelItemChosedArray
+export const TransferCourseDataModel = {
+    TransferCourseTableDataModelArray : TransferCourseTableDataModelArray,
+    TransferCourseTableDataModelChooseDisableOrAble : TransferCourseTableDataModelChooseDisableOrAble,
+    TransferCourseTableDataModelItemCanBeChosedArray : TransferCourseTableDataModelItemCanBeChosedArray,
+    TransferCourseTableDataModelItemChosedArray : TransferCourseTableDataModelItemChosedArray
 }

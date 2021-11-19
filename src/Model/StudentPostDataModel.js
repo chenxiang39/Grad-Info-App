@@ -14,18 +14,6 @@ function StudentPostDataModelObj(originalData){
     };
     return res;
 }
-function StudentPostDataModelNonRelatedEventObj(originalData){
-    let res = {
-        Obj: !!originalData.sp_obj ? originalData.sp_obj : "",
-        Major: !!originalData.sp_major ? originalData.sp_major : "",
-        NDocs: !!originalData.sp_ndocs ? originalData.sp_ndocs : "",
-        Confu:!!originalData.sp_confu ? originalData.sp_confu : "",
-        Admit:!!originalData.sp_admit ? originalData.sp_admit : "",
-        ReAdmit:!!originalData.sp_readmit ? originalData.sp_readmit : "",
-        TransactionDate: !!originalData.sp_transdate ? originalData.sp_transdate : "",
-    };
-    return res;
-}
 function StudentPostDataModelKey(Key){
     if(Key === "ReAdmit"){
         return "Re Admit";
@@ -61,18 +49,6 @@ function StudentPostDataModelObjFinal(originalData){
     }
     return finalRes;
 }
-function StudentPostDataModelNonRelatedEventObjFinal(originalData){
-    let legalData = StudentPostDataModelNonRelatedEventObj(originalData);
-    let finalRes = [];
-    for(let key in legalData){
-        let newKey = StudentPostDataModelKey(key);
-        let newVal = legalData[key];
-        let obj = {[newKey] : newVal};
-        finalRes.push(obj);
-    }
-    return finalRes;
-}
 export const StudentPostDataModel = {
     StudentPostDataModelObjFinal : StudentPostDataModelObjFinal,
-    StudentPostDataModelNonRelatedEventObjFinal :StudentPostDataModelNonRelatedEventObjFinal
 }
