@@ -23,6 +23,7 @@ function TransferCourseTableDataModelArray(tableData){
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
             key : i + 1,
+            id : !!tableData[i].tr_course_id ? tableData[i].tr_course_id : "",
             course : !!tableData[i].tr_course_name ? tableData[i].tr_course_name : "",
             term : !!tableData[i].tr_course_term ? tableData[i].tr_course_term : "",
             grade : !!tableData[i].tr_course_grade ? tableData[i].tr_course_grade : "",

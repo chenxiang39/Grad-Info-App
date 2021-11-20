@@ -1,4 +1,4 @@
-import {axios} from "./axios";
+import axios from "./axios";
 import setting from '../setting.json'
 
 const ipAddress = setting.Api.ServerIP;

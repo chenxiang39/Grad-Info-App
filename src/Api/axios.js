@@ -1,1 +1,2 @@
-export const axios = require('axios').default;
+import axios from 'axios';
+export default axios;

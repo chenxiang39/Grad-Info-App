@@ -65,6 +65,7 @@ export default function AdmissionInfo() {
         },
       ];   ;
     const DataTableProp = {
+        type: "AdmissionCourse",
         tableData : curAdmissionCourseTableData, 
         columns : columns,
         ChooseDisableOrAble : AdmissionCourseDataModel.AdmissionCoursesTableDataModelChooseDisableOrAble,

@@ -1,4 +1,5 @@
 import  validate  from "validate.js";
+import moment from "moment";
 function AdmissionCoursesTableDataModelHistoryArr(historyArr){
     let arr = [];
     if(validate.isEmpty(historyArr)){
@@ -23,6 +24,7 @@ function AdmissionCoursesTableDataModelArray(tableData){
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
             key : i + 1,
+            id: !!tableData[i]. ad_course_id ? tableData[i]. ad_course_id : "",
             course : !!tableData[i].ad_course_name ? tableData[i].ad_course_name : "",
             term : !!tableData[i].ad_course_term ? tableData[i].ad_course_term : "",
             grade : !!tableData[i].ad_course_grade ? tableData[i].ad_course_grade : "",
@@ -64,9 +66,29 @@ function AdmissionCoursesTableDataModelItemChosedArray(tableData){
     })
     return result;
 }
+function AdmissionCoursesTableDataModelSubmitDataArray(appliedArr, useroper){
+    let res = [];
+    if(validate.isEmpty(appliedArr)){
+        appliedArr = [];
+    }
+    if(validate.isEmpty(useroper)){
+        useroper = "";
+    }
+    for(let i = 0; i < appliedArr.length; i++){
+        let curObj = {
+            ad_course_id : !!appliedArr[i].id ? appliedArr[i].id : "",
+            ad_course_oper : !!useroper ? useroper : "",
+            ad_course_apply_status : !!appliedArr[i].apply ? appliedArr[i].apply : false,
+            ad_course_transdate : moment().format("MM/DD/YYYY")
+        }
+        res.push(curObj);
+    }
+    return res;
+}
 export const AdmissionCourseDataModel = {
     AdmissionCoursesTableDataModelArray : AdmissionCoursesTableDataModelArray,
     AdmissionCoursesTableDataModelChooseDisableOrAble : AdmissionCoursesTableDataModelChooseDisableOrAble,
     AdmissionCoursesTableDataModelItemCanBeChosedArray : AdmissionCoursesTableDataModelItemCanBeChosedArray,
-    AdmissionCoursesTableDataModelItemChosedArray : AdmissionCoursesTableDataModelItemChosedArray
+    AdmissionCoursesTableDataModelItemChosedArray : AdmissionCoursesTableDataModelItemChosedArray,
+    AdmissionCoursesTableDataModelSubmitDataArray : AdmissionCoursesTableDataModelSubmitDataArray
 }

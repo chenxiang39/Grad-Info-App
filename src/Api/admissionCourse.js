@@ -1,4 +1,4 @@
-import {axios} from "./axios";
+import axios from "./axios";
 import setting from '../setting.json'
 
 const ipAddress = setting.Api.ServerIP;
@@ -12,3 +12,11 @@ export const getAdmissionCourseTableDataByIDAndPostNumber = async (studentID, po
         alert(error);
     }
 }
+
+// export const postAdmissionCourseTableDataByNewArr = async (newArr) => {
+//     try{
+//         const response = await axios.post()
+//     }catch(error){
+//         alert(error);
+//     }
+// }

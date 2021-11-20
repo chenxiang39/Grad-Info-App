@@ -4,14 +4,16 @@ import AdmissionCourseReducer  from "./Slices/AdmissionCourse";
 import TransferCourseReducer from "./Slices/TransferCourse";
 import NonCourseRelatedEventReducer from './Slices/NonCourseRelatedEvent';
 import CommentReducer from './Slices/Comment'
+import UserInfoReducer from "./Slices/UserInfo";
 import setting from '../setting.json'
 export default configureStore({
     reducer:{
         StudentInfo : StudentInfoReducer,
-        AdmissionCourse: AdmissionCourseReducer,
-        TransferCourse: TransferCourseReducer,
+        AdmissionCourse : AdmissionCourseReducer,
+        TransferCourse : TransferCourseReducer,
         NonCourseRelatedEvent : NonCourseRelatedEventReducer,
-        Comment: CommentReducer,
+        Comment : CommentReducer,
+        UserInfo : UserInfoReducer,
     },
     devTools:setting.Dev.ReduxDevTool,
 })

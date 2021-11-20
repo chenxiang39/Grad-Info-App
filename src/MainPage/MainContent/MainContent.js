@@ -9,13 +9,11 @@ import TransferRecords from './Content/TransferRecords/TransferRecords';
 import NonCourseRelatedEvent from './Content/NonCourseRelatedEvent/NonCourseRelatedEvent';
 import Comment from './Content/Comment/Comment';
 import DegreeCheck from './Content/DegreeCheck/DegreeCheck';
-import {StudentInfoData} from '../../Redux/Slices/StudentInfo'
 export default function MainContent(){
-    let studentInfo = useSelector(StudentInfoData);
     return (
         <div>
             <div className = {style.container}>
-                <StudentInfo data = {studentInfo}></StudentInfo>
+                <StudentInfo></StudentInfo>
                 <TopScrollNavBar></TopScrollNavBar>
                 <Routes>
                     <Route path="ADMISSION%20INFO" element={<AdmissionInfo />} />

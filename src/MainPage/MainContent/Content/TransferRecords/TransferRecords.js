@@ -97,6 +97,7 @@ export default function TransferRecords() {
        columns: TransferInfoColums
     }
     const TransferCourseDataTableProp = {
+        type: "TransferCourse",
         tableData : curTransferCourseTableData, 
         columns : TransferCourseColumns,
         ChooseDisableOrAble : TransferCourseDataModel.TransferCourseTableDataModelChooseDisableOrAble,

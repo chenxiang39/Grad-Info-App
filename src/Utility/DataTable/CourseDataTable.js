@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Table,Button, Modal} from 'antd';
 import { InfoOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import {UserInfo} from '../../Redux/Slices/UserInfo'
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-import moment from 'moment';
+import {AdmissionCourseDataModel} from '../../Model/AdmissionCourseDataModel'
 export default function CourseDataTable(props) {
-    var {tableData, columns} = props;
+    const curUserInfo = useSelector(UserInfo);
+    var {tableData, columns, type} = props;
     var DefaultChooseData = props.ChosedArray(tableData);
     var DefaultChooseDataKeys = DefaultChooseData.map(item => item.key);
     const [selectedRowKeys, setselectedRowKeys] = useState(DefaultChooseDataKeys);
@@ -73,7 +76,11 @@ export default function CourseDataTable(props) {
         }
     }
     const submit = () =>{
-        console.log(selectedRows);
+        if(type === "AdmissionCourse"){
+            let a = AdmissionCourseDataModel.AdmissionCoursesTableDataModelSubmitDataArray(selectedRows,curUserInfo.useroper);
+            console.log(a);
+        }
+        
     }
     const rowSelection = {
         selectedRowKeys,
