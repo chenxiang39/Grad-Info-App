@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { StudentPostDataModel} from '../../Model/StudentPostDataModel'
+import {StudentInfoDataModel} from '../../Model/StudentInfoDataModel'
 export const StudentSlice = createSlice({
     name : 'studentInfo',
     initialState:{
         studentID: "",
         studentPostNumber:"",
-        studentInfo:{},
-        studentPostData:{
-
-        }
+        studentInfo:StudentInfoDataModel.StudentInfoDataModelObj({}),
+        studentPostData:StudentPostDataModel.StudentPostDataModelObjFinal({})
     },
     reducers: {
         SaveStudentID: (state,action) =>{

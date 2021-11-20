@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Table, Input, Button, Modal, Form, Select} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-import {CommitteesDataModel} from '../../Model/CommitteesDataModel'
+import {CommitteeDataModel} from '../../Model/CommitteeDataModel'
 export default function ExamCommitteeDataTable(props) {
     var {tableData, columns} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
@@ -20,7 +20,7 @@ export default function ExamCommitteeDataTable(props) {
             alert("You must add all of items!");
             return;
         }
-        let realObj = CommitteesDataModel.examCommitteesDataModelObj(obj);
+        let realObj = CommitteeDataModel.examCommitteeDataModelObj(obj);
         console.log(realObj);
         //save 
         setcurCommitteeName("");

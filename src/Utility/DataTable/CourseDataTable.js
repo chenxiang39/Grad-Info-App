@@ -83,6 +83,7 @@ export default function CourseDataTable(props) {
     addHistoryColumn();
     return (
             <div>
+                <div className = {style.tableTitle}>{!!props.title ? props.title : null}</div>
                 <Modal 
                     key = "historyCheck"
                     centered

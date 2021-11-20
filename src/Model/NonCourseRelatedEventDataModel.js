@@ -1,5 +1,9 @@
+import  validate  from "validate.js";
 function NonCourseRelatedEventDataModelArray(dataArr){
     let arr = [];
+    if(validate.isEmpty(dataArr)){
+        dataArr = [];
+    }   
     for(let i = 0; i < dataArr.length; i++){
         let curobj = {
             key : i + 1,
@@ -14,12 +18,15 @@ function NonCourseRelatedEventDataModelArray(dataArr){
     return arr;
 }
 function NonCourseRelatedEventDataModelObj(dataObj){
+    if(validate.isEmpty(dataObj)){
+        dataObj = {};
+    }
     let curobj = {
-        event_code : dataObj.code,
-        event_description : dataObj.description,
-        ncrer_related : dataObj.related,
-        ncrer_oper : dataObj.oper,
-        ncrer_transdate : dataObj.transactiondate
+        event_code : !!dataObj.code ? dataObj.code: "",
+        event_description : !!dataObj.description ? dataObj.description: "",
+        ncrer_related : !!dataObj.related ? dataObj.related : "",
+        ncrer_oper : !!dataObj.oper ? dataObj.oper : "",
+        ncrer_transdate : !!dataObj.transactiondate ? dataObj.transactiondate: ""
     }
     return curobj;
 }

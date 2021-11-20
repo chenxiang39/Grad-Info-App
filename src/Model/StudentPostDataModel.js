@@ -1,3 +1,4 @@
+import  validate  from "validate.js";
 function StudentPostDataModelObj(originalData){
     let res = {
         Obj: !!originalData.sp_obj ? originalData.sp_obj : "",
@@ -39,6 +40,9 @@ function StudentPostDataModelKey(Key){
 }
 
 function StudentPostDataModelObjFinal(originalData){
+    if(validate.isEmpty(originalData)){
+        originalData = {};
+    }
     let legalData = StudentPostDataModelObj(originalData);
     let finalRes = [];
     for(let key in legalData){

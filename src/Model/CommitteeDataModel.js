@@ -1,12 +1,16 @@
-function examCommitteesDataModelObj(dataObj){
+import validate from "validate.js";
+function examCommitteeDataModelObj(dataObj){
     let curObj = {
         exam_committee_name : dataObj.committeeName,
         exam_comittee_char :　dataObj.committeeChar
     }
     return curObj;
 }
-function examCommitteesDataModelArr(dataArr){
+function examCommitteeDataModelArr(dataArr){
     let res = [];
+    if(validate.isEmpty(dataArr)){
+        dataArr = [];
+    }
     for(let i = 0; i < dataArr.length; i++){
         let curObj = {
             key: i + 1,
@@ -17,7 +21,7 @@ function examCommitteesDataModelArr(dataArr){
     }
     return res;
 }
-function thesisCommitteesDataModelObj(dataObj){
+function thesisCommitteeDataModelObj(dataObj){
     let curObj = {
         thesis_committee_name : dataObj.committeeName,
         thesis_comittee_char :　dataObj.committeeChar,
@@ -25,8 +29,11 @@ function thesisCommitteesDataModelObj(dataObj){
     }
     return curObj;
 }
-function thesisCommitteesDataModelArr(dataArr){
+function thesisCommitteeDataModelArr(dataArr){
     let res = [];
+    if(validate.isEmpty(dataArr)){
+        dataArr = [];
+    }
     for(let i = 0; i < dataArr.length; i++){
         let curObj = {
             key: i + 1,
@@ -38,9 +45,9 @@ function thesisCommitteesDataModelArr(dataArr){
     }
     return res;
 }
-export const CommitteesDataModel = {
-    examCommitteesDataModelObj : examCommitteesDataModelObj,
-    examCommitteesDataModelArr : examCommitteesDataModelArr,
-    thesisCommitteesDataModelObj : thesisCommitteesDataModelObj,
-    thesisCommitteesDataModelArr : thesisCommitteesDataModelArr
+export const CommitteeDataModel = {
+    examCommitteeDataModelObj : examCommitteeDataModelObj,
+    examCommitteeDataModelArr : examCommitteeDataModelArr,
+    thesisCommitteeDataModelObj : thesisCommitteeDataModelObj,
+    thesisCommitteeDataModelArr : thesisCommitteeDataModelArr
 }

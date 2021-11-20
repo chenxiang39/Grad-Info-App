@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { AdmissionCourseDataModel } from '../../Model/AdmissionCourseDataModel';
 export const AdmissionCourseSlice = createSlice({
     name : 'AdmissionCourse',
     initialState:{
-        admissionCourseTableData:[]
+        admissionCourseTableData:AdmissionCourseDataModel.AdmissionCoursesTableDataModelArray([])
     },
     reducers: {
         SaveAdmissionCourseTableData: (state,action) =>{

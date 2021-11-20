@@ -3,7 +3,7 @@ import { Table, Input, Button, Modal, Form, Select} from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-import {CommitteesDataModel} from '../../Model/CommitteesDataModel'
+import {CommitteeDataModel} from '../../Model/CommitteeDataModel'
 export default function ThesisCommitteeDataTable(props) {
     var {tableData, columns} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
@@ -25,7 +25,7 @@ export default function ThesisCommitteeDataTable(props) {
             alert("You must add all of items!");
             return;
         }
-        let realObj = CommitteesDataModel.thesisCommitteesDataModelObj(obj);
+        let realObj = CommitteeDataModel.thesisCommitteeDataModelObj(obj);
         console.log(realObj);
         //save 
         setcurCommitteeName("");

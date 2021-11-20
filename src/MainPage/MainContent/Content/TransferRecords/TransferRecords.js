@@ -1,29 +1,36 @@
 import React , {useEffect, useState}from 'react'
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
 import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel';
-import { TransferDataModel } from '../../../../Model/TransferDataModel';
-import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
-import TitleContent from '../../../../Utility/TitleContent/TitleContent';
 import { TransferCourseDataModel } from '../../../../Model/TransferCourseDataModel';
+import { TransferInfoDataModel } from '../../../../Model/TransferInfoDataModel';
+import { BachelorDegreeInfoDataModel } from '../../../../Model/BachelorDegreeInfoDataModel';
+import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
+import TranferInfoDataTable from '../../../../Utility/DataTable/TranferInfoDataTable';
+import BachelorDegreeInfoTitleContent from '../../../../Utility/TitleContent/BachelorDegreeInfoTitleContent';
 import { useSelector , useDispatch} from 'react-redux';
-import {SaveTransferCourseTableData} from '../../../../Redux/Slices/TransferCourse'
-import {getTransferCourseTableDataByIDAndPostNumber, getStudentPostDataByStudentIDAndPostNumber} from '../../../../Api/studentInfo'
+import {getStudentPostDataByStudentIDAndPostNumber} from '../../../../Api/studentInfo'
+import {getTransferCourseTableDataByIDAndPostNumber, getTransferInfoByIDAndPostNumber, getBachelorDegreeInfoByID} from '../../../../Api/transferCourse'
 import {StudentID, StudentPostData, StudentPostNumber, SaveStudentPostData} from '../../../../Redux/Slices/StudentInfo'
-import {TransferCourseTableData} from '../../../../Redux/Slices/TransferCourse'
+import {TransferCourseTableData, TransferInfoTableData, BachelorDegreeInfoData,SaveTransferCourseTableData, SaveTransferInfoTableData, SaveBachelorDegreeInfoData} from '../../../../Redux/Slices/TransferCourse'
 export default function TransferRecords() {
     const dispatch = useDispatch();
     let curStudentPostData = useSelector(StudentPostData);
     let curStudentPostNumber = useSelector(StudentPostNumber);
     let curStudentID = useSelector(StudentID);
     let curTransferCourseTableData = useSelector(TransferCourseTableData);
+    let curTransferInfoTableData = useSelector(TransferInfoTableData);
+    let curBachelorDegreeInfoData = useSelector(BachelorDegreeInfoData);
     useEffect( async () => {
         let APITransferCoursesTableData = await getTransferCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber);
         dispatch(SaveTransferCourseTableData(TransferCourseDataModel.TransferCourseTableDataModelArray(APITransferCoursesTableData))); 
-        const studentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
-        const legalstudentPostData = StudentPostDataModel.StudentPostDataModelObjFinal(studentPostData);
-        dispatch(SaveStudentPostData(legalstudentPostData));  
+        let APITransferInfoData = await getTransferInfoByIDAndPostNumber(curStudentID,curStudentPostNumber);
+        dispatch(SaveTransferInfoTableData(TransferInfoDataModel.TransferInfoTableDataModelArr(APITransferInfoData)));
+        let APIBachelorDegreeInfoData = await getBachelorDegreeInfoByID(curStudentID);
+        dispatch(SaveBachelorDegreeInfoData(BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelObj(APIBachelorDegreeInfoData)));
+        let APIStudentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
+        dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData)));  
     },[curStudentPostNumber]);
-      const columns = [
+      const TransferCourseColumns = [
         {
           title: '#',
           dataIndex: 'key',
@@ -66,27 +73,43 @@ export default function TransferRecords() {
             dataIndex: 'history',
         },
       ];   
-    let TransferTitle = "Transfer Program of Study"
-    let TransferData = {
-        institution_ceeb:"2074",
-        institution_name: "Carnegie-Mellon",
-        institution_date_earned : "FA06"
+      const TransferInfoColums = [
+        {
+          title: '#',
+          dataIndex: 'key',
+          sorter: (a,b) => a.key - b.key
+        },
+        {
+          title: 'CEEB',
+          dataIndex: 'ceeb',
+        },
+        {
+          title: 'INSTITUTION NAME',
+          dataIndex: 'institutionName',
+        },
+        {
+          title: 'DATES OF ATTENDANCE',
+          dataIndex: 'attendanceDate'
+        }
+      ];
+    const TransferInfoDataTableProp = {
+       tableData : curTransferInfoTableData,
+       columns: TransferInfoColums
     }
-
-    let legalTransferData =　TransferDataModel.TransferDataModelLegalArr(TransferData);
-
-    const DataTableProp = {
+    const TransferCourseDataTableProp = {
         tableData : curTransferCourseTableData, 
-        columns : columns,
+        columns : TransferCourseColumns,
         ChooseDisableOrAble : TransferCourseDataModel.TransferCourseTableDataModelChooseDisableOrAble,
         CanBeChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemCanBeChosedArray,
         ChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemChosedArray,
+        title: "Transfer Course List"
     }
     return (
         <div>
             <TopDataBar data = {curStudentPostData}></TopDataBar>
-            <TitleContent title = {TransferTitle} data = {legalTransferData}></TitleContent>
-            <CourseDataTable {...DataTableProp}></CourseDataTable>
+            <BachelorDegreeInfoTitleContent data = {curBachelorDegreeInfoData}></BachelorDegreeInfoTitleContent>
+            <TranferInfoDataTable {...TransferInfoDataTableProp}></TranferInfoDataTable>
+            <CourseDataTable {...TransferCourseDataTableProp}></CourseDataTable>
         </div>
     )
 }

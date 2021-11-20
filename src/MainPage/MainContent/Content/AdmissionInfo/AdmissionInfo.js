@@ -6,7 +6,8 @@ import { useSelector , useDispatch} from 'react-redux';
 import {StudentID, StudentPostData, StudentPostNumber, SaveStudentPostData} from '../../../../Redux/Slices/StudentInfo'
 import {SaveAdmissionCourseTableData} from '../../../../Redux/Slices/AdmissionCourse'
 import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel'
-import {getAdmissionCourseTableDataByIDAndPostNumber, getStudentPostDataByStudentIDAndPostNumber} from '../../../../Api/studentInfo'
+import {getStudentPostDataByStudentIDAndPostNumber} from '../../../../Api/studentInfo'
+import {getAdmissionCourseTableDataByIDAndPostNumber} from '../../../../Api/admissionCourse'
 import {AdmissionCourseTableData} from '../../../../Redux/Slices/AdmissionCourse'
 export default function AdmissionInfo() {
       const dispatch = useDispatch();
@@ -17,9 +18,8 @@ export default function AdmissionInfo() {
       useEffect( async () => {
           let APIAdmissionCoursesTableData = await getAdmissionCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber);
           dispatch(SaveAdmissionCourseTableData(AdmissionCourseDataModel.AdmissionCoursesTableDataModelArray(APIAdmissionCoursesTableData))); 
-          const studentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
-          const legalstudentPostData = StudentPostDataModel.StudentPostDataModelObjFinal(studentPostData);
-          dispatch(SaveStudentPostData(legalstudentPostData));  
+          let APIStudentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
+          dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData))); 
       },[curStudentPostNumber]);
       const columns = [
         {

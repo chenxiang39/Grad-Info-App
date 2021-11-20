@@ -1,5 +1,9 @@
+import  validate  from "validate.js";
 function AdmissionCoursesTableDataModelHistoryArr(historyArr){
     let arr = [];
+    if(validate.isEmpty(historyArr)){
+        historyArr = [];
+    }   
     for(let i = 0; i < historyArr.length; i++){
         let curobj = {
             course : !!historyArr[i].ad_history_course_name ? historyArr[i].ad_history_course_name : "",
@@ -13,6 +17,9 @@ function AdmissionCoursesTableDataModelHistoryArr(historyArr){
 }
 function AdmissionCoursesTableDataModelArray(tableData){
     let arr = [];
+    if(validate.isEmpty(tableData)){
+        tableData = [];
+    }   
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
             key : i + 1,

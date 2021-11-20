@@ -3,10 +3,10 @@ import { Table, Input, Button, Modal, Form} from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-import {CommentsDataModel} from '../../Model/CommentsDataModel'
+import {CommentDataModel} from '../../Model/CommentDataModel'
 import moment from 'moment';
 const { TextArea } = Input;
-export default function CommentsDataTable(props) {
+export default function CommentDataTable(props) {
     var {tableData, columns} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [isCommentsModalVisible, setIsCommentsModalVisible] = useState(false);
@@ -25,7 +25,7 @@ export default function CommentsDataTable(props) {
             alert("You must add Comment!");
             return;
         }
-        let realObj = CommentsDataModel.CommentsDataModelObj(obj);
+        let realObj = CommentDataModel.CommentDataModelObj(obj);
         console.log(realObj);
         //save 
         setcurComment("");

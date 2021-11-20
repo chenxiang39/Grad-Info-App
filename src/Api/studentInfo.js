@@ -24,22 +24,3 @@ export const getStudentPostDataByStudentIDAndPostNumber = async (studentID, post
     }
 }
 
-export const getAdmissionCourseTableDataByIDAndPostNumber = async (studentID, postNumber) =>{
-    try{
-        const response = await axios.get(`${ipAddress}/getAdmissionCourseTableDataByIDAndPostNumber?student_id=${studentID}&sp_post_number=${postNumber}`);
-        const data = await response.data;
-        return data;
-    }catch(error){
-        alert(error);
-    }
-}
-
-export const getTransferCourseTableDataByIDAndPostNumber = async (studentID, postNumber) =>{
-    try{
-        const response = await axios.get(`${ipAddress}/getTransferCourseTableDataByIDAndPostNumber?student_id=${studentID}&sp_post_number=${postNumber}`);
-        const data = await response.data;
-        return data;
-    }catch(error){
-        alert(error);
-    }
-}
