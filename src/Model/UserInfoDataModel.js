@@ -4,12 +4,12 @@ function UserInfoDataModelObj(dataObj){
         dataObj = {};
     }
     let curobj = {
-        userid : !!dataObj.user_id ? dataObj.user_id : "",
-        usercode : !!dataObj.user_code ? dataObj.user_code : "",
-        username : !!dataObj.user_name ? dataObj.user_name : "",
-        userpassword : !!dataObj.user_password ? dataObj.user_password : "",
-        useroper: !!dataObj.user_oper ? dataObj.user_oper : "",
-        userlocked: !!dataObj.user_locked ? dataObj.user_locked : "",
+        userid : !!dataObj.userId ? dataObj.userId : "",
+        usercode : !!dataObj.userCode ? dataObj.userCode : "",
+        username : !!dataObj.userName ? dataObj.userName : "",
+        userpassword : !!dataObj.userPassword ? dataObj.userPassword : "",
+        useroper: !!dataObj.userOper ? dataObj.userOper : "",
+        userlocked: !!dataObj.userLocked ? dataObj.userLocked : "",
     }
     return curobj;
 }

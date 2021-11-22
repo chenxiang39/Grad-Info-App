@@ -1,8 +1,8 @@
 function StudentInfoDataModelObj(dataObj){
     let res = {
-        id: !!dataObj.student_id ? dataObj.student_id : "",
-        name: !! dataObj.student_name ? dataObj.student_name : "",
-        post_numbers: !! dataObj.sp_post_numbers ? dataObj.sp_post_numbers : []
+        id: !!dataObj.studentId ? dataObj.studentId : "",
+        name: !! dataObj.studentName ? dataObj.studentName : "",
+        post_numbers: !! dataObj.spPostNumbers ? dataObj.spPostNumbers : []
     }
     return res;
 }

@@ -5,7 +5,7 @@ const ipAddress = setting.Api.ServerIP;
 
 export const getCommentsTableDataByIDAndPostNumber = async (studentID, postNumber) =>{
     try{
-        const response = await axios.get(`${ipAddress}/getCommentsTableDataByIDAndPostNumber?student_id=${studentID}&sp_post_number=${postNumber}`);
+        const response = await axios.get(`${ipAddress}/getCommentsTableDataByIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
         const data = await response.data;
         return data;
     }catch(error){

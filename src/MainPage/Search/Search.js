@@ -22,14 +22,14 @@ export default function Search() {
       
     const submit = async () =>{
         if(!curSearchStudentID){
-            alert("You must input USC ID!");
+            alert("You must input POST ID!");
             return;
         }
         let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
         if(!!studentInfo){
             studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
             if(!studentInfo.id){
-                alert("USC ID is not exist!");
+                alert("POST ID is not exist!");
                 return;
             }
             else{
@@ -38,15 +38,14 @@ export default function Search() {
                 dispatch(SaveStudentPostNumber(studentInfo.post_numbers[0]));
                 dispatch(SaveStudentInfo(studentInfo));
                 const studentPostData = await getStudentPostDataByStudentIDAndPostNumber(curSearchStudentID,studentInfo.post_numbers[0]);
-                const legalstudentPostData = StudentPostDataModel.StudentPostDataModelObjFinal(studentPostData);
-                dispatch(SaveStudentPostData(legalstudentPostData));
+                dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(studentPostData)));
                 navigate("/MainContent");
             }
         }
     }
     return (
         <div className = {style.container}>
-            USC ID : &nbsp;&nbsp;&nbsp;
+            POST ID : &nbsp;&nbsp;&nbsp;
             <Input
                 style = {{width:250}}
                 className = {style.input}

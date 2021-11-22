@@ -7,11 +7,11 @@ function NonCourseRelatedEventDataModelArray(dataArr){
     for(let i = 0; i < dataArr.length; i++){
         let curobj = {
             key : i + 1,
-            code : !!dataArr[i].event_code ? dataArr[i].event_code : "",
-            description : !!dataArr[i].event_description ? dataArr[i].event_description : "",
-            related : !!dataArr[i].ncrer_related ? dataArr[i].ncrer_related : "",
-            oper : !!dataArr[i].ncrer_oper ? dataArr[i].ncrer_oper : "",
-            transactiondate : !!dataArr[i].ncrer_transdate ? dataArr[i].ncrer_transdate : "",
+            code : !!dataArr[i].eventCode ? dataArr[i].eventCode : "",
+            description : !!dataArr[i].eventDescription ? dataArr[i].eventDescription : "",
+            related : !!dataArr[i].ncrerRelated ? dataArr[i].ncrerRelated : "",
+            oper : !!dataArr[i].ncrerOper ? dataArr[i].ncrerOper : "",
+            transactiondate : !!dataArr[i].ncrerTransdate ? dataArr[i].ncrerTransdate : "",
         }
         arr.push(curobj);
     }
@@ -22,11 +22,11 @@ function NonCourseRelatedEventDataModelObj(dataObj){
         dataObj = {};
     }
     let curobj = {
-        event_code : !!dataObj.code ? dataObj.code: "",
-        event_description : !!dataObj.description ? dataObj.description: "",
-        ncrer_related : !!dataObj.related ? dataObj.related : "",
-        ncrer_oper : !!dataObj.oper ? dataObj.oper : "",
-        ncrer_transdate : !!dataObj.transactiondate ? dataObj.transactiondate: ""
+        eventCode : !!dataObj.code ? dataObj.code: "",
+        eventDescription : !!dataObj.description ? dataObj.description: "",
+        ncrerRelated : !!dataObj.related ? dataObj.related : "",
+        ncrerOper : !!dataObj.oper ? dataObj.oper : "",
+        ncrerTransdate : !!dataObj.transactiondate ? dataObj.transactiondate: ""
     }
     return curobj;
 }

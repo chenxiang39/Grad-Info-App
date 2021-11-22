@@ -5,7 +5,7 @@ const ipAddress = setting.Api.ServerIP;
 
 export const getTransferCourseTableDataByIDAndPostNumber = async (studentID, postNumber) =>{
     try{
-        const response = await axios.get(`${ipAddress}/getTransferCourseTableDataByIDAndPostNumber?student_id=${studentID}&sp_post_number=${postNumber}`);
+        const response = await axios.get(`${ipAddress}/getTransferCourseTableDataByIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
         const data = await response.data;
         return data;
     }catch(error){
@@ -15,7 +15,7 @@ export const getTransferCourseTableDataByIDAndPostNumber = async (studentID, pos
 
 export const getTransferInfoByIDAndPostNumber = async (studentID, postNumber) =>{
     try{
-        const response = await axios.get(`${ipAddress}/getTransferInfoByIDAndPostNumber?student_id=${studentID}&sp_post_number=${postNumber}`);
+        const response = await axios.get(`${ipAddress}/getTransferInfoByIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
         const data = await response.data;
         return data;
     }catch(error){
@@ -25,7 +25,7 @@ export const getTransferInfoByIDAndPostNumber = async (studentID, postNumber) =>
 
 export const getBachelorDegreeInfoByID = async (studentID) => {
     try{
-        const response = await axios.get(`${ipAddress}/getBachelorDegreeInfoByID?student_id=${studentID}`);
+        const response = await axios.get(`${ipAddress}/getBachelorDegreeInfoByID?studentId=${studentID}`);
         const data = await response.data;
         return data;
     }catch(error){

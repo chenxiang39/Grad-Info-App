@@ -7,10 +7,10 @@ function AdmissionCoursesTableDataModelHistoryArr(historyArr){
     }   
     for(let i = 0; i < historyArr.length; i++){
         let curobj = {
-            course : !!historyArr[i].ad_history_course_name ? historyArr[i].ad_history_course_name : "",
-            oper : !!historyArr[i].ad_history_course_oper ? historyArr[i].ad_history_course_oper : "",
-            transactiondate: !!historyArr[i].ad_course_transdate ? historyArr[i].ad_course_transdate : "",
-            apply : !!historyArr[i].ad_history_course_apply_status ? historyArr[i].ad_history_course_apply_status : false
+            course : !!historyArr[i].adHistoryCourseName ? historyArr[i].adHistoryCourseName : "",
+            oper : !!historyArr[i].adHistoryCourseOper ? historyArr[i].adHistoryCourseOper : "",
+            transactiondate: !!historyArr[i].adCourseTransdate ? historyArr[i].adCourseTransdate : "",
+            apply : !!historyArr[i].adHistoryCourseApplyStatus ? historyArr[i].adHistoryCourseApplyStatus : false
         }
         arr.push(curobj);
     }
@@ -24,17 +24,17 @@ function AdmissionCoursesTableDataModelArray(tableData){
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
             key : i + 1,
-            id: !!tableData[i]. ad_course_id ? tableData[i]. ad_course_id : "",
-            course : !!tableData[i].ad_course_name ? tableData[i].ad_course_name : "",
-            term : !!tableData[i].ad_course_term ? tableData[i].ad_course_term : "",
-            grade : !!tableData[i].ad_course_grade ? tableData[i].ad_course_grade : "",
-            units : !!tableData[i].ad_course_units ? tableData[i].ad_course_units.toFixed(2) : 0.00,
-            gpts : !!tableData[i].ad_course_gpts ? tableData[i].ad_course_gpts.toFixed(2) : 0.00,
-            applyCode : !!tableData[i].ad_course_apply_code ? tableData[i].ad_course_apply_code : "",
-            oper : !!tableData[i].ad_course_oper ? tableData[i].ad_course_oper : "",
-            history : !!tableData[i].ad_course_history ? AdmissionCoursesTableDataModelHistoryArr(tableData[i].ad_course_history) : [],
-            transactiondate: !!tableData[i].ad_course_transdate ? tableData[i].ad_course_transdate : "",
-            apply : !!tableData[i].ad_course_apply_status ? tableData[i].ad_course_apply_status : false
+            id: !!tableData[i]. adCourseId ? tableData[i]. adCourseId : "",
+            course : !!tableData[i].adCourseName ? tableData[i].adCourseName : "",
+            term : !!tableData[i].adCourseTerm ? tableData[i].adCourseTerm : "",
+            grade : !!tableData[i].adCourseGrade ? tableData[i].adCourseGrade : "",
+            units : !!tableData[i].adCourseUnits ? tableData[i].adCourseUnits.toFixed(2) : 0.00,
+            gpts : !!tableData[i].adCourseGpts ? tableData[i].adCourseGpts.toFixed(2) : 0.00,
+            applyCode : !!tableData[i].adCourseApplyCode ? tableData[i].adCourseApplyCode : "",
+            oper : !!tableData[i].adCourseOper ? tableData[i].adCourseOper : "",
+            history : !!tableData[i].adCourseHistory ? AdmissionCoursesTableDataModelHistoryArr(tableData[i].adCourseHistory) : [],
+            transactiondate: !!tableData[i].adCourseTransdate ? tableData[i].adCourseTransdate : "",
+            apply : !!tableData[i].adCourseApplyStatus ? tableData[i].adCourseApplyStatus : false
         }
         arr.push(curobj);
     }
@@ -76,10 +76,9 @@ function AdmissionCoursesTableDataModelSubmitDataArray(appliedArr, useroper){
     }
     for(let i = 0; i < appliedArr.length; i++){
         let curObj = {
-            ad_course_id : !!appliedArr[i].id ? appliedArr[i].id : "",
-            ad_course_oper : !!useroper ? useroper : "",
-            ad_course_apply_status : !!appliedArr[i].apply ? appliedArr[i].apply : false,
-            ad_course_transdate : moment().format("MM/DD/YYYY")
+            adCourseId : !!appliedArr[i].id ? appliedArr[i].id : "",
+            adCourseOper : !!useroper ? useroper : "",
+            adCourseTransdate : moment().format("MM/DD/YYYY")
         }
         res.push(curObj);
     }

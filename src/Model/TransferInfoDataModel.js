@@ -7,9 +7,9 @@ function TransferInfoTableDataModelArr(dataArr){
     for(let i = 0; i < dataArr.length; i++){
         let curobj = {
             key : i + 1,
-            ceeb : !!dataArr[i].institution_ceeb ? dataArr[i].institution_ceeb: "",
-            institutionName : !!dataArr[i].institution_name ? dataArr[i].institution_name: "",
-            attendanceDate : !!dataArr[i].institution_date_earned ? dataArr[i].institution_date_earned: "",
+            ceeb : !!dataArr[i].institutionCeeb ? dataArr[i].institutionCeeb: "",
+            institutionName : !!dataArr[i].institutionName ? dataArr[i].institutionName: "",
+            attendanceDate : !!dataArr[i].institutionDateEarned ? dataArr[i].institutionDateEarned: "",
         }
         arr.push(curobj);
     }

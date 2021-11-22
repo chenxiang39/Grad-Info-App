@@ -1,8 +1,8 @@
 import validate from "validate.js";
 function examCommitteeDataModelObj(dataObj){
     let curObj = {
-        exam_committee_name : dataObj.committeeName,
-        exam_comittee_char :　dataObj.committeeChar
+        examCommitteeName : dataObj.committeeName,
+        examCommitteeChar :　dataObj.committeeChar
     }
     return curObj;
 }
@@ -14,8 +14,8 @@ function examCommitteeDataModelArr(dataArr){
     for(let i = 0; i < dataArr.length; i++){
         let curObj = {
             key: i + 1,
-            committeeName : !!dataArr[i].exam_committee_name ? dataArr[i].exam_committee_name : "",
-            committeeChar :　!!dataArr[i].exam_comittee_char ? dataArr[i].exam_comittee_char : "",
+            committeeName : !!dataArr[i].examCommitteeName ? dataArr[i].examCommitteeName : "",
+            committeeChar :　!!dataArr[i].examCommitteeChar ? dataArr[i].examCommitteeChar : "",
         }
         res.push(curObj);
     }
@@ -23,9 +23,9 @@ function examCommitteeDataModelArr(dataArr){
 }
 function thesisCommitteeDataModelObj(dataObj){
     let curObj = {
-        thesis_committee_name : dataObj.committeeName,
-        thesis_comittee_char :　dataObj.committeeChar,
-        thesis_committee_title : dataObj.paperTitle
+        thesisCommitteeName : dataObj.committeeName,
+        thesisCommitteeChar :　dataObj.committeeChar,
+        thesisCommitteeTitle : dataObj.paperTitle
     }
     return curObj;
 }
@@ -37,9 +37,9 @@ function thesisCommitteeDataModelArr(dataArr){
     for(let i = 0; i < dataArr.length; i++){
         let curObj = {
             key: i + 1,
-            committeeName : !!dataArr[i].thesis_committee_name ? dataArr[i].thesis_committee_name : "",
-            committeeChar :　!!dataArr[i].thesis_comittee_char ? dataArr[i].thesis_comittee_char : "",
-            paperTitle: !!dataArr[i].thesis_committee_title ? dataArr[i].thesis_committee_title : "",
+            committeeName : !!dataArr[i].thesisCommitteeName ? dataArr[i].thesisCommitteeName : "",
+            committeeChar :　!!dataArr[i].thesisCommitteeChar ? dataArr[i].thesisCommitteeChar : "",
+            paperTitle: !!dataArr[i].thesisCommitteeTitle ? dataArr[i].thesisCommitteeTitle : "",
         }
         res.push(curObj);
     }

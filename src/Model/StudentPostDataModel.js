@@ -1,17 +1,17 @@
 import  validate  from "validate.js";
 function StudentPostDataModelObj(originalData){
     let res = {
-        Obj: !!originalData.sp_obj ? originalData.sp_obj : "",
-        Major: !!originalData.sp_major ? originalData.sp_major : "",
-        NDocs: !!originalData.sp_ndocs ? originalData.sp_ndocs : "",
-        Confu:!!originalData.sp_confu ? originalData.sp_confu : "",
-        Admit:!!originalData.sp_admit ? originalData.sp_admit : "",
-        ReAdmit:!!originalData.sp_readmit ? originalData.sp_readmit : "",
-        TransactionDate: !!originalData.sp_transdate ? originalData.sp_transdate : "",
-        EarnedUnits: !!originalData.sp_earnunits ? originalData.sp_earnunits.toFixed(2) : 0.00,
-        RGUnits:!!originalData.sp_rgunits ? originalData.sp_rgunits.toFixed(2) : 0.00,
-        GPAApply:!!originalData.sp_gpa_apply ? originalData.sp_gpa_apply.toFixed(2) : 0.00,
-        GPAOverall:!!originalData.sp_gpa_all ? originalData.sp_gpa_all.toFixed(2) : 0.00,
+        Obj: !!originalData.spObj ? originalData.spObj : "",
+        Major: !!originalData.spMajor ? originalData.spMajor : "",
+        NDocs: !!originalData.spNdocs ? originalData.spNdocs : "",
+        Confu:!!originalData.spConfu ? originalData.spConfu : "",
+        Admit:!!originalData.spAdmit ? originalData.spAdmit : "",
+        ReAdmit:!!originalData.spReadmit ? originalData.spReadmit : "",
+        TransactionDate: !!originalData.spTransdate ? originalData.spTransdate : "",
+        EarnedUnits: !!originalData.spEarnunits ? originalData.spEarnunits.toFixed(2) : 0.00,
+        RGUnits:!!originalData.spRgunits ? originalData.spRgunits.toFixed(2) : 0.00,
+        GPAApply:!!originalData.spGpaApply ? originalData.spGpaApply.toFixed(2) : 0.00,
+        GPAOverall:!!originalData.spGpaAll ? originalData.spGpaAll.toFixed(2) : 0.00,
     };
     return res;
 }

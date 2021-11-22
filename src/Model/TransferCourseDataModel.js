@@ -6,10 +6,10 @@ function TransferCourseTableDataModelHistoryArr(historyArr){
     } 
     for(let i = 0; i < historyArr.length; i++){
         let curobj = {
-            course : !!historyArr[i].tr_history_course_name ? historyArr[i].tr_history_course_name : "",
-            oper : !!historyArr[i].tr_history_course_oper ? historyArr[i].tr_history_course_oper : "",
-            transactiondate: !!historyArr[i].tr_course_transdate ? historyArr[i].tr_course_transdate : "",
-            apply : !!historyArr[i].tr_history_course_apply_status ? historyArr[i].tr_history_course_apply_status : false
+            course : !!historyArr[i].trHistoryCourseName ? historyArr[i].trHistoryCourseName : "",
+            oper : !!historyArr[i].trHistoryCourseOper ? historyArr[i].trHistoryCourseOper : "",
+            transactiondate: !!historyArr[i].trCourseTransdate ? historyArr[i].trCourseTransdate : "",
+            apply : !!historyArr[i].trHistoryCourseApplyStatus ? historyArr[i].trHistoryCourseApplyStatus : false
         }
         arr.push(curobj);
     }
@@ -23,17 +23,17 @@ function TransferCourseTableDataModelArray(tableData){
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
             key : i + 1,
-            id : !!tableData[i].tr_course_id ? tableData[i].tr_course_id : "",
-            course : !!tableData[i].tr_course_name ? tableData[i].tr_course_name : "",
-            term : !!tableData[i].tr_course_term ? tableData[i].tr_course_term : "",
-            grade : !!tableData[i].tr_course_grade ? tableData[i].tr_course_grade : "",
-            units : !!tableData[i].tr_course_units ? tableData[i].tr_course_units.toFixed(2) : 0.00,
-            gpts : !!tableData[i].tr_course_gpts ? tableData[i].tr_course_gpts.toFixed(2) : 0.00,
-            applyCode : !!tableData[i].tr_course_apply_code ? tableData[i].tr_course_apply_code : "",
-            oper : !!tableData[i].tr_course_oper ? tableData[i].tr_course_oper : "",
-            history : !!tableData[i].tr_course_history ? TransferCourseTableDataModelHistoryArr(tableData[i].tr_course_history) : [],
-            transactiondate: !!tableData[i].tr_course_transdate ? tableData[i].tr_course_transdate : "",
-            apply : !!tableData[i].tr_course_apply_status ? tableData[i].tr_course_apply_status : false
+            id : !!tableData[i].trCourseId ? tableData[i].trCourseId : "",
+            course : !!tableData[i].trCourseName ? tableData[i].trCourseName : "",
+            term : !!tableData[i].trCourseTerm ? tableData[i].trCourseTerm : "",
+            grade : !!tableData[i].trCourseGrade ? tableData[i].trCourseGrade : "",
+            units : !!tableData[i].trCourseUnits ? tableData[i].trCourseUnits.toFixed(2) : 0.00,
+            gpts : !!tableData[i].trCourseGpts ? tableData[i].trCourseGpts.toFixed(2) : 0.00,
+            applyCode : !!tableData[i].trCourseApplyCode ? tableData[i].trCourseApplyCode : "",
+            oper : !!tableData[i].trCourseOper ? tableData[i].trCourseOper : "",
+            history : !!tableData[i].trCourseHistory ? TransferCourseTableDataModelHistoryArr(tableData[i].trCourseHistory) : [],
+            transactiondate: !!tableData[i].trCourseTransdate ? tableData[i].trCourseTransdate : "",
+            apply : !!tableData[i].trCourseApplyStatus ? tableData[i].trCourseApplyStatus : false
         }
         arr.push(curobj);
     }

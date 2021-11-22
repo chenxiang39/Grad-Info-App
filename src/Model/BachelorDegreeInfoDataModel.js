@@ -4,9 +4,9 @@ function BechelorDegreeInfoDataModelObj(dataObj){
         dataObj = {};
     }
     let curobj = {
-        ceeb : !!dataObj.sb_ceeb ? dataObj.sb_ceeb : "",
-        institutionName: !!dataObj.sb_name ? dataObj.sb_name : "",
-        dateEarned: !!dataObj.sb_date_earned ? dataObj.sb_date_earned : "",
+        ceeb : !!dataObj.sbCeeb ? dataObj.sbCeeb : "",
+        institutionName: !!dataObj.sbName ? dataObj.sbName : "",
+        dateEarned: !!dataObj.sbDateEarned ? dataObj.sbDateEarned : "",
     }
     return curobj;
 }

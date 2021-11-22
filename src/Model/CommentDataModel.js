@@ -7,9 +7,9 @@ function CommentDataModelArray(dataArr){
     for(let i = 0; i < dataArr.length; i++){
         let curobj = {
             key : i + 1,
-            oper : !!dataArr[i].comment_oper ? dataArr[i].comment_oper : "",
-            transactiondate: !!dataArr[i].comment_transdate ? dataArr[i].comment_transdate : "",
-            content : !!dataArr[i].comment_content ? dataArr[i].comment_content : "",
+            oper : !!dataArr[i].commentOper ? dataArr[i].commentOper : "",
+            transactiondate: !!dataArr[i].commentTransdate ? dataArr[i].commentTransdate : "",
+            content : !!dataArr[i].commentContent ? dataArr[i].commentContent : "",
         }
         arr.push(curobj);
     }
@@ -17,9 +17,9 @@ function CommentDataModelArray(dataArr){
 }
 function CommentDataModelObj(dataObj){
     let curobj = {
-        comment_oper : dataObj.oper,
-        comment_transdate: dataObj.transactiondate,
-        cooment_content : dataObj.content,
+        commentOper : dataObj.oper,
+        commentTransdate: dataObj.transactiondate,
+        coomentContent : dataObj.content,
     }
     return curobj;
 }

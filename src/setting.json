@@ -3,6 +3,6 @@
         "ReduxDevTool": true
     },
     "Api": {
-        "ServerIP":"https://61975ae3af46280017e7e552.mockapi.io"
+        "ServerIP" : "http://localhost:8080"
     }
 }
