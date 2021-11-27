@@ -1,19 +1,13 @@
-import React,{useEffect,useState} from 'react'
-import {StudentID, StudentPostNumber, SaveStudentPostData} from '../../../../Redux/Slices/StudentInfo'
+import React,{useEffect} from 'react'
+import {StudentID, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
 import { useSelector , useDispatch} from 'react-redux';
 import style from './StarsException.module.less'
-import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel';
-import {getStudentPostDataByStudentIDAndPostNumber} from '../../../../Api/studentInfo';
 import StarsExceptionDataTable from '../../../../Utility/DataTable/StarsExceptionDataTable'
 import moment from 'moment';
 export default function NonCourseRelatedEvent() {
     const dispatch = useDispatch();
     let curStudentPostNumber = useSelector(StudentPostNumber);
     let curStudentID = useSelector(StudentID);
-    useEffect( async () => {
-        let APIStudentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
-        dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData))); 
-    },[curStudentPostNumber]);
     const starsExceptionColumns = [
         {
             title: '#',
@@ -89,7 +83,7 @@ export default function NonCourseRelatedEvent() {
     const starsExceptionTableDataProp = {
         tableData : starsExceptionTableData, 
         columns : starsExceptionColumns,
-      }
+    }
     return (
         <div className = {style.container}>
             <StarsExceptionDataTable {...starsExceptionTableDataProp}></StarsExceptionDataTable>

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserInfoDataModel} from '../../Model/UserInfoDataModel'
+import { UserInfoDataModel} from '../../Model/userInfo/UserInfoDataModel'
  
 export const UserInfoSlice = createSlice({
     name : "UserInfo",

@@ -1,5 +1,5 @@
 var validate = require("validate.js");
-function TransferInfoTableDataModelArr(dataArr){
+function TransferProgramOfStudyDataModelArr(dataArr){
     let arr = [];
     if(validate.isEmpty(dataArr)){
         dataArr = [];
@@ -15,6 +15,6 @@ function TransferInfoTableDataModelArr(dataArr){
     }
     return arr;
 }
-export const TransferInfoDataModel = {
-    TransferInfoTableDataModelArr :TransferInfoTableDataModelArr
+export const TransferProgramOfStudyDataModel = {
+    TransferProgramOfStudyDataModelArr :TransferProgramOfStudyDataModelArr
 }

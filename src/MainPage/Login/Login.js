@@ -4,17 +4,16 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import {getUserInfoByUsernameAndPassword} from '../../Api/login'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
-import {UserInfoDataModel} from '../../Model/UserInfoDataModel';
+import {UserInfoDataModel} from '../../Model/userInfo/UserInfoDataModel';
 import {SaveUserInfo} from '../../Redux/Slices/UserInfo'
 import style from './Login.module.less';
 import { useNavigate } from "react-router-dom";
 export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const onFinish = async (values) => {
-        let APIUserInfo = await getUserInfoByUsernameAndPassword(values.username,values.password);
-        if(!!APIUserInfo){
-            let userInfo = UserInfoDataModel.UserInfoDataModelObj(APIUserInfo);
+    const fetchUserInfo = (values) => {
+        getUserInfoByUsernameAndPassword(values.username,values.password).then((res)=>{
+            let userInfo = UserInfoDataModel.UserInfoDataModelObj(res);
             if(!userInfo.username){
                 alert("Username or Password is wrong!");
                 return;
@@ -23,7 +22,12 @@ export default function Login() {
                 dispatch(SaveUserInfo(userInfo));
                 navigate("/Search");
             }
-        }
+        },(err)=>{
+            console.log(err);
+        });
+    }
+    const onFinish = async (values) => {
+        fetchUserInfo(values);
     };
     
     return (

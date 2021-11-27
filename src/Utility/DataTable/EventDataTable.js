@@ -6,9 +6,9 @@ import {UserInfo} from '../../Redux/Slices/UserInfo'
 import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import style from './DataTable.module.less'
 import moment from 'moment';
-import { NonCourseRelatedEventDataModel } from '../../Model/NonCourseRelatedEventDataModel';
+import { NonCourseRelatedEventDataModel } from '../../Model/nonCourseRelatedEvent/NonCourseRelatedEventDataModel';
 export default function EventDataTable(props) {
-    var {tableData, columns} = props;
+    var {tableData, columns, tableDataLoading} = props;
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
@@ -158,6 +158,7 @@ export default function EventDataTable(props) {
                     className = {style.header}
                     columns = {columns}
                     dataSource = {tableData}
+                    loading = {tableDataLoading}
                 >
                 </Table>                         
             </div>

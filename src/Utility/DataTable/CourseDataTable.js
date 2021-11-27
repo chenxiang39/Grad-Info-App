@@ -6,8 +6,8 @@ import {UserInfo} from '../../Redux/Slices/UserInfo'
 import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-import {AdmissionCourseDataModel} from '../../Model/AdmissionCourseDataModel'
-import {TransferCourseDataModel} from '../../Model/TransferCourseDataModel'
+import {AdmissionCourseDataModel} from '../../Model/admissionCourse/AdmissionCourseDataModel'
+import {TransferCourseDataModel} from '../../Model/transferCourse/TransferCourseDataModel'
 export default function CourseDataTable(props) {
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);

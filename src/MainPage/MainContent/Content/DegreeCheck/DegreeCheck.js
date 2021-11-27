@@ -8,18 +8,6 @@ export default function DegreeCheck() {
     const [catelogYearRequirement, setCatelogYearRequirement] = useState("");
     const [foreignLanguageMet, setForeignLanguageMet] = useState("");
     const [shouldDisable, setShouldDisable] = useState(false);
-    const inputTermOfAdmission = (e) =>{
-        setTermOfAdmission(e.target.value);
-    }
-    const inputAnticipatedTerm = (e) =>{
-        setAnticipatedTerm(e.target.value);
-    }
-    const inputCatelogYearRequirement = (e) =>{
-        setCatelogYearRequirement(e.target.value);
-    }
-    const inputForeignLanguageMet = (e) =>{
-        setForeignLanguageMet(e.target.value);
-    }
     const submit = () =>{
         let obj = {
             termOfAdmission :termOfAdmission,
@@ -41,28 +29,28 @@ export default function DegreeCheck() {
                     <Input
                         disabled = {shouldDisable}
                         className = {style.input}
-                        onChange = {inputTermOfAdmission}
+                        onChange = {(e) => setTermOfAdmission(e.target.value)}
                     ></Input>
                 </div>
                 <div className = {style.inputTitle}>Anticipated graduation TERM: 
                     <Input
                         disabled = {shouldDisable}
                         className = {style.input}
-                        onChange = {inputAnticipatedTerm}
+                        onChange = {(e) => setAnticipatedTerm(e.target.value)}
                     ></Input>
                 </div>
                 <div className = {style.inputTitle}>Catalog year requirements student is following: 
                     <Input
                         disabled = {shouldDisable}
                         className = {style.input}
-                        onChange = {inputCatelogYearRequirement}
+                        onChange = {(e) => setCatelogYearRequirement(e.target.value)}
                     ></Input>
                 </div>
                 <div className = {style.inputTitle}>Foreign language/research component has been met:
                     <Input
                         disabled = {shouldDisable}
                         className = {style.input}
-                        onChange = {inputForeignLanguageMet}
+                        onChange = {(e) => setForeignLanguageMet(e.target.value)}
                     ></Input>
                 </div>
             </div>

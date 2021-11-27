@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { NonCourseRelatedEventDataModel } from "../../Model/NonCourseRelatedEventDataModel";
-import { CommitteeDataModel } from '../../Model/CommitteeDataModel'
+import { NonCourseRelatedEventDataModel } from "../../Model/nonCourseRelatedEvent/NonCourseRelatedEventDataModel";
+import { CommitteeDataModel } from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
 export const NonCourseRelatedEventSlice = createSlice({
     name : "NonCourseRelatedEvent",
     initialState : {

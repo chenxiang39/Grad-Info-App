@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { Table, Input, Button, Modal, Form, Select} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-import {CommitteeDataModel} from '../../Model/CommitteeDataModel'
+import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
 export default function ExamCommitteeDataTable(props) {
-    var {tableData, columns} = props;
+    var {tableData, columns, tableDataLoading} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
@@ -107,6 +107,7 @@ export default function ExamCommitteeDataTable(props) {
                     className = {style.header}
                     columns = {columns}
                     dataSource = {tableData}
+                    loading = {tableDataLoading}
                 >
                 </Table>                         
             </div>

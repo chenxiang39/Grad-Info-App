@@ -1,47 +1,21 @@
-import React,{useEffect, useState} from 'react'
+import React from 'react'
 import { Spin } from 'antd';
+import { useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
 import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
-import { AdmissionCourseDataModel } from '../../../../Model/AdmissionCourseDataModel';
-import { useSelector , useDispatch} from 'react-redux';
-import {StudentID, StudentPostData, StudentPostNumber, SaveStudentPostData} from '../../../../Redux/Slices/StudentInfo'
-import {SaveAdmissionCourseTableData} from '../../../../Redux/Slices/AdmissionCourse'
-import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel'
-import {getStudentPostDataByStudentIDAndPostNumber} from '../../../../Api/studentInfo'
-import {getAdmissionCourseTableDataByIDAndPostNumber} from '../../../../Api/admissionCourse'
+import { AdmissionCourseDataModel } from '../../../../Model/admissionCourse/AdmissionCourseDataModel';
+import {StudentID, StudentPostData, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
 import {AdmissionCourseTableData} from '../../../../Redux/Slices/AdmissionCourse'
+import useFetchAdmissionCourseTableData from '../../../../Hooks/Fetch/admissionCourse/useFetchAdmissionCourseTableData';
+import useFetchStudentPostData from '../../../../Hooks/Fetch/studentInfo/useFetchStudentPostData';
 export default function AdmissionInfo() {
-      const dispatch = useDispatch();
       let curStudentPostData = useSelector(StudentPostData);
       let curStudentPostNumber = useSelector(StudentPostNumber);
       let curStudentID = useSelector(StudentID);
       let curAdmissionCourseTableData = useSelector(AdmissionCourseTableData);
-      const [tableDataLoading, settableDataLoading] = useState(true);
-      const [topDataBarLoading, settopDataBarLoading] = useState(true);
-      useEffect( async () => {
-          settopDataBarLoading(true);
-          settableDataLoading(true);
-          
-          getAdmissionCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber).then((res) => {
-            dispatch(SaveAdmissionCourseTableData(AdmissionCourseDataModel.AdmissionCourseTableDataModelArray(res)));
-            settableDataLoading(false); 
-          }, (err) => {
-            console.log(err);
-          })
-          getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber).then((res) => {
-            dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(res))); 
-            settopDataBarLoading(false);
-         }, (err) => {
-           console.log(err);
-         })
-          // let APIStudentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
-          // dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData))); 
-          // settopDataBarLoading(false);
-          // let APIAdmissionCoursesTableData = await getAdmissionCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber);
-          // dispatch(SaveAdmissionCourseTableData(AdmissionCourseDataModel.AdmissionCourseTableDataModelArray(APIAdmissionCoursesTableData)));
-          // settableDataLoading(false); 
-      },[curStudentPostNumber]);
-      const columns = [
+      const [tableDataLoading, tableDataLoadingError] = useFetchAdmissionCourseTableData(curStudentID, curStudentPostNumber);
+      const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData(curStudentID, curStudentPostNumber);
+      const AdmissionTableDataColumns = [
         {
           title: '#',
           dataIndex: 'key',
@@ -83,11 +57,11 @@ export default function AdmissionInfo() {
             title: 'HISTORY',
             dataIndex: 'history',
         },
-      ];   ;
+      ];  
     const DataTableProp = {
         type: "AdmissionCourse",
         tableData : curAdmissionCourseTableData, 
-        columns : columns,
+        columns : AdmissionTableDataColumns,
         ChooseDisableOrAble : AdmissionCourseDataModel.AdmissionCourseTableDataModelChooseDisableOrAble,
         CanBeChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemCanBeChosedArray,
         ChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemChosedArray,

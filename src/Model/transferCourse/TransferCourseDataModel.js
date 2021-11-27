@@ -16,12 +16,14 @@ function TransferCourseTableDataModelHistoryArr(historyArr){
     }
     return arr;
 }
-function TransferCourseTableDataModelArray(tableData){;
+function TransferCourseTableDataModelArray(tableData){
+    if(validate.isEmpty(tableData)){
+        tableData = {
+            transferCourseResponseList:[]
+        };
+    } 
     tableData = tableData.transferCourseResponseList;
     let arr = [];
-    if(validate.isEmpty(tableData)){
-        tableData = [];
-    } 
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
             key : i + 1,

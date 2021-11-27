@@ -3,11 +3,11 @@ import { Table, Input, Button, Modal, Form} from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-import {CommentDataModel} from '../../Model/CommentDataModel'
+import {CommentDataModel} from '../../Model/comment/CommentDataModel'
 import moment from 'moment';
 const { TextArea } = Input;
 export default function CommentDataTable(props) {
-    var {tableData, columns} = props;
+    var {tableData, columns, tableDataLoading} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [isCommentsModalVisible, setIsCommentsModalVisible] = useState(false);
     const [curComment, setcurComment] = useState("");
@@ -146,6 +146,7 @@ export default function CommentDataTable(props) {
                     className = {style.header}
                     columns = {columns}
                     dataSource = {tableData}
+                    loading = {tableDataLoading}
                 >
                 </Table>                         
             </div>

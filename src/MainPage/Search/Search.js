@@ -3,12 +3,11 @@ import { Input, Button} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './Search.module.less';
-import { useDispatch , useSelector} from 'react-redux';
-import {SaveStudentID, SaveStudentPostNumber, SaveStudentInfo, SaveStudentPostData, fetchStudentInfoByStudentID, StudentInfoLoading, StudentInfoData} from '../../Redux/Slices/StudentInfo'
+import { useDispatch } from 'react-redux';
+import {SaveStudentID, SaveStudentPostNumber, SaveStudentInfo} from '../../Redux/Slices/StudentInfo'
 import { useNavigate } from "react-router-dom";
-import {getStudentInfoByStudentID, getStudentPostDataByStudentIDAndPostNumber} from '../../Api/studentInfo' 
-import { StudentInfoDataModel } from '../../Model/StudentInfoDataModel';   
-import { StudentPostDataModel } from '../../Model/StudentPostDataModel';
+import {getStudentInfoByStudentID} from '../../Api/studentInfo' 
+import { StudentInfoDataModel } from '../../Model/studentInfo/StudentInfoDataModel';   
 export default function Search() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -22,20 +21,20 @@ export default function Search() {
             alert("You must input POST ID!");
             return;
         }
-        try{
-            const curStudentInfoData = await dispatch(fetchStudentInfoByStudentID(curSearchStudentID)).unwrap();
-            if(!curStudentInfoData.id){
+        let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
+        if(!!studentInfo){
+            studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
+            if(!studentInfo.id){
                 alert("POST ID is not exist!");
                 return;
             }
             else{
                 dispatch(SaveStudentID(curSearchStudentID));
                 //default first one
-                dispatch(SaveStudentPostNumber(curStudentInfoData.post_numbers[0]));
+                dispatch(SaveStudentPostNumber(studentInfo.post_numbers[0]));
+                dispatch(SaveStudentInfo(studentInfo));
                 navigate("/MainContent");
             }
-        }catch(rejectedValueOrSerializedError){
-            alert(rejectedValueOrSerializedError);
         }
     }
     return (

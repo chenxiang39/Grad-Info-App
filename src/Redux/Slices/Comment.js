@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CommentDataModel } from '../../Model/CommentDataModel';
+import { CommentDataModel } from '../../Model/comment/CommentDataModel';
 export const CommentSlice = createSlice({
     name : 'Comment',
     initialState:{

@@ -17,11 +17,13 @@ function AdmissionCourseTableDataModelHistoryArr(historyArr){
     return arr;
 }
 function AdmissionCourseTableDataModelArray(tableData){
+    if(validate.isEmpty(tableData)){
+        tableData = {
+            admissionCourseList:[]
+        };
+    } 
     tableData = tableData.admissionCourseList;
     let arr = [];
-    if(validate.isEmpty(tableData)){
-        tableData = [];
-    }   
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
             key : i + 1,

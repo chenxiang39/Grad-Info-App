@@ -1,22 +1,17 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import 'antd/dist/antd.less';
 import style from './Comment.module.less'
+import { useSelector} from 'react-redux';
 import {StudentID, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
-import { SaveCommentTableData, CommentTableData } from '../../../../Redux/Slices/Comment';
-import { useSelector , useDispatch} from 'react-redux';
-import { getCommentsTableDataByIDAndPostNumber} from '../../../../Api/comment'
+import { CommentTableData } from '../../../../Redux/Slices/Comment';
 import CommentDataTable from '../../../../Utility/DataTable/CommentDataTable'
-import {CommentDataModel} from '../../../../Model/CommentDataModel'
+import useFetchCommentTableData from '../../../../Hooks/Fetch/comment/useFetchCommentTableData'
 export default function Comment(){
-    const dispatch = useDispatch();
     let curStudentPostNumber = useSelector(StudentPostNumber);
     let curStudentID = useSelector(StudentID);
     let curCommentTableData = useSelector(CommentTableData);
-    useEffect(async ()=>{
-        let APICommentsTableData = await getCommentsTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber);
-        dispatch(SaveCommentTableData(CommentDataModel.CommentDataModelArray(APICommentsTableData)));
-    },[curStudentPostNumber]);  
-    const columns = [
+    const [commentDataTableLoading, commentDataTableLoadingError] = useFetchCommentTableData(curStudentID, curStudentPostNumber);
+    const CommentDataTableColumns = [
         {
         title: '#',
         dataIndex: 'key',
@@ -36,13 +31,14 @@ export default function Comment(){
         }
     ];   
 
-   const DataTableProp = {
+   const CommentDataTableProp = {
         tableData : curCommentTableData, 
-        columns : columns,
+        columns : CommentDataTableColumns,
+        tableDataLoading: commentDataTableLoading
     }
    return (
         <div className = {style.container}>
-            <CommentDataTable {...DataTableProp}></CommentDataTable>
+            <CommentDataTable {...CommentDataTableProp}></CommentDataTable>
         </div>
     )
 }

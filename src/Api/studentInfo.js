@@ -11,12 +11,8 @@ export const getStudentInfoByStudentID = async (studentID) =>{
 }
 
 export const getStudentPostDataByStudentIDAndPostNumber = async (studentID, postNumber) =>{
-    try{
-        const response = await axios.get(`${ipAddress}/admission/getStudentPostDataByStudentIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
-        const data = await response.data;
-        return data;
-    }catch(error){
-        console.log(error);
-    }
+    const response = await axios.get(`${ipAddress}/admission/getStudentPostDataByStudentIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
+    const data = await response.data;
+    return data;
 }
 
