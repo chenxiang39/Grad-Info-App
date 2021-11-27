@@ -17,7 +17,7 @@ function NonCourseRelatedEventDataModelArray(dataArr){
     }
     return arr;
 }
-function NonCourseRelatedEventDataModelObj(dataObj){
+function NonCourseRelatedEventDataModelToDataBaseObj(dataObj){
     if(validate.isEmpty(dataObj)){
         dataObj = {};
     }
@@ -30,7 +30,24 @@ function NonCourseRelatedEventDataModelObj(dataObj){
     }
     return curobj;
 }
+function NonCourseRelatedEventDataModelSubmitDataObj(eventOriginalObj, studentInfoObj){
+    let res = {};
+    let eventObjFinal = NonCourseRelatedEventDataModelToDataBaseObj(eventOriginalObj);
+    if(validate.isEmpty(studentInfoObj)){
+        studentInfoObj = {};
+    }
+    let studentObj = {
+        studentId : !! studentInfoObj.id ? studentInfoObj.id : "",
+        spPostNumber : !! studentInfoObj.studentPostNumber ? studentInfoObj.studentPostNumber : ""
+    };
+    res = {
+        studentInfo : studentObj,
+        eventObj : eventObjFinal
+    }
+    return res;
+}
 export const NonCourseRelatedEventDataModel = {
     NonCourseRelatedEventDataModelArray : NonCourseRelatedEventDataModelArray,
-    NonCourseRelatedEventDataModelObj : NonCourseRelatedEventDataModelObj
+    NonCourseRelatedEventDataModelToDataBaseObj : NonCourseRelatedEventDataModelToDataBaseObj,
+    NonCourseRelatedEventDataModelSubmitDataObj : NonCourseRelatedEventDataModelSubmitDataObj
 }

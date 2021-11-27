@@ -3,8 +3,8 @@ import { Input, Button} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './Search.module.less';
-import { useDispatch } from 'react-redux';
-import {SaveStudentID, SaveStudentPostNumber, SaveStudentInfo, SaveStudentPostData} from '../../Redux/Slices/StudentInfo'
+import { useDispatch , useSelector} from 'react-redux';
+import {SaveStudentID, SaveStudentPostNumber, SaveStudentInfo, SaveStudentPostData, fetchStudentInfoByStudentID, StudentInfoLoading, StudentInfoData} from '../../Redux/Slices/StudentInfo'
 import { useNavigate } from "react-router-dom";
 import {getStudentInfoByStudentID, getStudentPostDataByStudentIDAndPostNumber} from '../../Api/studentInfo' 
 import { StudentInfoDataModel } from '../../Model/StudentInfoDataModel';   
@@ -13,9 +13,6 @@ export default function Search() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [curSearchStudentID, setcurSearchStudentID] = useState("");
-    const changeStudentID = (e) =>{
-        setcurSearchStudentID(e.target.value);
-    }
     useEffect(() => {
         dispatch(SaveStudentID(""));
       },[]);
@@ -25,22 +22,20 @@ export default function Search() {
             alert("You must input POST ID!");
             return;
         }
-        let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
-        if(!!studentInfo){
-            studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
-            if(!studentInfo.id){
+        try{
+            const curStudentInfoData = await dispatch(fetchStudentInfoByStudentID(curSearchStudentID)).unwrap();
+            if(!curStudentInfoData.id){
                 alert("POST ID is not exist!");
                 return;
             }
             else{
                 dispatch(SaveStudentID(curSearchStudentID));
                 //default first one
-                dispatch(SaveStudentPostNumber(studentInfo.post_numbers[0]));
-                dispatch(SaveStudentInfo(studentInfo));
-                const studentPostData = await getStudentPostDataByStudentIDAndPostNumber(curSearchStudentID,studentInfo.post_numbers[0]);
-                dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(studentPostData)));
+                dispatch(SaveStudentPostNumber(curStudentInfoData.post_numbers[0]));
                 navigate("/MainContent");
             }
+        }catch(rejectedValueOrSerializedError){
+            alert(rejectedValueOrSerializedError);
         }
     }
     return (
@@ -50,7 +45,7 @@ export default function Search() {
                 style = {{width:250}}
                 className = {style.input}
                 value = {curSearchStudentID}
-                onChange = {changeStudentID}
+                onChange = {(e) => setcurSearchStudentID(e.target.value)}
             ></Input>
             <Button
                 className = {style.button}

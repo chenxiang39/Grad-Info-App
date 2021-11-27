@@ -5,10 +5,10 @@ const ipAddress = setting.Api.ServerIP;
 
 export const getUserInfoByUsernameAndPassword = async (username,password) =>{
     try{
-        const response = await axios.get(`${ipAddress}/getUserInfoByUsernameAndPassword?user_name=${username}&user_password=${password}`);
+        const response = await axios.get(`${ipAddress}/login/getUserInfoByUsernameAndPassword?userName=${username}&userPassword=${password}`);
         const data = await response.data;
         return data;
     }catch(error){
-        alert(error);
+        console.log(error);
     }
 }

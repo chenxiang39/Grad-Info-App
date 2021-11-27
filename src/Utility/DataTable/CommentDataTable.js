@@ -12,6 +12,9 @@ export default function CommentDataTable(props) {
     const [isCommentsModalVisible, setIsCommentsModalVisible] = useState(false);
     const [curComment, setcurComment] = useState("");
     const [checkComment, setCheckComment] = useState("");
+    const clearState = () => {
+        setcurComment("");
+    }
     const handleAdd = () =>{
         setisAddModalVisible(true);
     }
@@ -28,15 +31,12 @@ export default function CommentDataTable(props) {
         let realObj = CommentDataModel.CommentDataModelObj(obj);
         console.log(realObj);
         //save 
-        setcurComment("");
+        clearState();
         setisAddModalVisible(false);
     }
     const handleAddModalCancel = () =>{
-        setcurComment("");
+        clearState();
         setisAddModalVisible(false);
-    }
-    const changeComment = (e) =>{
-        setcurComment(e.target.value);
     }
     const clickCommentBtn = (comment) => {
         setCheckComment(comment);
@@ -93,7 +93,7 @@ export default function CommentDataTable(props) {
                     }
                     className = {style.textArea}
                     value = {curComment}
-                    onChange = {(e) => changeComment(e)}
+                    onChange = {(e) => setcurComment(e.target.value)}
                 ></TextArea>  
           </Form>
         )

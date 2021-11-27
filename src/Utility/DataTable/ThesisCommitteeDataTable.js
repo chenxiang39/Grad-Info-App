@@ -12,6 +12,11 @@ export default function ThesisCommitteeDataTable(props) {
     const [curPaperTitle, setcurPaperTitle] = useState("");
     const [isPaperTitleModalVisible, setIsPaperTitleModalVisible] = useState(false);
     const [curCheckPaperTitle, setcurCheckPaperTitle] = useState("");
+    const cleanState = () =>{
+        setcurCommitteeName("");
+        setcurCommitteeChar("");
+        setcurPaperTitle("");
+    }
     const handleAdd = () =>{
         setisAddModalVisible(true);
     }
@@ -28,25 +33,12 @@ export default function ThesisCommitteeDataTable(props) {
         let realObj = CommitteeDataModel.thesisCommitteeDataModelObj(obj);
         console.log(realObj);
         //save 
-        setcurCommitteeName("");
-        setcurCommitteeChar("");
-        setcurPaperTitle("");
+        cleanState();
         setisAddModalVisible(false);
     }
     const handleAddModalCancel = () =>{
-        setcurCommitteeName("");
-        setcurCommitteeChar("");
-        setcurPaperTitle("");
+        cleanState();
         setisAddModalVisible(false);
-    }
-    const changeCommitteeName = (e) =>{
-        setcurCommitteeName(e.target.value);
-    }
-    const changeCommitteeChar = (value) =>{
-        setcurCommitteeChar(value);
-    }
-    const changePaperTitle = (e) =>{
-        setcurPaperTitle(e.target.value);
     }
     const clickPaperTitleBtn = (value) =>{
         setcurCheckPaperTitle(value);
@@ -103,14 +95,14 @@ export default function ThesisCommitteeDataTable(props) {
                 <Form.Item label= "Name: ">
                     <Input
                         value = {curCommitteeName}
-                        onChange = {changeCommitteeName}
+                        onChange = {(e) => setcurCommitteeName(e.target.value)}
                     ></Input>
                 </Form.Item>
                 <Form.Item label= "Title: ">
                     <Select
                         style={{ width: 130 }}
                         value = {curCommitteeChar}
-                        onChange = {changeCommitteeChar}
+                        onChange = {(value) => setcurCommitteeChar(value)}
                     >
                         {selectCharOption}
                     </Select>
@@ -119,7 +111,7 @@ export default function ThesisCommitteeDataTable(props) {
                     <Input
                         // style={{ width: 120 }}
                         value = {curPaperTitle}
-                        onChange = {changePaperTitle}
+                        onChange = {(e) => setcurCheckPaperTitle(e.target.value)}
                     ></Input>
                 </Form.Item>
             </Form>

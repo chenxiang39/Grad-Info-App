@@ -3,7 +3,7 @@ import { AdmissionCourseDataModel } from '../../Model/AdmissionCourseDataModel';
 export const AdmissionCourseSlice = createSlice({
     name : 'AdmissionCourse',
     initialState:{
-        admissionCourseTableData:AdmissionCourseDataModel.AdmissionCoursesTableDataModelArray([])
+        admissionCourseTableData:AdmissionCourseDataModel.AdmissionCourseTableDataModelArray([])
     },
     reducers: {
         SaveAdmissionCourseTableData: (state,action) =>{

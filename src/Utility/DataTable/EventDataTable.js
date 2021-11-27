@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import { Table, Input, Button, Modal, Form, DatePicker, Select} from 'antd';
-import { InfoOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
+import { useSelector } from 'react-redux';
+import {UserInfo} from '../../Redux/Slices/UserInfo'
+import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import style from './DataTable.module.less'
 import moment from 'moment';
 import { NonCourseRelatedEventDataModel } from '../../Model/NonCourseRelatedEventDataModel';
 export default function EventDataTable(props) {
     var {tableData, columns} = props;
+    const curUserInfo = useSelector(UserInfo);
+    const curStudentPostNumber = useSelector(StudentPostNumber);
+    const curStudentID = useSelector(StudentID);
     var selectCodeOption = [];
     for(let key in props.codeDescriptionArr){
         selectCodeOption.push(key);
@@ -17,6 +22,13 @@ export default function EventDataTable(props) {
     const [relatedYear, setRelatedYear] = useState("");
     const [relatedSemster, setRelatedSemster] = useState("");
     const [eventDate, setEventDate] = useState("");
+    const cleanState = () =>{
+        setCode("");
+        setDescription("");
+        setEventDate("");
+        setRelatedSemster("");
+        setRelatedYear("");
+    }
     const handleAdd = () =>{
         setisAddModalVisible(true);
     }
@@ -27,26 +39,28 @@ export default function EventDataTable(props) {
             related : `${moment(relatedYear).format("YYYY")}${relatedSemster}`,
             date : moment(eventDate).format("MM/DD/YYYY"),
             transactiondate : moment().format("MM/DD/YYYY"),
-            oper:"VS5"
+            oper: curUserInfo.useroper
         }
         if(!code || !relatedSemster || !eventDate){
             alert("You must add all of items!");
             return;
         }
-        console.log(NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelObj(obj));
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        let a = NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelSubmitDataObj(obj,studentInfoObj);
+        console.log(a);
+        cleanState();
+        setisAddModalVisible(false);
+    }
+    const handleAddModalCancel = () =>{
+        cleanState();
         setisAddModalVisible(false);
     }
     const handleCodeChange = (value) =>{
         setCode(value);
         setDescription(props.codeDescriptionArr[value])
-    }
-    const handleAddModalCancel = () =>{
-        setCode("");
-        setDescription("");
-        setEventDate("");
-        setRelatedSemster("");
-        setRelatedYear("");
-        setisAddModalVisible(false);
     }
     const handleRelatedSemster = (value) =>{
         setRelatedSemster(value);

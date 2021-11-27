@@ -9,6 +9,6 @@ export const getCommentsTableDataByIDAndPostNumber = async (studentID, postNumbe
         const data = await response.data;
         return data;
     }catch(error){
-        alert(error);
+        console.log(error);
     }
 }

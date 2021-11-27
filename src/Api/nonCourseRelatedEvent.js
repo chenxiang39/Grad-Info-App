@@ -8,7 +8,7 @@ export const getNonCourseRelatedEventTableDataByIDAndPostNumber = async (student
         const data = await response.data;
         return data;
     }catch(error){
-        alert(error);
+        console.log(error);
     }
 }
 
@@ -18,7 +18,7 @@ export const getExamCommitteeTableDataByIDAndPostNumber = async (studentID, post
         const data = await response.data;
         return data;
     }catch(error){
-        alert(error);
+        console.log(error);
     }
 }
 
@@ -29,6 +29,6 @@ export const getThesisCommitteeTableDataByIDAndPostNumber = async (studentID, po
         const data = await response.data;
         return data;
     }catch(error){
-        alert(error);
+        console.log(error);
     }
 }

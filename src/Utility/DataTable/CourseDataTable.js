@@ -3,12 +3,16 @@ import { Table,Button, Modal} from 'antd';
 import { InfoOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import {UserInfo} from '../../Redux/Slices/UserInfo'
+import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import {AdmissionCourseDataModel} from '../../Model/AdmissionCourseDataModel'
+import {TransferCourseDataModel} from '../../Model/TransferCourseDataModel'
 export default function CourseDataTable(props) {
     const curUserInfo = useSelector(UserInfo);
-    var {tableData, columns, type} = props;
+    const curStudentPostNumber = useSelector(StudentPostNumber);
+    const curStudentID = useSelector(StudentID);
+    var {tableData, columns, type, tableDataLoading} = props;
     var DefaultChooseData = props.ChosedArray(tableData);
     var DefaultChooseDataKeys = DefaultChooseData.map(item => item.key);
     const [selectedRowKeys, setselectedRowKeys] = useState(DefaultChooseDataKeys);
@@ -76,11 +80,18 @@ export default function CourseDataTable(props) {
         }
     }
     const submit = () =>{
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
         if(type === "AdmissionCourse"){
-            let a = AdmissionCourseDataModel.AdmissionCoursesTableDataModelSubmitDataArray(selectedRows,curUserInfo.useroper);
+            let a = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj,curUserInfo.useroper);
             console.log(a);
         }
-        
+        else if(type === "TransferCourse"){
+            let b = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo.useroper);
+            console.log(b);
+        }
     }
     const rowSelection = {
         selectedRowKeys,
@@ -115,6 +126,7 @@ export default function CourseDataTable(props) {
                     }}
                     columns = {columns}
                     dataSource = {tableData}
+                    loading = {tableDataLoading}
                 >
                 </Table>
                 <div className = {style.buttonContainer}>

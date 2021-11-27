@@ -10,7 +10,8 @@ function TopScrollNavBar(){
       {title:"TRANSFER RECORDS"},
       {title:"NON-COURSE RELATED EVENTS"},
       {title:"COMMENTS"},
-      {title:"DEGREE CHECK"}
+      {title:"DEGREE CHECK"},
+      {title:"STARS EXCEPTION"}
     ]
     function handleClick(e){
         setcurrent(e.key);

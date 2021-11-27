@@ -9,14 +9,16 @@ export const getAdmissionCourseTableDataByIDAndPostNumber = async (studentID, po
         const data = await response.data;
         return data;
     }catch(error){
-        alert(error);
+        console.log(error);
     }
 }
 
-// export const postAdmissionCourseTableDataByNewArr = async (newArr) => {
-//     try{
-//         const response = await axios.post()
-//     }catch(error){
-//         alert(error);
-//     }
-// }
+export const postAdmissionCourseTableDataByNewArr = async (dataObj) => {
+    try{
+        const response = await axios.post(`${ipAddress}/admission/postAdmissionCourseTableDataByNewArr`, dataObj);
+        const data = await response.data;
+        return data;
+    }catch(error){
+        console.log(error);
+    }
+}

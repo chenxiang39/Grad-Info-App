@@ -1,4 +1,6 @@
 import React , {useEffect, useState}from 'react'
+import 'antd/dist/antd.less';
+import { Spin } from 'antd';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
 import {StudentPostDataModel} from '../../../../Model/StudentPostDataModel';
 import { TransferCourseDataModel } from '../../../../Model/TransferCourseDataModel';
@@ -20,15 +22,21 @@ export default function TransferRecords() {
     let curTransferCourseTableData = useSelector(TransferCourseTableData);
     let curTransferInfoTableData = useSelector(TransferInfoTableData);
     let curBachelorDegreeInfoData = useSelector(BachelorDegreeInfoData);
+    const [tableDataLoading, settableDataLoading] = useState(true);
+    const [topDataBarLoading, settopDataBarLoading] = useState(true);
     useEffect( async () => {
+        settableDataLoading(true);
+        settopDataBarLoading(true);
         let APITransferCoursesTableData = await getTransferCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber);
-        dispatch(SaveTransferCourseTableData(TransferCourseDataModel.TransferCourseTableDataModelArray(APITransferCoursesTableData))); 
+        dispatch(SaveTransferCourseTableData(TransferCourseDataModel.TransferCourseTableDataModelArray(APITransferCoursesTableData)));
+        settableDataLoading(false); 
         let APITransferInfoData = await getTransferInfoByIDAndPostNumber(curStudentID,curStudentPostNumber);
         dispatch(SaveTransferInfoTableData(TransferInfoDataModel.TransferInfoTableDataModelArr(APITransferInfoData)));
         let APIBachelorDegreeInfoData = await getBachelorDegreeInfoByID(curStudentID);
         dispatch(SaveBachelorDegreeInfoData(BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelObj(APIBachelorDegreeInfoData)));
         let APIStudentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
-        dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData)));  
+        dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData))); 
+        settopDataBarLoading(false);
     },[curStudentPostNumber]);
       const TransferCourseColumns = [
         {
@@ -103,11 +111,14 @@ export default function TransferRecords() {
         ChooseDisableOrAble : TransferCourseDataModel.TransferCourseTableDataModelChooseDisableOrAble,
         CanBeChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemCanBeChosedArray,
         ChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemChosedArray,
-        title: "Transfer Course List"
+        title: "Transfer Course List",
+        tableDataLoading : tableDataLoading
     }
     return (
         <div>
-            <TopDataBar data = {curStudentPostData}></TopDataBar>
+            <Spin spinning = {topDataBarLoading}>
+                <TopDataBar data = {curStudentPostData} />
+            </Spin>
             <BachelorDegreeInfoTitleContent data = {curBachelorDegreeInfoData}></BachelorDegreeInfoTitleContent>
             <TranferInfoDataTable {...TransferInfoDataTableProp}></TranferInfoDataTable>
             <CourseDataTable {...TransferCourseDataTableProp}></CourseDataTable>

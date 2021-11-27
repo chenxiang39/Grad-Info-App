@@ -1,4 +1,5 @@
 import  validate  from "validate.js";
+import moment from "moment";
 function TransferCourseTableDataModelHistoryArr(historyArr){
     let arr = [];
     if(validate.isEmpty(historyArr)){
@@ -15,7 +16,8 @@ function TransferCourseTableDataModelHistoryArr(historyArr){
     }
     return arr;
 }
-function TransferCourseTableDataModelArray(tableData){
+function TransferCourseTableDataModelArray(tableData){;
+    tableData = tableData.transferCourseResponseList;
     let arr = [];
     if(validate.isEmpty(tableData)){
         tableData = [];
@@ -65,9 +67,38 @@ function TransferCourseTableDataModelItemChosedArray(tableData){
     })
     return result;
 }
+function TransferCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, useroper){
+    let res = {};
+    let courselist = [];
+    if(validate.isEmpty(appliedArr)){
+        courselist = [];
+    }
+    if(validate.isEmpty(studentInfoObj)){
+        studentInfoObj = {};
+    }
+    let studentObj = {
+        studentId : !! studentInfoObj.id ? studentInfoObj.id : "",
+        spPostNumber : !! studentInfoObj.studentPostNumber ? studentInfoObj.studentPostNumber : ""
+    };
+   
+    for(let i = 0; i < appliedArr.length; i++){
+        let curObj = {
+            trCourseId : !!appliedArr[i].id ? appliedArr[i].id : "",
+            trCourseOper : !!useroper ? useroper : "",
+            trCourseTransdate : moment().format("MM/DD/YYYY")
+        }
+        courselist.push(curObj);
+    }
+    res = {
+        studentInfo : studentObj,
+        courseList : courselist
+    }
+    return res;
+}
 export const TransferCourseDataModel = {
     TransferCourseTableDataModelArray : TransferCourseTableDataModelArray,
     TransferCourseTableDataModelChooseDisableOrAble : TransferCourseTableDataModelChooseDisableOrAble,
     TransferCourseTableDataModelItemCanBeChosedArray : TransferCourseTableDataModelItemCanBeChosedArray,
-    TransferCourseTableDataModelItemChosedArray : TransferCourseTableDataModelItemChosedArray
+    TransferCourseTableDataModelItemChosedArray : TransferCourseTableDataModelItemChosedArray,
+    TransferCourseTableDataModelSubmitDataObj : TransferCourseTableDataModelSubmitDataObj
 }

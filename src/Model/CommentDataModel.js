@@ -19,7 +19,7 @@ function CommentDataModelObj(dataObj){
     let curobj = {
         commentOper : dataObj.oper,
         commentTransdate: dataObj.transactiondate,
-        coomentContent : dataObj.content,
+        commentContent : dataObj.content,
     }
     return curobj;
 }

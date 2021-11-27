@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from 'react'
+import { Spin } from 'antd';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
 import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
 import { AdmissionCourseDataModel } from '../../../../Model/AdmissionCourseDataModel';
@@ -15,11 +16,30 @@ export default function AdmissionInfo() {
       let curStudentPostNumber = useSelector(StudentPostNumber);
       let curStudentID = useSelector(StudentID);
       let curAdmissionCourseTableData = useSelector(AdmissionCourseTableData);
+      const [tableDataLoading, settableDataLoading] = useState(true);
+      const [topDataBarLoading, settopDataBarLoading] = useState(true);
       useEffect( async () => {
-          let APIAdmissionCoursesTableData = await getAdmissionCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber);
-          dispatch(SaveAdmissionCourseTableData(AdmissionCourseDataModel.AdmissionCoursesTableDataModelArray(APIAdmissionCoursesTableData))); 
-          let APIStudentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
-          dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData))); 
+          settopDataBarLoading(true);
+          settableDataLoading(true);
+          
+          getAdmissionCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber).then((res) => {
+            dispatch(SaveAdmissionCourseTableData(AdmissionCourseDataModel.AdmissionCourseTableDataModelArray(res)));
+            settableDataLoading(false); 
+          }, (err) => {
+            console.log(err);
+          })
+          getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber).then((res) => {
+            dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(res))); 
+            settopDataBarLoading(false);
+         }, (err) => {
+           console.log(err);
+         })
+          // let APIStudentPostData = await getStudentPostDataByStudentIDAndPostNumber(curStudentID,curStudentPostNumber);
+          // dispatch(SaveStudentPostData(StudentPostDataModel.StudentPostDataModelObjFinal(APIStudentPostData))); 
+          // settopDataBarLoading(false);
+          // let APIAdmissionCoursesTableData = await getAdmissionCourseTableDataByIDAndPostNumber(curStudentID,curStudentPostNumber);
+          // dispatch(SaveAdmissionCourseTableData(AdmissionCourseDataModel.AdmissionCourseTableDataModelArray(APIAdmissionCoursesTableData)));
+          // settableDataLoading(false); 
       },[curStudentPostNumber]);
       const columns = [
         {
@@ -68,13 +88,16 @@ export default function AdmissionInfo() {
         type: "AdmissionCourse",
         tableData : curAdmissionCourseTableData, 
         columns : columns,
-        ChooseDisableOrAble : AdmissionCourseDataModel.AdmissionCoursesTableDataModelChooseDisableOrAble,
-        CanBeChosedArray: AdmissionCourseDataModel.AdmissionCoursesTableDataModelItemCanBeChosedArray,
-        ChosedArray: AdmissionCourseDataModel.AdmissionCoursesTableDataModelItemChosedArray,
+        ChooseDisableOrAble : AdmissionCourseDataModel.AdmissionCourseTableDataModelChooseDisableOrAble,
+        CanBeChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemCanBeChosedArray,
+        ChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemChosedArray,
+        tableDataLoading : tableDataLoading
     }
     return (
         <div>
-            <TopDataBar data = {curStudentPostData}></TopDataBar>
+             <Spin spinning = {topDataBarLoading}>
+                <TopDataBar data = {curStudentPostData} />
+            </Spin>
             <CourseDataTable {...DataTableProp}></CourseDataTable>
         </div>
     )

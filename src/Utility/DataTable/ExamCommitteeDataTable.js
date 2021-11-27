@@ -8,6 +8,10 @@ export default function ExamCommitteeDataTable(props) {
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
+    const cleanState = () =>{
+        setcurCommitteeName("");
+        setcurCommitteeChar("");
+    }
     const handleAdd = () =>{
         setisAddModalVisible(true);
     }
@@ -23,13 +27,11 @@ export default function ExamCommitteeDataTable(props) {
         let realObj = CommitteeDataModel.examCommitteeDataModelObj(obj);
         console.log(realObj);
         //save 
-        setcurCommitteeName("");
-        setcurCommitteeChar("");
+        cleanState();
         setisAddModalVisible(false);
     }
     const handleAddModalCancel = () =>{
-        setcurCommitteeName("");
-        setcurCommitteeChar("");
+        cleanState();
         setisAddModalVisible(false);
     }
     const changeCommitteeName = (e) =>{

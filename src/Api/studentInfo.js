@@ -5,22 +5,18 @@ const ipAddress = setting.Api.ServerIP;
 
 
 export const getStudentInfoByStudentID = async (studentID) =>{
-    try{
-        const response = await axios.get(`${ipAddress}/common/getStudentInfoByStudentID?studentId=${studentID}`);
-        const data = await response.data;
-        return data;
-    }catch(error){
-        alert(error);
-    }
+    const response = await axios.get(`${ipAddress}/common/getStudentInfoByStudentID?studentId=${studentID}`);
+    const data = await response.data;
+    return data;
 }
 
 export const getStudentPostDataByStudentIDAndPostNumber = async (studentID, postNumber) =>{
     try{
-        const response = await axios.get(`${ipAddress}/getStudentPostDataByStudentIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
+        const response = await axios.get(`${ipAddress}/admission/getStudentPostDataByStudentIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
         const data = await response.data;
         return data;
     }catch(error){
-        alert(error);
+        console.log(error);
     }
 }
 
