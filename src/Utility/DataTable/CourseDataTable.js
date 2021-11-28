@@ -19,6 +19,7 @@ export default function CourseDataTable(props) {
     const [selectedRows, setselectedRows] = useState(DefaultChooseData);
     const [isHistoryModalVisible, setisHistoryModalVisible] = useState(false);
     const [currentcheckedHistoryArr, setcurrentcheckedHistoryArr] = useState([]);
+    const [isSubmitModalVisible, setisSubmitModalVisible] = useState(false);
     const clickHistoryBtn = (historyArr) => {
         setcurrentcheckedHistoryArr(historyArr);
         setisHistoryModalVisible(true);
@@ -79,7 +80,7 @@ export default function CourseDataTable(props) {
             handleOnChange(keys, legalData);
         }
     }
-    const submit = () =>{
+    const submitFun = () =>{
         const studentInfoObj = {
             id : curStudentID,
             studentPostNumber: curStudentPostNumber
@@ -131,7 +132,7 @@ export default function CourseDataTable(props) {
                 </Table>
                 <div className = {style.buttonContainer}>
                     <Button onClick = {selectAll} className = {style.button}>SELECT ALL</Button>
-                    <Button onClick = {submit} type="primary" className = {[style.button, style.Pbutton, ]}>SUBMIT</Button>
+                    <Button onClick = {submitFun} type="primary" className = {[style.button, style.Pbutton, ]}>SUBMIT</Button>
                 </div>              
             </div>
             

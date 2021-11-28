@@ -18,11 +18,8 @@ function TransferCourseTableDataModelHistoryArr(historyArr){
 }
 function TransferCourseTableDataModelArray(tableData){
     if(validate.isEmpty(tableData)){
-        tableData = {
-            transferCourseResponseList:[]
-        };
+        tableData = [];
     } 
-    tableData = tableData.transferCourseResponseList;
     let arr = [];
     for(let i = 0; i < tableData.length; i++){
         let curobj = {

@@ -69,7 +69,7 @@ export default function AdmissionInfo() {
     }
     return (
         <div>
-             <Spin spinning = {topDataBarLoading}>
+            <Spin spinning = {topDataBarLoading}>
                 <TopDataBar data = {curStudentPostData} />
             </Spin>
             <CourseDataTable {...DataTableProp}></CourseDataTable>

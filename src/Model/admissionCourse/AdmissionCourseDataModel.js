@@ -18,11 +18,8 @@ function AdmissionCourseTableDataModelHistoryArr(historyArr){
 }
 function AdmissionCourseTableDataModelArray(tableData){
     if(validate.isEmpty(tableData)){
-        tableData = {
-            admissionCourseList:[]
-        };
+        tableData = [];
     } 
-    tableData = tableData.admissionCourseList;
     let arr = [];
     for(let i = 0; i < tableData.length; i++){
         let curobj = {
