@@ -1,13 +1,16 @@
 import React from 'react'
 import style from './StudentInfo.module.less'
-import { Select } from 'antd';
+import { Button, Select} from 'antd';
+import {ArrowLeftOutlined} from '@ant-design/icons'
 import 'antd/dist/antd.less';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import {StudentPostNumber, StudentInfoData,SaveStudentPostNumber} from '../../../Redux/Slices/StudentInfo'
 function StudentInfo(){
-    let curStudentInfoData = useSelector(StudentInfoData);
-    const { Option } = Select;
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { Option } = Select;
+    let curStudentInfoData = useSelector(StudentInfoData);
     let curStudentPostNumber = useSelector(StudentPostNumber);
     function handleChange(data){
         dispatch(SaveStudentPostNumber(data));
@@ -18,6 +21,9 @@ function StudentInfo(){
                 <Option key = {item} value={item}>{item}</Option>
             )
         })
+    }
+    const clickBackBtn = () =>{
+        navigate('/Search',{ replace: true });
     }
     return (
         <div className = {style.container}>
@@ -34,6 +40,13 @@ function StudentInfo(){
                 <Select defaultValue = {curStudentPostNumber} style={{ width: 120 }} onChange={handleChange}>
                     {createOption()}
                 </Select>
+                <Button 
+                    className = {style.backButton}
+                    key = "backBtn"
+                    onClick = {clickBackBtn}
+                    shape="circle"
+                    icon = {<ArrowLeftOutlined />}
+                ></Button>
             </div>
         </div>
     )

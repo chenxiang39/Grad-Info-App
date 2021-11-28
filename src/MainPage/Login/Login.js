@@ -20,7 +20,7 @@ export default function Login() {
             }
             else{
                 dispatch(SaveUserInfo(userInfo));
-                navigate("/Search");
+                navigate("/Search",{replace : true});
             }
         },(err)=>{
             console.log(err);

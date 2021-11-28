@@ -33,7 +33,7 @@ export default function Search() {
                 //default first one
                 dispatch(SaveStudentPostNumber(studentInfo.post_numbers[0]));
                 dispatch(SaveStudentInfo(studentInfo));
-                navigate("/MainContent");
+                navigate("/MainContent",{replace: true});
             }
         }
     }
