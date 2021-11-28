@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Table,Button, Modal} from 'antd';
-import { InfoOutlined } from '@ant-design/icons';
+import React, { useState ,useEffect} from 'react'
+import { Table,Button, Modal, message} from 'antd';
+import { InfoOutlined , ExclamationCircleOutlined} from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import {UserInfo} from '../../Redux/Slices/UserInfo'
 import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
@@ -8,18 +8,29 @@ import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import {AdmissionCourseDataModel} from '../../Model/admissionCourse/AdmissionCourseDataModel'
 import {TransferCourseDataModel} from '../../Model/transferCourse/TransferCourseDataModel'
+import useFetchPostAdmissionCourseTableData from '../../Hooks/Fetch/admissionCourse/useFetchPostAdmissionCourseTableData';
 export default function CourseDataTable(props) {
+    const { confirm } = Modal;
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
-    var {tableData, columns, type, tableDataLoading} = props;
+    var {tableData, columns, type, tableDataLoading, mainPageShouldRefresh} = props;
+   
     var DefaultChooseData = props.ChosedArray(tableData);
+   
     var DefaultChooseDataKeys = DefaultChooseData.map(item => item.key);
-    const [selectedRowKeys, setselectedRowKeys] = useState(DefaultChooseDataKeys);
-    const [selectedRows, setselectedRows] = useState(DefaultChooseData);
+    const [selectedRowKeys, setselectedRowKeys] = useState();
+    const [selectedRows, setselectedRows] = useState();
     const [isHistoryModalVisible, setisHistoryModalVisible] = useState(false);
     const [currentcheckedHistoryArr, setcurrentcheckedHistoryArr] = useState([]);
-    const [isSubmitModalVisible, setisSubmitModalVisible] = useState(false);
+    const [data,error,fetchDataFun] = useFetchPostAdmissionCourseTableData();
+    useEffect(() => {
+        setselectedRows(DefaultChooseData);
+        setselectedRowKeys(DefaultChooseDataKeys);
+        return () => {
+            
+        }
+    }, [tableData])
     const clickHistoryBtn = (historyArr) => {
         setcurrentcheckedHistoryArr(historyArr);
         setisHistoryModalVisible(true);
@@ -86,8 +97,30 @@ export default function CourseDataTable(props) {
             studentPostNumber: curStudentPostNumber
         }
         if(type === "AdmissionCourse"){
-            let a = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj,curUserInfo.useroper);
-            console.log(a);
+            let requestBody = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj,curUserInfo.useroper);
+            confirm({
+                centered : true,
+                title: 'Do you want to submit ?',
+                icon: <ExclamationCircleOutlined />,
+                content: `${selectedRows.length} course(s) will be applied.`,
+                async onOk() {
+                    await fetchDataFun(requestBody);
+                    if(!!error){
+                        message.error("Network is broken !")
+                    }
+                    else if(data.flag === false){
+                        message.error(`Submit failed ! The reason is `);
+                    }
+                    else{
+                        message.success("Submit success !");
+                        mainPageShouldRefresh(state => !state);
+                    }
+                },
+                onCancel() {
+
+                },
+            });
+         
         }
         else if(type === "TransferCourse"){
             let b = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo.useroper);

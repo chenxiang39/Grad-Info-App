@@ -1,6 +1,6 @@
 import React from 'react'
 import 'antd/dist/antd.less';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox,message} from 'antd';
 import {getUserInfoByUsernameAndPassword} from '../../Api/login'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,7 @@ export default function Login() {
         getUserInfoByUsernameAndPassword(values.username,values.password).then((res)=>{
             let userInfo = UserInfoDataModel.UserInfoDataModelObj(res);
             if(!userInfo.username){
-                alert("Username or Password is wrong!");
+                message.error("Username or Password is wrong!", 1);
                 return;
             }
             else{

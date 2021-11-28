@@ -20,10 +20,10 @@ export default function TransferRecords() {
     let curTransferCourseTableData = useSelector(TransferCourseTableData);
     let curTransferProgramOfStudyTableData = useSelector(TransferProgramOfStudyTableData);
     let curBachelorDegreeInfoData = useSelector(BachelorDegreeInfoData);
-    const [transferCourseDataTableLoading,transferCourseDataTableLoadingError] = useFetchTransferCourseTableData(curStudentID,curStudentPostNumber);
-    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData(curStudentID, curStudentPostNumber);
-    const [bachelorDegreeInfoLoading,bachelorDegreeInfoLoadingError] = useFetchBachelorDegreeInfo(curStudentID, curStudentPostNumber);
-    const [transferProgramOfStudyDataTableLoading, transferProgramOfStudyDataTableLoadingError] = useFetchTransferProgramOfStudy(curStudentID, curStudentPostNumber);
+    const [transferCourseDataTableLoading,transferCourseDataTableLoadingError] = useFetchTransferCourseTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
+    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
+    const [bachelorDegreeInfoLoading,bachelorDegreeInfoLoadingError] = useFetchBachelorDegreeInfo([curStudentID],[curStudentPostNumber]);
+    const [transferProgramOfStudyDataTableLoading, transferProgramOfStudyDataTableLoadingError] = useFetchTransferProgramOfStudy([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
     const TransferCourseDataTableColumns = [
         {
           title: '#',

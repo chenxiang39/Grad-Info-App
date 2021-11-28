@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { Spin } from 'antd';
 import { useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
@@ -9,12 +9,13 @@ import {AdmissionCourseTableData} from '../../../../Redux/Slices/AdmissionCourse
 import useFetchAdmissionCourseTableData from '../../../../Hooks/Fetch/admissionCourse/useFetchAdmissionCourseTableData';
 import useFetchStudentPostData from '../../../../Hooks/Fetch/studentInfo/useFetchStudentPostData';
 export default function AdmissionInfo() {
+      const [shouldRefresh, setshouldRefresh] = useState(false);
       let curStudentPostData = useSelector(StudentPostData);
       let curStudentPostNumber = useSelector(StudentPostNumber);
       let curStudentID = useSelector(StudentID);
       let curAdmissionCourseTableData = useSelector(AdmissionCourseTableData);
-      const [tableDataLoading, tableDataLoadingError] = useFetchAdmissionCourseTableData(curStudentID, curStudentPostNumber);
-      const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData(curStudentID, curStudentPostNumber);
+      const [tableDataLoading, tableDataLoadingError] = useFetchAdmissionCourseTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
+      const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
       const AdmissionTableDataColumns = [
         {
           title: '#',
@@ -65,7 +66,8 @@ export default function AdmissionInfo() {
         ChooseDisableOrAble : AdmissionCourseDataModel.AdmissionCourseTableDataModelChooseDisableOrAble,
         CanBeChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemCanBeChosedArray,
         ChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemChosedArray,
-        tableDataLoading : tableDataLoading
+        tableDataLoading : tableDataLoading,
+        mainPageShouldRefresh : setshouldRefresh
     }
     return (
         <div>

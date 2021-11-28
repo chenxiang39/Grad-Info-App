@@ -1,22 +1,16 @@
-import { useState, useEffect } from 'react';
-import { useDispatch} from 'react-redux';
 import {BachelorDegreeInfoDataModel} from '../../../Model/transferCourse/BachelorDegreeInfoDataModel'
 import {getBachelorDegreeInfoByID} from '../../../Api/transferCourse'
 import {SaveBachelorDegreeInfoData} from '../../../Redux/Slices/TransferCourse'
-export default function useFetchBachelorDegreeInfo(curStudentID, curStudentPostNumber) {
-    const dispatch = useDispatch();
-    const [dataLoading, setdataLoading] = useState(false);
-    const [error, seterror] = useState("");
-    useEffect(()=>{
-        setdataLoading(true);
-        getBachelorDegreeInfoByID(curStudentID).then((res) => {
-            dispatch(SaveBachelorDegreeInfoData(BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelObj(res)));
-            setdataLoading(false);
-        }, 
-        (err) => {
-            seterror(err);
-        })
-    },[curStudentPostNumber]);
+import CommonUseFetchByGet from '../CommonUseFetchByGet';
+export default function useFetchBachelorDegreeInfo(params, dependencies) {
+    const props = {
+        params,
+        apiFun: getBachelorDegreeInfoByID,
+        dispatchSaveFun : SaveBachelorDegreeInfoData,
+        dataModlSaveFun : BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelObj,
+        dependencies
+    }
+    const [dataLoading, error] = CommonUseFetchByGet(props);
 
     return [dataLoading, error];
 }

@@ -94,10 +94,26 @@ function AdmissionCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, 
     }
     return res;
 }
+function AdmissionCourseTableDataModelSubmitResponseDataObj(dataObj){
+    let res = {};
+    if(validate.isEmpty(dataObj)){
+        dataObj = {
+            flag:false,
+            reason:[]
+        };
+    }
+    res = {
+        flag : !!dataObj.flag ? dataObj.flag: false,
+        reason : !!dataObj.reason ? dataObj.reason: []
+    }
+    return res;
+}
+
 export const AdmissionCourseDataModel = {
     AdmissionCourseTableDataModelArray : AdmissionCourseTableDataModelArray,
     AdmissionCourseTableDataModelChooseDisableOrAble : AdmissionCourseTableDataModelChooseDisableOrAble,
     AdmissionCourseTableDataModelItemCanBeChosedArray : AdmissionCourseTableDataModelItemCanBeChosedArray,
     AdmissionCourseTableDataModelItemChosedArray : AdmissionCourseTableDataModelItemChosedArray,
-    AdmissionCourseTableDataModelSubmitDataObj : AdmissionCourseTableDataModelSubmitDataObj
+    AdmissionCourseTableDataModelSubmitDataObj : AdmissionCourseTableDataModelSubmitDataObj,
+    AdmissionCourseTableDataModelSubmitResponseDataObj : AdmissionCourseTableDataModelSubmitResponseDataObj
 }

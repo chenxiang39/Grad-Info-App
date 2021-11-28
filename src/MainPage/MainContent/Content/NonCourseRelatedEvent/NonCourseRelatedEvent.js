@@ -19,10 +19,10 @@ export default function NonCourseRelatedEvent() {
     let curStudentID = useSelector(StudentID);
     let curExamCommitteeTableData = useSelector(ExamCommitteeTableData);
     let curThesisCommitteeTableData = useSelector(ThesisCommitteeTableData);
-    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData(curStudentID, curStudentPostNumber);
-    const [nonCourseRelatedEventTableLoading, nonCourseRelatedEventTableLoadingError] = useFetchNonCourseRelatedEventTableData(curStudentID, curStudentPostNumber);
-    const [thesisCommitteeTableDataLoading, thesisCommitteeTableDataLoadingError] = useFetchThesisCommitteeTableData(curStudentID, curStudentPostNumber);
-    const [examCommitteeTableDataLoading, examCommitteeTableDataLoadingError] = useFetchExamCommitteeTableData(curStudentID, curStudentPostNumber);
+    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
+    const [nonCourseRelatedEventTableLoading, nonCourseRelatedEventTableLoadingError] = useFetchNonCourseRelatedEventTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
+    const [thesisCommitteeTableDataLoading, thesisCommitteeTableDataLoadingError] = useFetchThesisCommitteeTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
+    const [examCommitteeTableDataLoading, examCommitteeTableDataLoadingError] = useFetchExamCommitteeTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
     const examColumns = [
         {
             title: '#',

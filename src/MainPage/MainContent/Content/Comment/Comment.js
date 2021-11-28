@@ -10,7 +10,7 @@ export default function Comment(){
     let curStudentPostNumber = useSelector(StudentPostNumber);
     let curStudentID = useSelector(StudentID);
     let curCommentTableData = useSelector(CommentTableData);
-    const [commentDataTableLoading, commentDataTableLoadingError] = useFetchCommentTableData(curStudentID, curStudentPostNumber);
+    const [commentDataTableLoading, commentDataTableLoadingError] = useFetchCommentTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
     const CommentDataTableColumns = [
         {
         title: '#',

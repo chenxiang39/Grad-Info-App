@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import { Input, Button} from 'antd';
+import { Input, Button , message} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './Search.module.less';
@@ -14,18 +14,24 @@ export default function Search() {
     const [curSearchStudentID, setcurSearchStudentID] = useState("");
     useEffect(() => {
         dispatch(SaveStudentID(""));
-      },[]);
-      
+    },[]);
+    
+    const keyPress = (e) => {
+        //click enter execute
+        if(e.code === "Enter" || e.key === "Enter"){
+            submit();
+        }
+    }
     const submit = async () =>{
         if(!curSearchStudentID){
-            alert("You must input POST ID!");
+            message.warning("You must input POST ID!" , 1);
             return;
         }
         let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
         if(!!studentInfo){
             studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
             if(!studentInfo.id){
-                alert("POST ID is not exist!");
+                message.warning("POST ID is not exist!" , 1);
                 return;
             }
             else{
@@ -38,7 +44,9 @@ export default function Search() {
         }
     }
     return (
-        <div className = {style.container}>
+        <div 
+            onKeyDown = {keyPress}
+            className = {style.container}>
             POST ID : &nbsp;&nbsp;&nbsp;
             <Input
                 style = {{width:250}}
