@@ -7,7 +7,7 @@ import { titleDataArr } from '../../Constant/titleLinkManage';
 function TopScrollNavBar(){
     function createMenu(){
         return titleDataArr.map((data,index) => {
-           return <TopScrollNavBarItem title = {data.title} link = {data.link}></TopScrollNavBarItem>
+           return <TopScrollNavBarItem key = {data} title = {data.title} link = {data.link}></TopScrollNavBarItem>
         })
     }
         return (

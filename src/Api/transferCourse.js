@@ -10,7 +10,7 @@ export const getTransferCourseTableDataByIDAndPostNumber = async (studentID, pos
 }
 
 export const getTransferProgramOfStudyByIDAndPostNumber = async (studentID, postNumber) =>{
-    const response = await axios.get(`${ipAddress}/transfer/getTransferInfoByIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
+    const response = await axios.get(`${ipAddress}/transfer/getTransferProgramOfStudyByIDAndPostNumber?studentId=${studentID}&spPostNumber=${postNumber}`);
     const data = await response.data;
     return data;
 }
