@@ -1,7 +1,6 @@
 import  validate  from "validate.js";
 import moment from "moment";
 function AdmissionCourseTableDataModelHistoryArr(historyArr){
-    console.log(historyArr)
     let arr = [];
     if(validate.isEmpty(historyArr)){
         historyArr = [];

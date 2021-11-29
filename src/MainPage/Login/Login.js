@@ -23,7 +23,7 @@ export default function Login() {
                 navigate("/Search",{replace : true});
             }
         },(err)=>{
-            console.log(err);
+            message.error("Network is broken !", 1);
         });
     }
     const onFinish = async (values) => {

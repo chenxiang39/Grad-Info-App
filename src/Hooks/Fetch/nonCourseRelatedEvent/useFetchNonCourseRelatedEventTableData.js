@@ -10,7 +10,7 @@ export default function useFetchNonCourseRelatedEventTableData(params, dependenc
         dataModlSaveFun : NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelArray,
         dependencies
     }
-    const [dataLoading,error] = CommonUseFetchByGet(props);
+    const [dataLoading, error] = CommonUseFetchByGet(props);
 
-    return [dataLoading,error];
+    return [dataLoading, error];
 }

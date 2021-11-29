@@ -10,7 +10,7 @@ export default function useFetchThesisCommitteeTableData(params, dependencies) {
         dataModlSaveFun : CommitteeDataModel.thesisCommitteeDataModelArr,
         dependencies
     }
-    const [dataLoading,error] = CommonUseFetchByGet(props);
+    const [dataLoading, error] = CommonUseFetchByGet(props);
 
-    return [dataLoading,error];
+    return [dataLoading, error];
 }

@@ -27,8 +27,8 @@ export default function Search() {
             message.warning("You must input POST ID!" , 1);
             return;
         }
-        let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
-        if(!!studentInfo){
+        try{
+            let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
             studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
             if(!studentInfo.id){
                 message.warning("POST ID is not exist!" , 1);
@@ -41,8 +41,7 @@ export default function Search() {
                 dispatch(SaveStudentInfo(studentInfo));
                 navigate("/MainContent",{replace: true});
             }
-        }
-        else{
+        }catch(error){
             message.error("Network is broken !" , 1);
         }
     }

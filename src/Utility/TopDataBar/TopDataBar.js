@@ -2,7 +2,6 @@ import React from 'react'
 import style from './TopDataBar.module.less'
 
 function TopDataBar(props) {
-    console.log(props);
     const {data} = props;
     function createContent(){
         return data.map((item) => {
