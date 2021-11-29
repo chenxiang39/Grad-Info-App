@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react'
-import { Input, Button , message} from 'antd';
+import { Input, Button , Spin,message} from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './Search.module.less';
@@ -11,6 +11,7 @@ import { StudentInfoDataModel } from '../../Model/studentInfo/StudentInfoDataMod
 export default function Search() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const [curSearchStudentID, setcurSearchStudentID] = useState("");
     useEffect(() => {
         dispatch(SaveStudentID(""));
@@ -28,9 +29,11 @@ export default function Search() {
             return;
         }
         try{
+            setLoading(true);
             let studentInfo = await getStudentInfoByStudentID(curSearchStudentID);
             studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
             if(!studentInfo.id){
+                setLoading(false);
                 message.warning("POST ID is not exist!" , 1);
                 return;
             }
@@ -42,26 +45,29 @@ export default function Search() {
                 navigate("/MainContent",{replace: true});
             }
         }catch(error){
+            setLoading(false);
             message.error("Network is broken !" , 1);
         }
     }
     return (
-        <div 
-            onKeyDown = {keyPress}
-            className = {style.container}>
-            POST ID : &nbsp;&nbsp;&nbsp;
-            <Input
-                style = {{width:250}}
-                className = {style.input}
-                value = {curSearchStudentID}
-                onChange = {(e) => setcurSearchStudentID(e.target.value)}
-            ></Input>
-            <Button
-                className = {style.button}
-                onClick = {submit}
-                icon = {<SearchOutlined />}
-                size = "large"
-            ></Button>
-        </div>
+        <Spin className = {style.spinContainer} size = "large" spinning = {loading}>
+            <div 
+                onKeyDown = {keyPress}
+                className = {style.container}>
+                POST ID : &nbsp;&nbsp;&nbsp;
+                <Input
+                    style = {{width:250}}
+                    className = {style.input}
+                    value = {curSearchStudentID}
+                    onChange = {(e) => setcurSearchStudentID(e.target.value)}
+                ></Input>
+                <Button
+                    className = {style.button}
+                    onClick = {submit}
+                    icon = {<SearchOutlined />}
+                    size = "large"
+                ></Button>
+            </div>
+        </Spin>
     )
 }
