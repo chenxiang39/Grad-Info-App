@@ -25,5 +25,5 @@ export default function CommonUseFetchByGet(props) {
         }
     },[...dependencies]);
 
-    return [dataLoading, error];
+    return [dataLoading,error];
 }

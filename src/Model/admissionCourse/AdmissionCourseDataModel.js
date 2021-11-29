@@ -1,6 +1,7 @@
 import  validate  from "validate.js";
 import moment from "moment";
 function AdmissionCourseTableDataModelHistoryArr(historyArr){
+    console.log(historyArr)
     let arr = [];
     if(validate.isEmpty(historyArr)){
         historyArr = [];
@@ -9,7 +10,7 @@ function AdmissionCourseTableDataModelHistoryArr(historyArr){
         let curobj = {
             course : !!historyArr[i].adHistoryCourseName ? historyArr[i].adHistoryCourseName : "",
             oper : !!historyArr[i].adHistoryCourseOper ? historyArr[i].adHistoryCourseOper : "",
-            transactiondate: !!historyArr[i].adCourseTransdate ? historyArr[i].adCourseTransdate : "",
+            transactiondate: !!historyArr[i].adHistoryCourseTransdate ? historyArr[i].adHistoryCourseTransdate : "",
             apply : !!historyArr[i].adHistoryCourseApplyStatus ? historyArr[i].adHistoryCourseApplyStatus : false
         }
         arr.push(curobj);
@@ -66,7 +67,7 @@ function AdmissionCourseTableDataModelItemChosedArray(tableData){
     })
     return result;
 }
-function AdmissionCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, useroper){
+function AdmissionCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, userInfo){
     let res = {};
     let courselist = [];
     if(validate.isEmpty(appliedArr)){
@@ -75,20 +76,25 @@ function AdmissionCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, 
     if(validate.isEmpty(studentInfoObj)){
         studentInfoObj = {};
     }
+    if(validate.isEmpty(userInfo)){
+        userInfo = {};
+    }
     let studentObj = {
         studentId : !! studentInfoObj.id ? studentInfoObj.id : "",
         spPostNumber : !! studentInfoObj.studentPostNumber ? studentInfoObj.studentPostNumber : ""
     };
-   
+    let userInfoObj = {
+        userOper : !! userInfo.useroper ? userInfo.useroper : "",
+        transDate : moment().format("MM/DD/YYYY")
+    };
     for(let i = 0; i < appliedArr.length; i++){
         let curObj = {
-            adCourseId : !!appliedArr[i].id ? appliedArr[i].id : "",
-            adCourseOper : !!useroper ? useroper : "",
-            adCourseTransdate : moment().format("MM/DD/YYYY")
+            adCourseId : !!appliedArr[i].id ? appliedArr[i].id : ""
         }
         courselist.push(curObj);
     }
     res = {
+        userInfo : userInfoObj,
         studentInfo : studentObj,
         courseList : courselist
     }

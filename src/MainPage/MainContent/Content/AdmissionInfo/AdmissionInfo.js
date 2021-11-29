@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Spin } from 'antd';
 import { useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
@@ -59,22 +59,35 @@ export default function AdmissionInfo() {
             dataIndex: 'history',
         },
       ];  
-    const DataTableProp = {
-        type: "AdmissionCourse",
-        tableData : curAdmissionCourseTableData, 
-        columns : AdmissionTableDataColumns,
-        ChooseDisableOrAble : AdmissionCourseDataModel.AdmissionCourseTableDataModelChooseDisableOrAble,
-        CanBeChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemCanBeChosedArray,
-        ChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemChosedArray,
-        tableDataLoading : tableDataLoading,
-        mainPageShouldRefresh : setshouldRefresh
-    }
+    const DataTableProp =  {  
+          type: "AdmissionCourse",
+          tableData : curAdmissionCourseTableData, 
+          columns : AdmissionTableDataColumns,
+          ChooseDisableOrAble : AdmissionCourseDataModel.AdmissionCourseTableDataModelChooseDisableOrAble,
+          CanBeChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemCanBeChosedArray,
+          ChosedArray: AdmissionCourseDataModel.AdmissionCourseTableDataModelItemChosedArray,
+          mainPageShouldRefresh : setshouldRefresh
+    };
+    //优化，只有当每次需要刷新页面时，重新渲染datatable, Spin与dataTable分开
+    const renderCourseDataTable = useCallback(()=>{
+      return (
+        <CourseDataTable {...DataTableProp}></CourseDataTable>
+      )
+    },[shouldRefresh,curAdmissionCourseTableData])
+    const renderTopDataBar = useCallback(()=>{
+      return (
+        <TopDataBar data = {curStudentPostData}></TopDataBar>
+      )
+    },[shouldRefresh,curStudentPostData])
     return (
         <div>
             <Spin spinning = {topDataBarLoading}>
-                <TopDataBar data = {curStudentPostData} />
+                {renderTopDataBar()}
             </Spin>
-            <CourseDataTable {...DataTableProp}></CourseDataTable>
+            <Spin spinning = {tableDataLoading}>
+                {renderCourseDataTable()}
+            </Spin>
+            
         </div>
     )
 }

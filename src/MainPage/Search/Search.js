@@ -42,6 +42,9 @@ export default function Search() {
                 navigate("/MainContent",{replace: true});
             }
         }
+        else{
+            message.error("Network is broken !" , 1);
+        }
     }
     return (
         <div 

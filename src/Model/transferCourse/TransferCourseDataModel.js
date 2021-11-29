@@ -9,7 +9,7 @@ function TransferCourseTableDataModelHistoryArr(historyArr){
         let curobj = {
             course : !!historyArr[i].trHistoryCourseName ? historyArr[i].trHistoryCourseName : "",
             oper : !!historyArr[i].trHistoryCourseOper ? historyArr[i].trHistoryCourseOper : "",
-            transactiondate: !!historyArr[i].trCourseTransdate ? historyArr[i].trCourseTransdate : "",
+            transactiondate: !!historyArr[i].trHistoryCourseTransdate ? historyArr[i].trHistoryCourseTransdate : "",
             apply : !!historyArr[i].trHistoryCourseApplyStatus ? historyArr[i].trHistoryCourseApplyStatus : false
         }
         arr.push(curobj);
@@ -66,7 +66,7 @@ function TransferCourseTableDataModelItemChosedArray(tableData){
     })
     return result;
 }
-function TransferCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, useroper){
+function TransferCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, userInfo){
     let res = {};
     let courselist = [];
     if(validate.isEmpty(appliedArr)){
@@ -75,20 +75,25 @@ function TransferCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, u
     if(validate.isEmpty(studentInfoObj)){
         studentInfoObj = {};
     }
+    if(validate.isEmpty(userInfo)){
+        userInfo = {};
+    }
     let studentObj = {
         studentId : !! studentInfoObj.id ? studentInfoObj.id : "",
         spPostNumber : !! studentInfoObj.studentPostNumber ? studentInfoObj.studentPostNumber : ""
     };
-   
+    let userInfoObj = {
+        userOper : !! userInfo.useroper ? userInfo.useroper : "",
+        transDate : moment().format("MM/DD/YYYY")
+    };
     for(let i = 0; i < appliedArr.length; i++){
         let curObj = {
-            trCourseId : !!appliedArr[i].id ? appliedArr[i].id : "",
-            trCourseOper : !!useroper ? useroper : "",
-            trCourseTransdate : moment().format("MM/DD/YYYY")
+            trCourseId : !!appliedArr[i].id ? appliedArr[i].id : ""
         }
         courselist.push(curObj);
     }
     res = {
+        userInfo : userInfoObj,
         studentInfo : studentObj,
         courseList : courselist
     }

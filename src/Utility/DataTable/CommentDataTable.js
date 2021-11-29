@@ -6,8 +6,8 @@ import style from './DataTable.module.less'
 import {CommentDataModel} from '../../Model/comment/CommentDataModel'
 import moment from 'moment';
 const { TextArea } = Input;
-export default function CommentDataTable(props) {
-    var {tableData, columns, tableDataLoading} = props;
+function CommentDataTable(props) {
+    var {tableData, columns} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [isCommentsModalVisible, setIsCommentsModalVisible] = useState(false);
     const [curComment, setcurComment] = useState("");
@@ -146,13 +146,14 @@ export default function CommentDataTable(props) {
                     className = {style.header}
                     columns = {columns}
                     dataSource = {tableData}
-                    loading = {tableDataLoading}
                 >
                 </Table>                         
             </div>
             
     )
 }
+
+export default React.memo(CommentDataTable)
 
 
 

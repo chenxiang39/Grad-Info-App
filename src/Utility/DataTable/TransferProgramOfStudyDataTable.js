@@ -2,8 +2,8 @@ import React from 'react';
 import { Table} from 'antd';
 import style from './DataTable.module.less'
 import 'antd/dist/antd.less';
-export default function TransferProgramOfStudyDataTable(props) {
-    var {tableData, columns, tableDataLoading} = props;
+function TransferProgramOfStudyDataTable(props) {
+    var {tableData, columns} = props;
     return (
         <div>
                 <div className = {style.tableTitle}>Transfer Program of Study</div>
@@ -11,9 +11,10 @@ export default function TransferProgramOfStudyDataTable(props) {
                     className = {style.header}
                     columns = {columns}
                     dataSource = {tableData}
-                    loading = {tableDataLoading}
                 >
                 </Table>     
         </div>
     )
 }
+
+export default React.memo(TransferProgramOfStudyDataTable)

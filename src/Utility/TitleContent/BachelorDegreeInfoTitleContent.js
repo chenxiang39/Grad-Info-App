@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './TitleContent.module.less'
-export default function BachelorDegreeInfoTitleContent(props) {
+function BachelorDegreeInfoTitleContent(props) {
     const {data} = props;
     return (
         <div className = {style.container}>
@@ -26,3 +26,5 @@ export default function BachelorDegreeInfoTitleContent(props) {
         </div>
     )
 }
+
+export default React.memo(BachelorDegreeInfoTitleContent)

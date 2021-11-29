@@ -10,7 +10,7 @@ export default function useFetchAdmissionCourseTableData(params,dependencies) {
         dataModlSaveFun : AdmissionCourseDataModel.AdmissionCourseTableDataModelArray,
         dependencies
     }
-    const [dataLoading, error] = CommonUseFetchByGet(props);
+    const [dataLoading,error] = CommonUseFetchByGet(props);
 
-    return [dataLoading, error];
+    return [dataLoading,error];
 }

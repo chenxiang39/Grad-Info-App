@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { Spin } from 'antd';
 import {useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
@@ -19,6 +19,7 @@ export default function NonCourseRelatedEvent() {
     let curStudentID = useSelector(StudentID);
     let curExamCommitteeTableData = useSelector(ExamCommitteeTableData);
     let curThesisCommitteeTableData = useSelector(ThesisCommitteeTableData);
+    const [shouldRefresh, setshouldRefresh] = useState(false);
     const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
     const [nonCourseRelatedEventTableLoading, nonCourseRelatedEventTableLoadingError] = useFetchNonCourseRelatedEventTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
     const [thesisCommitteeTableDataLoading, thesisCommitteeTableDataLoadingError] = useFetchThesisCommitteeTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
@@ -93,8 +94,18 @@ export default function NonCourseRelatedEvent() {
         tableData : curNonCourseRelatedEventTableData, 
         columns : eventColumns,
         codeDescriptionArr : codeDescription,
-        tableDataLoading : nonCourseRelatedEventTableLoading
     }
+    const renderTopDataBar = useCallback(()=>{
+        return (
+          <TopDataBar data = {curStudentPostData}></TopDataBar>
+        )
+    },[shouldRefresh,curStudentPostData])
+    const renderEventDataTable = useCallback(()=>{
+        return (
+            <EventDataTable {...EventDataTableProp}></EventDataTable>
+        )
+    },[shouldRefresh,curNonCourseRelatedEventTableData])
+    
     const examCommitteeDataTableProp = {
         tableData : curExamCommitteeTableData, 
         columns : examColumns,
@@ -108,9 +119,11 @@ export default function NonCourseRelatedEvent() {
     return (
         <div>
             <Spin spinning = {topDataBarLoading}>
-                <TopDataBar data = {curStudentPostData} />
+                {renderTopDataBar()}
             </Spin>
-            <EventDataTable {...EventDataTableProp}></EventDataTable>
+            <Spin spinning = {nonCourseRelatedEventTableLoading}>
+                {renderEventDataTable()}
+            </Spin>
             <ExamCommitteeDataTable {...examCommitteeDataTableProp}></ExamCommitteeDataTable>
             <ThesisCommitteeDataTable {...thesisCommitteeDataTableProp}></ThesisCommitteeDataTable>
         </div>

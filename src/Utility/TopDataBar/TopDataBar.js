@@ -1,7 +1,8 @@
 import React from 'react'
 import style from './TopDataBar.module.less'
 
-export default function TopDataBar(props) {
+function TopDataBar(props) {
+    console.log(props);
     const {data} = props;
     function createContent(){
         return data.map((item) => {
@@ -22,3 +23,5 @@ export default function TopDataBar(props) {
         </div>
     )
 }
+
+export default React.memo(TopDataBar);

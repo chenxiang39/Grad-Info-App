@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useCallback,useState} from 'react'
 import 'antd/dist/antd.less';
 import { Spin } from 'antd';
 import { useSelector} from 'react-redux';
@@ -20,10 +20,11 @@ export default function TransferRecords() {
     let curTransferCourseTableData = useSelector(TransferCourseTableData);
     let curTransferProgramOfStudyTableData = useSelector(TransferProgramOfStudyTableData);
     let curBachelorDegreeInfoData = useSelector(BachelorDegreeInfoData);
-    const [transferCourseDataTableLoading,transferCourseDataTableLoadingError] = useFetchTransferCourseTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
-    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
-    const [bachelorDegreeInfoLoading,bachelorDegreeInfoLoadingError] = useFetchBachelorDegreeInfo([curStudentID],[curStudentPostNumber]);
-    const [transferProgramOfStudyDataTableLoading, transferProgramOfStudyDataTableLoadingError] = useFetchTransferProgramOfStudy([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
+    const [shouldRefresh, setshouldRefresh] = useState(false);
+    const [transferCourseDataTableLoading,transferCourseDataTableLoadingError] = useFetchTransferCourseTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
+    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
+    const [bachelorDegreeInfoLoading,bachelorDegreeInfoLoadingError] = useFetchBachelorDegreeInfo([curStudentID],[curStudentPostNumber,shouldRefresh]);
+    const [transferProgramOfStudyDataTableLoading, transferProgramOfStudyDataTableLoadingError] = useFetchTransferProgramOfStudy([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
     const TransferCourseDataTableColumns = [
         {
           title: '#',
@@ -89,7 +90,6 @@ export default function TransferRecords() {
     const TransferProgramOfStudyTableProp = {
        tableData : curTransferProgramOfStudyTableData,
        columns: transferProgramOfStudyColums,
-       tableDataLoading : transferProgramOfStudyDataTableLoading
     }
     const TransferCourseDataTableProp = {
         type: "TransferCourse",
@@ -99,18 +99,42 @@ export default function TransferRecords() {
         CanBeChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemCanBeChosedArray,
         ChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemChosedArray,
         title: "Transfer Course List",
-        tableDataLoading : transferCourseDataTableLoading
     }
+    const renderTransferProgramOfStudyDataTable = useCallback(()=>{
+        return (
+          <TransferProgramOfStudyDataTable {...TransferProgramOfStudyTableProp}></TransferProgramOfStudyDataTable>
+        )
+    },[shouldRefresh,curTransferProgramOfStudyTableData])
+    const renderCourseDataTable = useCallback(()=>{
+      return (
+        <CourseDataTable {...TransferCourseDataTableProp}></CourseDataTable>
+      )
+    },[shouldRefresh,curTransferCourseTableData])
+    const renderBachelorDegreeInfoTitleContent = useCallback(()=>{
+      return (
+        <BachelorDegreeInfoTitleContent data = {curBachelorDegreeInfoData}></BachelorDegreeInfoTitleContent>
+      )
+    },[shouldRefresh,curBachelorDegreeInfoData])
+    const renderTopDataBar = useCallback(()=>{
+      return (
+        <TopDataBar data = {curStudentPostData}></TopDataBar>
+      )
+    },[shouldRefresh,curStudentPostData])
     return (
         <div>
             <Spin spinning = {topDataBarLoading}>
-                <TopDataBar data = {curStudentPostData} />
+                {renderTopDataBar()}
             </Spin>
             <Spin spinning = {bachelorDegreeInfoLoading}>
-                <BachelorDegreeInfoTitleContent data = {curBachelorDegreeInfoData}></BachelorDegreeInfoTitleContent>
+                {renderBachelorDegreeInfoTitleContent()}
             </Spin>
-            <TransferProgramOfStudyDataTable {...TransferProgramOfStudyTableProp}></TransferProgramOfStudyDataTable>
-            <CourseDataTable {...TransferCourseDataTableProp}></CourseDataTable>
+            <Spin spinning = {transferProgramOfStudyDataTableLoading}>
+                {renderTransferProgramOfStudyDataTable()}
+            </Spin>
+            <Spin spinning = {transferCourseDataTableLoading}>
+                {renderCourseDataTable()}
+            </Spin>
+            
         </div>
     )
 }
