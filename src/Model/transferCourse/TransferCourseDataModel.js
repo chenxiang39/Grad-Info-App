@@ -99,10 +99,25 @@ function TransferCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, u
     }
     return res;
 }
+function TransferCourseTableDataModelSubmitResponseDataObj(dataObj){
+    let res = {};
+    if(validate.isEmpty(dataObj)){
+        dataObj = {
+            flag:false,
+            reason:[]
+        };
+    }
+    res = {
+        flag : !!dataObj.flag ? dataObj.flag: false,
+        reason : !!dataObj.reasonList ? dataObj.reasonList: []
+    }
+    return res;
+}
 export const TransferCourseDataModel = {
     TransferCourseTableDataModelArray : TransferCourseTableDataModelArray,
     TransferCourseTableDataModelChooseDisableOrAble : TransferCourseTableDataModelChooseDisableOrAble,
     TransferCourseTableDataModelItemCanBeChosedArray : TransferCourseTableDataModelItemCanBeChosedArray,
     TransferCourseTableDataModelItemChosedArray : TransferCourseTableDataModelItemChosedArray,
-    TransferCourseTableDataModelSubmitDataObj : TransferCourseTableDataModelSubmitDataObj
+    TransferCourseTableDataModelSubmitDataObj : TransferCourseTableDataModelSubmitDataObj,
+    TransferCourseTableDataModelSubmitResponseDataObj : TransferCourseTableDataModelSubmitResponseDataObj
 }

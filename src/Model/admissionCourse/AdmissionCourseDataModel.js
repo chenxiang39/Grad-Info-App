@@ -109,7 +109,7 @@ function AdmissionCourseTableDataModelSubmitResponseDataObj(dataObj){
     }
     res = {
         flag : !!dataObj.flag ? dataObj.flag: false,
-        reason : !!dataObj.reason ? dataObj.reason: []
+        reason : !!dataObj.reasonList ? dataObj.reasonList: []
     }
     return res;
 }

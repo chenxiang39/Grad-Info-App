@@ -10,6 +10,7 @@ import {AdmissionCourseDataModel} from '../../Model/admissionCourse/AdmissionCou
 import {TransferCourseDataModel} from '../../Model/transferCourse/TransferCourseDataModel'
 import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
 import { postAdmissionCourseTableDataByNewArr } from '../../Api/admissionCourse';
+import { postTransferCourseTableDataByNewArr} from '../../Api/transferCourse'
 function CourseDataTable(props) {
     var {title,tableData, columns, type, mainPageShouldRefresh, ChosedArray,CanBeChosedArray, ChooseDisableOrAble} = props;
     var DefaultChooseData = ChosedArray(tableData);
@@ -66,7 +67,6 @@ function CourseDataTable(props) {
         let res = [];
         for(let i = 0; i < currentcheckedHistoryArr.length; i++){
             let item = currentcheckedHistoryArr[i];
-            console.log(item);
             let obj = (
                 <div key = {item + i} className = {style.historyItem}>
                      {`Course ${item.course} was ${item.apply ? "applied":"unapplied"} by ${item.oper} on ${item.transactiondate}`}
@@ -97,7 +97,6 @@ function CourseDataTable(props) {
         }
         if(type === "AdmissionCourse"){
             let requestBody = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj,curUserInfo);
-            console.log(requestBody);
             let ConfrimProps = {
                 content: `${selectedRows.length} course(s) will be applied.`,
                 responseDataModelFun : AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitResponseDataObj,
@@ -106,19 +105,17 @@ function CourseDataTable(props) {
                 mainPageShouldRefresh
             }
             SubmitConfirm({...ConfrimProps});
-            // let requestBody = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj,curUserInfo.useroper);
-            // let ConfrimProps = {
-            //     content: `${selectedRows.length} course(s) will be applied.`,
-            //     responseDataModelFun : AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitResponseDataObj,
-            //     requestBody,
-            //     fetchDataFun: postAdmissionCourseTableDataByNewArr,
-            //     mainPageShouldRefresh
-            // }
-            // SubmitConfirm({...ConfrimProps});
         }
         else if(type === "TransferCourse"){
             let requestBody = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo);
-            console.log(requestBody);
+            let ConfrimProps = {
+                content: `${selectedRows.length} course(s) will be applied.`,
+                responseDataModelFun : TransferCourseDataModel.TransferCourseTableDataModelSubmitResponseDataObj,
+                requestBody,
+                fetchDataFun: postTransferCourseTableDataByNewArr,
+                mainPageShouldRefresh
+            }
+            SubmitConfirm({...ConfrimProps});
         }
     }
     const rowSelection = {

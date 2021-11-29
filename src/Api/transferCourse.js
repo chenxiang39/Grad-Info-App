@@ -20,3 +20,9 @@ export const getBachelorDegreeInfoByID = async (studentID) => {
     const data = await response.data;
     return data;
 }
+
+export const postTransferCourseTableDataByNewArr = async (dataObj) => {
+    const response = await axios.post(`${ipAddress}/transfer/postTransferCourseTableDataByNewArr`, dataObj);
+    const data = await response.data;
+    return data;
+}
