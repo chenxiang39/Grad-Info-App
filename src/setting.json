@@ -3,6 +3,6 @@
         "ReduxDevTool": false
     },
     "Api": {
-        "ServerIP" : "http://gradinfoserver.us-east-1.elasticbeanstalk.com"
+        "ServerIP" : "https://gradinfoserver.us-east-1.elasticbeanstalk.com"
     }
 }
