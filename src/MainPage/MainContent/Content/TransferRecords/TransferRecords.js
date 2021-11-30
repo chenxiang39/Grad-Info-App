@@ -87,10 +87,7 @@ export default function TransferRecords() {
           dataIndex: 'attendanceDate'
         }
     ];
-    const TransferProgramOfStudyTableProp = {
-       tableData : curTransferProgramOfStudyTableData,
-       columns: transferProgramOfStudyColums,
-    }
+   
     const TransferCourseDataTableProp = {
         type: "TransferCourse",
         tableData : curTransferCourseTableData, 
@@ -100,16 +97,21 @@ export default function TransferRecords() {
         ChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemChosedArray,
         title: "Transfer Course List",
     }
-    const renderTransferProgramOfStudyDataTable = useCallback(()=>{
-        return (
-          <TransferProgramOfStudyDataTable {...TransferProgramOfStudyTableProp}></TransferProgramOfStudyDataTable>
-        )
-    },[shouldRefresh,curTransferProgramOfStudyTableData])
     const renderCourseDataTable = useCallback(()=>{
       return (
         <CourseDataTable {...TransferCourseDataTableProp}></CourseDataTable>
       )
     },[shouldRefresh,curTransferCourseTableData])
+    const TransferProgramOfStudyTableProp = {
+      tableData : curTransferProgramOfStudyTableData,
+      columns: transferProgramOfStudyColums,
+   }
+    const renderTransferProgramOfStudyDataTable = useCallback(()=>{
+        return (
+          <TransferProgramOfStudyDataTable {...TransferProgramOfStudyTableProp}></TransferProgramOfStudyDataTable>
+        )
+    },[shouldRefresh,curTransferProgramOfStudyTableData])
+   
     const renderBachelorDegreeInfoTitleContent = useCallback(()=>{
       return (
         <BachelorDegreeInfoTitleContent data = {curBachelorDegreeInfoData}></BachelorDegreeInfoTitleContent>
