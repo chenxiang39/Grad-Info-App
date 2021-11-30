@@ -109,13 +109,21 @@ export default function NonCourseRelatedEvent() {
     const examCommitteeDataTableProp = {
         tableData : curExamCommitteeTableData, 
         columns : examColumns,
-        tableDataLoading : examCommitteeTableDataLoading
     }
+    const renderExamCommitteeDataTable = useCallback(()=>{
+        return (
+            <ExamCommitteeDataTable {...examCommitteeDataTableProp}></ExamCommitteeDataTable>
+        )
+    },[shouldRefresh,curExamCommitteeTableData])
     const thesisCommitteeDataTableProp = {
         tableData : curThesisCommitteeTableData, 
         columns : thesisColumns,
-        tableDataLoading: thesisCommitteeTableDataLoading
     }
+    const renderThesisCommitteeDataTable = useCallback(()=>{
+        return (
+            <ThesisCommitteeDataTable {...thesisCommitteeDataTableProp}></ThesisCommitteeDataTable>
+        )
+    },[shouldRefresh,curThesisCommitteeTableData])
     return (
         <div>
             <Spin spinning = {topDataBarLoading}>
@@ -124,8 +132,12 @@ export default function NonCourseRelatedEvent() {
             <Spin spinning = {nonCourseRelatedEventTableLoading}>
                 {renderEventDataTable()}
             </Spin>
-            <ExamCommitteeDataTable {...examCommitteeDataTableProp}></ExamCommitteeDataTable>
-            <ThesisCommitteeDataTable {...thesisCommitteeDataTableProp}></ThesisCommitteeDataTable>
+            <Spin spinning = {examCommitteeTableDataLoading}>
+                {renderExamCommitteeDataTable()}
+            </Spin>
+            <Spin spinning = {thesisCommitteeTableDataLoading}>
+                {renderThesisCommitteeDataTable()}
+            </Spin>
         </div>
     )
 }
