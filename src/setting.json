@@ -1,6 +1,6 @@
 {
     "Dev": {
-        "ReduxDevTool": true
+        "ReduxDevTool": false
     },
     "Api": {
         "ServerIP" : "http://gradinfoserver.us-east-1.elasticbeanstalk.com"
