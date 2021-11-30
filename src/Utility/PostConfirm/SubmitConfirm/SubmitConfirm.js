@@ -30,6 +30,7 @@ export default function SubmitConfirm(props){
                     mainPageShouldRefresh(state => !state);
                 }
             }catch(error){
+                console.log(error);
                 message.error("Network is broken !")
             }
         },

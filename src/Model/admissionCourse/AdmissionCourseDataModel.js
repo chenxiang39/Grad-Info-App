@@ -88,7 +88,7 @@ function AdmissionCourseTableDataModelSubmitDataObj(appliedArr, studentInfoObj, 
     };
     for(let i = 0; i < appliedArr.length; i++){
         let curObj = {
-            adCourseId : !!appliedArr[i].id ? appliedArr[i].id : ""
+            courseId : !!appliedArr[i].id ? appliedArr[i].id : ""
         }
         courselist.push(curObj);
     }

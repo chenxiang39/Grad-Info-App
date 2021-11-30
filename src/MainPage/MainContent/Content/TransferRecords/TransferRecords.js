@@ -96,6 +96,7 @@ export default function TransferRecords() {
         CanBeChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemCanBeChosedArray,
         ChosedArray: TransferCourseDataModel.TransferCourseTableDataModelItemChosedArray,
         title: "Transfer Course List",
+        mainPageShouldRefresh: setshouldRefresh
     }
     const renderCourseDataTable = useCallback(()=>{
       return (
