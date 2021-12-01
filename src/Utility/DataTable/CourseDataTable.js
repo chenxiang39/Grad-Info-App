@@ -131,8 +131,8 @@ function CourseDataTable(props) {
                     key = "historyCheck"
                     centered
                     visible={isHistoryModalVisible} 
-                    closable={true}
                     onCancel = {handleHistoryModalOk}
+                    maskClosable = {false}
                     title = {[
                         <div key = "checkHistoryTitle" className = {style.modalTitle} >APPLY HISTORY</div>
                     ]}

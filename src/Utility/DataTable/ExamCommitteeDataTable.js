@@ -3,7 +3,7 @@ import { Table, Input, Button, Modal, Form, Select} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
-export default function ExamCommitteeDataTable(props) {
+function ExamCommitteeDataTable(props) {
     var {tableData, columns} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
@@ -90,6 +90,7 @@ export default function ExamCommitteeDataTable(props) {
                     visible={isAddModalVisible} 
                     onCancel = {handleAddModalCancel}
                     onOk = {handleAddModalOk}
+                    maskClosable = {false}
                     title = {[
                         <div key = "addEventTitle" className = {style.modalTitle} >ADD COMMITTEE</div>
                     ]}
@@ -113,3 +114,5 @@ export default function ExamCommitteeDataTable(props) {
             
     )
 }
+
+export default React.memo(ExamCommitteeDataTable)

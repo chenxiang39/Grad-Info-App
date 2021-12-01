@@ -93,6 +93,7 @@ function CommentDataTable(props) {
                     }
                     className = {style.textArea}
                     value = {curComment}
+                    maskClosable = {false}
                     onChange = {(e) => setcurComment(e.target.value)}
                 ></TextArea>  
           </Form>
@@ -109,10 +110,11 @@ function CommentDataTable(props) {
                 </Button>
                 <Modal 
                     key = "addEvent"
-                    centered
+                    centered          
                     visible={isAddModalVisible} 
                     onCancel = {handleAddModalCancel}
                     onOk = {handleAddModalOk}
+                    maskClosable = {false}
                     title = {[
                         <div key = "addEventTitle" className = {style.modalTitle} >ADD COMMENT</div>
                     ]}
@@ -132,6 +134,7 @@ function CommentDataTable(props) {
                     visible={isCommentsModalVisible} 
                     onCancel = {handleCommentModalCancel}
                     onOk = {handleCommentModalCancel}
+                    maskClosable = {false}
                     title = {[
                         <div key = "addEventTitle" className = {style.modalTitle} >COMMENT</div>
                     ]}

@@ -62,15 +62,6 @@ function EventDataTable(props) {
         setCode(value);
         setDescription(props.codeDescriptionArr[value])
     }
-    const handleRelatedSemster = (value) =>{
-        setRelatedSemster(value);
-    }
-    const handleRelatedYear = (value) => {
-        setRelatedYear(moment(value).valueOf())
-    }
-    const handleDate = (value) =>{
-        setEventDate(moment(value).valueOf());
-    }
     const AddModalForm = () => {
         const selectCodeOptionSelect = selectCodeOption.map((item) => {
             return (
@@ -108,12 +99,12 @@ function EventDataTable(props) {
                  allowClear = {false}
                  placeholder = "Year"
                  style={{ width: 120 }}
-                 onChange = {handleRelatedYear}
+                 onChange = {(value) => setRelatedYear(moment(value).valueOf())}
                  picker="year"/>
                 <Select
                     style={{ width: 100 }}
                     placeholder="Semster"
-                    onChange = {handleRelatedSemster}
+                    onChange = {(value) => setRelatedSemster(value)}
                 >
                     {selectSemsterOption}
                 </Select>
@@ -121,7 +112,7 @@ function EventDataTable(props) {
             <Form.Item label="Date">
               <DatePicker 
                 allowClear = {false}
-                onChange={handleDate}/>
+                onChange={(value) => setEventDate(moment(value).valueOf())}/>
             </Form.Item>
           </Form>
         )
@@ -140,6 +131,7 @@ function EventDataTable(props) {
                     visible={isAddModalVisible} 
                     onCancel = {handleAddModalCancel}
                     onOk = {handleAddModalOk}
+                    maskClosable = {false}
                     title = {[
                         <div key = "addEventTitle" className = {style.modalTitle} >ADD EVENT</div>
                     ]}

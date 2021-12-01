@@ -143,6 +143,7 @@ export default function StarExceptionDataTable(props) {
                     visible={isAddModalVisible} 
                     onCancel = {handleAddModalCancel}
                     onOk = {handleAddModalOk}
+                    maskClosable = {false}
                     title = {[
                         <div key = "addException" className = {style.modalTitle} >ADD EXCEPTION</div>
                     ]}

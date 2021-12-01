@@ -3,6 +3,18 @@
 1. Install [NodeJS](https://nodejs.org/en/)
 2. Install [Yarn](https://yarnpkg.com/getting-started/install)
 
+
+## MacOS User (need lower version)
+
+```
+sudo npm install -g n
+```
+
+
+```
+sudo n 16.6.2
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

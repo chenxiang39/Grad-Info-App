@@ -4,7 +4,7 @@ import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less';
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel';
-export default function ThesisCommitteeDataTable(props) {
+function ThesisCommitteeDataTable(props) {
     var {tableData, columns} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
@@ -132,6 +132,7 @@ export default function ThesisCommitteeDataTable(props) {
                     visible={isAddModalVisible} 
                     onCancel = {handleAddModalCancel}
                     onOk = {handleAddModalOk}
+                    maskClosable = {false}
                     title = {[
                         <div key = "addEventTitle" className = {style.modalTitle} >ADD COMMITTEE</div>
                     ]}
@@ -151,6 +152,7 @@ export default function ThesisCommitteeDataTable(props) {
                     visible={isPaperTitleModalVisible} 
                     onCancel = {handlePaperTitleModalOk}
                     onOk = {handlePaperTitleModalOk}
+                    maskClosable = {false}
                     title = {[
                         <div key = "paperTitle" className = {style.modalTitle} >PAPER TITLE</div>
                     ]}
@@ -171,3 +173,5 @@ export default function ThesisCommitteeDataTable(props) {
             
     )
 }
+
+export default React.memo(ThesisCommitteeDataTable)
