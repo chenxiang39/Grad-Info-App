@@ -111,7 +111,7 @@ function ThesisCommitteeDataTable(props) {
                     <Input
                         // style={{ width: 120 }}
                         value = {curPaperTitle}
-                        onChange = {(e) => setcurCheckPaperTitle(e.target.value)}
+                        onChange = {(e) => setcurPaperTitle(e.target.value)}
                     ></Input>
                 </Form.Item>
             </Form>
