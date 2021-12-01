@@ -77,7 +77,7 @@ function EventDataTable(props) {
         return (
             <Form
                 labelCol={{
-                span: 4,
+                span: 5,
                 }}
                 wrapperCol={{
                 span: 14,
