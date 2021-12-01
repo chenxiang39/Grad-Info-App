@@ -126,18 +126,18 @@ export default function NonCourseRelatedEvent() {
     },[shouldRefresh,curThesisCommitteeTableData])
     return (
         <div>
-            <Spin spinning = {topDataBarLoading}>
+            {/* <Spin spinning = {topDataBarLoading}> */}
                 {renderTopDataBar()}
-            </Spin>
-            <Spin spinning = {nonCourseRelatedEventTableLoading}>
+            {/* </Spin> */}
+            {/* <Spin spinning = {nonCourseRelatedEventTableLoading}> */}
                 {renderEventDataTable()}
-            </Spin>
-            <Spin spinning = {examCommitteeTableDataLoading}>
+            {/* </Spin> */}
+            {/* <Spin spinning = {examCommitteeTableDataLoading}> */}
                 {renderExamCommitteeDataTable()}
-            </Spin>
-            <Spin spinning = {thesisCommitteeTableDataLoading}>
+            {/* </Spin> */}
+            {/* <Spin spinning = {thesisCommitteeTableDataLoading}> */}
                 {renderThesisCommitteeDataTable()}
-            </Spin>
+            {/* </Spin> */}
         </div>
     )
 }

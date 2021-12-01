@@ -44,9 +44,9 @@ export default function Comment(){
     },[shouldRefresh,curCommentTableData])
    return (
         <div className = {style.container}>
-            <Spin spinning = {commentDataTableLoading}>
+            {/* <Spin spinning = {commentDataTableLoading}> */}
                 {renderCourseDataTable()}
-            </Spin>
+            {/* </Spin> */}
         </div>
     )
 }
