@@ -7,7 +7,7 @@ export default function useFetchCommentTableData(params,dependencies) {
         params,
         apiFun: getCommentsTableDataByIDAndPostNumber,
         dispatchSaveFun : SaveCommentTableData,
-        dataModlSaveFun : CommentDataModel.CommentDataModelArray,
+        dataModelSaveFun : CommentDataModel.CommentDataModelArray,
         dependencies : dependencies
     }
     const [dataLoading, error] = CommonUseFetchByGet(props);

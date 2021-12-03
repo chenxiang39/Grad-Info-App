@@ -7,7 +7,7 @@ export default function useFetchThesisCommitteeTableData(params, dependencies) {
         params,
         apiFun: getThesisCommitteeTableDataByIDAndPostNumber,
         dispatchSaveFun : SaveThesisCommitteeTableData,
-        dataModlSaveFun : CommitteeDataModel.thesisCommitteeDataModelArr,
+        dataModelSaveFun : CommitteeDataModel.thesisCommitteeDataModelArr,
         dependencies
     }
     const [dataLoading, error] = CommonUseFetchByGet(props);

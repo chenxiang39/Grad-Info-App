@@ -7,7 +7,7 @@ export default function useFetchStudentPostData(params, dependencies) {
         params,
         apiFun: getStudentPostDataByStudentIDAndPostNumber,
         dispatchSaveFun : SaveStudentPostData,
-        dataModlSaveFun : StudentPostDataModel.StudentPostDataModelObjFinal,
+        dataModelSaveFun : StudentPostDataModel.StudentPostDataModelObjFinal,
         dependencies
     }
     const [dataLoading, error] = CommonUseFetchByGet(props);

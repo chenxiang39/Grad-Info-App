@@ -7,7 +7,7 @@ export default function useFetchTransferProgramOfStudy(params, dependencies) {
         params,
         apiFun: getTransferProgramOfStudyByIDAndPostNumber,
         dispatchSaveFun : SaveTransferProgramOfStudyTableData,
-        dataModlSaveFun : TransferProgramOfStudyDataModel.TransferProgramOfStudyDataModelArr,
+        dataModelSaveFun : TransferProgramOfStudyDataModel.TransferProgramOfStudyDataModelArr,
         dependencies
     }
     const [dataLoading, error] = CommonUseFetchByGet(props);

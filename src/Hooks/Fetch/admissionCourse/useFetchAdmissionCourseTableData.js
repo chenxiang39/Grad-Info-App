@@ -7,7 +7,7 @@ export default function useFetchAdmissionCourseTableData(params,dependencies) {
         params,
         apiFun: getAdmissionCourseTableDataByIDAndPostNumber,
         dispatchSaveFun : SaveAdmissionCourseTableData,
-        dataModlSaveFun : AdmissionCourseDataModel.AdmissionCourseTableDataModelArray,
+        dataModelSaveFun : AdmissionCourseDataModel.AdmissionCourseTableDataModelArray,
         dependencies
     }
     const [dataLoading, error] = CommonUseFetchByGet(props);

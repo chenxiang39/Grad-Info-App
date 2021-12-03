@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch} from 'react-redux';
 export default function CommonUseFetchByGet(props) {
     //https://www.robinwieruch.de/react-hooks-fetch-data/
-    const {params, apiFun,dispatchSaveFun, dataModlSaveFun, dependencies} = props;
+    const {params, apiFun,dispatchSaveFun, dataModelSaveFun, dependencies} = props;
     const dispatch = useDispatch();
     const [dataLoading, setdataLoading] = useState(false);
     const [error, seterror] = useState("");
@@ -11,7 +11,7 @@ export default function CommonUseFetchByGet(props) {
         setdataLoading(true);
         apiFun(...params).then((res) => {
             if(!didCancel){
-                dispatch(dispatchSaveFun(dataModlSaveFun(res)));
+                dispatch(dispatchSaveFun(dataModelSaveFun(res)));
                 setdataLoading(false);
             }
         }, 

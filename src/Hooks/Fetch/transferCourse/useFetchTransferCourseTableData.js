@@ -7,7 +7,7 @@ export default function useFetchTransferCourseTableData(params, dependencies) {
         params,
         apiFun: getTransferCourseTableDataByIDAndPostNumber,
         dispatchSaveFun : SaveTransferCourseTableData,
-        dataModlSaveFun : TransferCourseDataModel.TransferCourseTableDataModelArray,
+        dataModelSaveFun : TransferCourseDataModel.TransferCourseTableDataModelArray,
         dependencies
     }
     const [dataLoading, error] = CommonUseFetchByGet(props);
