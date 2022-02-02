@@ -26,6 +26,7 @@ function AdmissionCourseTableDataModelArray(tableData){
             key : i + 1,
             id: !!tableData[i].adCourseId ? tableData[i].adCourseId : "",
             course : !!tableData[i].adCourseName ? tableData[i].adCourseName : "",
+            courseNumber: !!tableData[i].adCourseNumber ? tableData[i].adCourseNumber : "",
             term : !!tableData[i].adCourseTerm ? tableData[i].adCourseTerm : "",
             grade : !!tableData[i].adCourseGrade ? tableData[i].adCourseGrade : "",
             units : !!tableData[i].adCourseUnits ? tableData[i].adCourseUnits.toFixed(2) : 0.00,

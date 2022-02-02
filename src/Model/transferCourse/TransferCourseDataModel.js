@@ -26,6 +26,8 @@ function TransferCourseTableDataModelArray(tableData){
             key : i + 1,
             id : !!tableData[i].trCourseId ? tableData[i].trCourseId : "",
             course : !!tableData[i].trCourseName ? tableData[i].trCourseName : "",
+            courseNumber: !!tableData[i].trCourseNumber ? tableData[i].trCourseNumber : "",
+            level : !!tableData[i].trCourseLevel ? tableData[i].trCourseLevel : "500",
             term : !!tableData[i].trCourseTerm ? tableData[i].trCourseTerm : "",
             grade : !!tableData[i].trCourseGrade ? tableData[i].trCourseGrade : "",
             units : !!tableData[i].trCourseUnits ? tableData[i].trCourseUnits.toFixed(2) : 0.00,

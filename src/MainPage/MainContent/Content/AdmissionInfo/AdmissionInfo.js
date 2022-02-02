@@ -9,11 +9,11 @@ import {AdmissionCourseTableData} from '../../../../Redux/Slices/AdmissionCourse
 import useFetchAdmissionCourseTableData from '../../../../Hooks/Fetch/admissionCourse/useFetchAdmissionCourseTableData';
 import useFetchStudentPostData from '../../../../Hooks/Fetch/studentInfo/useFetchStudentPostData';
 export default function AdmissionInfo() {
-      const [shouldRefresh, setshouldRefresh] = useState(false);
       let curStudentPostData = useSelector(StudentPostData);
       let curStudentPostNumber = useSelector(StudentPostNumber);
       let curStudentID = useSelector(StudentID);
       let curAdmissionCourseTableData = useSelector(AdmissionCourseTableData);
+      const [shouldRefresh, setshouldRefresh] = useState(false);
       const [tableDataLoading, tableDataLoadingError] = useFetchAdmissionCourseTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
       const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
       const AdmissionTableDataColumns = [
@@ -24,7 +24,7 @@ export default function AdmissionInfo() {
         },
         {
           title: 'COURSE',
-          dataIndex: 'course',
+          dataIndex: 'courseNumber',
         },
         {
           title: 'TERM',

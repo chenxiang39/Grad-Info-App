@@ -1,16 +1,21 @@
-import validate  from "validate.js";
-function BechelorDegreeInfoDataModelObj(dataObj){
-    if(validate.isEmpty(dataObj)){
-        dataObj = {};
+var validate = require("validate.js");
+function BechelorDegreeInfoDataModelArr(dataArr){
+    let arr = [];
+    let newArr = [];
+    if(!validate.isEmpty(dataArr.bachelorDegreeList)){
+        newArr = dataArr.bachelorDegreeList;
+    } 
+    for(let i = 0; i < newArr.length; i++){
+        let curobj = {
+            key : i + 1,
+            ceeb : !!newArr[i].sbCeeb ? newArr[i].sbCeeb: "",
+            institutionName : !!newArr[i].sbName ? newArr[i].sbName: "",
+            attendanceDate : !!newArr[i].sbDateEarned ? newArr[i].sbDateEarned: "",
+        }
+        arr.push(curobj);
     }
-    let curobj = {
-        ceeb : !!dataObj.sbCeeb ? dataObj.sbCeeb : "",
-        institutionName: !!dataObj.sbName ? dataObj.sbName : "",
-        dateEarned: !!dataObj.sbDateEarned ? dataObj.sbDateEarned : "",
-    }
-    return curobj;
+    return arr;
 }
-
 export const BachelorDegreeInfoDataModel = {
-    BechelorDegreeInfoDataModelObj : BechelorDegreeInfoDataModelObj
+    BechelorDegreeInfoDataModelArr : BechelorDegreeInfoDataModelArr
 }

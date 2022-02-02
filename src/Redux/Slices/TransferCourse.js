@@ -7,7 +7,7 @@ export const TransferCourseSlice = createSlice({
     initialState:{
         transferCourseTableData:TransferCourseDataModel.TransferCourseTableDataModelArray([]),
         transferProgramOfStudyTableData: TransferProgramOfStudyDataModel.TransferProgramOfStudyDataModelArr([]),
-        bachelorDegreeInfoData: BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelObj({})
+        bachelorDegreeInfoData: BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelArr([])
     },
     reducers: {
         SaveTransferCourseTableData: (state,action) =>{

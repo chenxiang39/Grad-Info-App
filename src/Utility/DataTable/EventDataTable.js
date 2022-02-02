@@ -8,13 +8,13 @@ import style from './DataTable.module.less'
 import moment from 'moment';
 import { NonCourseRelatedEventDataModel } from '../../Model/nonCourseRelatedEvent/NonCourseRelatedEventDataModel';
 function EventDataTable(props) {
-    var {tableData, columns} = props;
+    var {tableData, columns,codeDescriptionArr} = props;
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
     var selectCodeOption = [];
-    for(let key in props.codeDescriptionArr){
-        selectCodeOption.push(key);
+    for(let key in codeDescriptionArr){
+        selectCodeOption.push(key + " : " + codeDescriptionArr[key]);
     }
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [code, setCode] = useState(""); 
@@ -50,7 +50,6 @@ function EventDataTable(props) {
             studentPostNumber: curStudentPostNumber
         }
         let a = NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelSubmitDataObj(obj,studentInfoObj);
-        console.log(a);
         cleanState();
         setisAddModalVisible(false);
     }
@@ -59,8 +58,13 @@ function EventDataTable(props) {
         setisAddModalVisible(false);
     }
     const handleCodeChange = (value) =>{
-        setCode(value);
-        setDescription(props.codeDescriptionArr[value])
+        let dataArr = value.split(":");
+        let code = dataArr[0].substring(0, dataArr[0].length - 1);
+        setCode(code);
+        setDescription(codeDescriptionArr[code])
+    }
+    const filterAddEventOption = (input, option) =>{
+        return option.children.toLowerCase().indexOf(input.toLowerCase()) === 0
     }
     const AddModalForm = () => {
         const selectCodeOptionSelect = selectCodeOption.map((item) => {
@@ -86,7 +90,9 @@ function EventDataTable(props) {
             >
             <Form.Item label="Code">
               <Select 
+                showSearch
                 value = {code}
+                filterOption = {filterAddEventOption}
                 onChange = {handleCodeChange}>
                 {selectCodeOptionSelect}
               </Select>

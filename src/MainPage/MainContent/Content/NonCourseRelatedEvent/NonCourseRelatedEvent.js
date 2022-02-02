@@ -3,6 +3,7 @@ import { Spin } from 'antd';
 import {useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
 import {codeDescription} from '../../../../Constant/codeDescription'
+import {committee} from '../../../../Constant/committee'
 import {StudentID, StudentPostData, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
 import {NonCourseRelatedEventTableData, ExamCommitteeTableData,ThesisCommitteeTableData} from '../../../../Redux/Slices/NonCourseRelatedEvent'
 import EventDataTable from '../../../../Utility/DataTable/EventDataTable';
@@ -55,7 +56,7 @@ export default function NonCourseRelatedEvent() {
             dataIndex: 'committeeChar',
         },
         {
-            title: 'PAPER TITLE',
+            title: 'THESIS/DISSERTATION TITLE',
             dataIndex: 'paperTitle',
         },
     ]  
@@ -109,6 +110,7 @@ export default function NonCourseRelatedEvent() {
     const examCommitteeDataTableProp = {
         tableData : curExamCommitteeTableData, 
         columns : examColumns,
+        committee : committee
     }
     const renderExamCommitteeDataTable = useCallback(()=>{
         return (
@@ -118,6 +120,7 @@ export default function NonCourseRelatedEvent() {
     const thesisCommitteeDataTableProp = {
         tableData : curThesisCommitteeTableData, 
         columns : thesisColumns,
+        committee : committee
     }
     const renderThesisCommitteeDataTable = useCallback(()=>{
         return (

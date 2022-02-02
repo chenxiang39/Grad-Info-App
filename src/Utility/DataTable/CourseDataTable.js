@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react'
-import { Table,Button, Modal} from 'antd';
+import { Table,Button, Modal, Tag} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import { InfoOutlined} from '@ant-design/icons';
@@ -37,6 +37,26 @@ function CourseDataTable(props) {
     const handleHistoryModalOk = () => {
         setisHistoryModalVisible(false);
     };
+
+    const changeApplyCodeColumn = () =>{
+        columns = columns.map((item) => {
+            let ApplyCodeContent = {
+                render: applyCode => {
+                    if(applyCode !== "Y" && applyCode !== "N"){
+                        return (
+                            <div>{applyCode}</div>
+                        )
+                    }
+                }
+            }
+            if(item.dataIndex === "applyCode"){
+                return {...item,...ApplyCodeContent};
+            }
+            else{
+                return item;
+            }
+        })
+    }
     const addHistoryColumn = () =>{
         columns = columns.map((item) => {
             let historyContent = {
@@ -124,6 +144,7 @@ function CourseDataTable(props) {
         getCheckboxProps: (record) => ChooseDisableOrAble(record)
     };
     addHistoryColumn();
+    changeApplyCodeColumn();
     return (
             <div>
                 <div className = {style.tableTitle}>{!!title ? title : null}</div>

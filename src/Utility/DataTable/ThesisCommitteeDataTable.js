@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Table, Input, Button, Modal, Form, Select} from 'antd';
-import { FileTextOutlined } from '@ant-design/icons';
+import { FileTextOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less';
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel';
 function ThesisCommitteeDataTable(props) {
-    var {tableData, columns} = props;
+    const { confirm } = Modal;
+    var {tableData, columns,committee} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
@@ -20,6 +21,23 @@ function ThesisCommitteeDataTable(props) {
     const handleAdd = () =>{
         setisAddModalVisible(true);
     }
+    function showConfirm(obj) {
+        confirm({
+          title: 'Do you want to submit? ',
+          icon: <ExclamationCircleOutlined />,
+          content: `Thesis/Dissertation title: ${obj.paperTitle}`,
+          onOk() {
+            let realObj = CommitteeDataModel.thesisCommitteeDataModelObj(obj);
+            console.log(realObj);
+            //save 
+            cleanState();
+            setisAddModalVisible(false);
+          },
+          onCancel() {
+            
+          },
+        });
+    }
     const handleAddModalOk = () =>{
         let obj = {
             committeeName: curCommitteeName,
@@ -30,11 +48,8 @@ function ThesisCommitteeDataTable(props) {
             alert("You must add all of items!");
             return;
         }
-        let realObj = CommitteeDataModel.thesisCommitteeDataModelObj(obj);
-        console.log(realObj);
-        //save 
-        cleanState();
-        setisAddModalVisible(false);
+        showConfirm(obj);
+        
     }
     const handleAddModalCancel = () =>{
         cleanState();
@@ -47,6 +62,20 @@ function ThesisCommitteeDataTable(props) {
     const handlePaperTitleModalOk = ()=> {
         setIsPaperTitleModalVisible(false);
     }
+    const changeCommitteeChar = (value) => {
+        setcurCommitteeChar(value);
+    }
+    const changeCommitteeName = (value) =>{
+        setcurCommitteeName(value);
+    }
+    const filterCommitteeNameOption = (input, option) =>{
+        return option.children.toLowerCase().indexOf(input.toLowerCase()) === 0
+    }
+    const selectCommitteeOptionSelect = committee.map((item) => {
+        return (
+            <Select.Option key = {item} value = {item}>{item}</Select.Option>
+        )
+    })
     const addPaperTitleColumn = () =>{
         columns = columns.map((item) => {
             let PaperTitlesContent = {
@@ -93,21 +122,24 @@ function ThesisCommitteeDataTable(props) {
                 layout="horizontal"
             >
                 <Form.Item label= "Name: ">
-                    <Input
-                        value = {curCommitteeName}
-                        onChange = {(e) => setcurCommitteeName(e.target.value)}
-                    ></Input>
+                <Select 
+                    showSearch
+                    value = {curCommitteeName}
+                    filterOption = {filterCommitteeNameOption}
+                    onChange = {changeCommitteeName}>
+                    {selectCommitteeOptionSelect}
+                </Select>
                 </Form.Item>
                 <Form.Item label= "Title: ">
                     <Select
                         style={{ width: 130 }}
                         value = {curCommitteeChar}
-                        onChange = {(value) => setcurCommitteeChar(value)}
+                        onChange = {changeCommitteeChar}
                     >
                         {selectCharOption}
                     </Select>
                 </Form.Item>
-                <Form.Item label= "Paper Title: ">
+                <Form.Item label= "T/D Title: ">
                     <Input
                         // style={{ width: 120 }}
                         value = {curPaperTitle}

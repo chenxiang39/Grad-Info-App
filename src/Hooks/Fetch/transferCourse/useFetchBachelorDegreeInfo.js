@@ -7,7 +7,7 @@ export default function useFetchBachelorDegreeInfo(params, dependencies) {
         params,
         apiFun: getBachelorDegreeInfoByID,
         dispatchSaveFun : SaveBachelorDegreeInfoData,
-        dataModelSaveFun : BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelObj,
+        dataModelSaveFun : BachelorDegreeInfoDataModel.BechelorDegreeInfoDataModelArr,
         dependencies
     }
     const [dataLoading, error] = CommonUseFetchByGet(props);

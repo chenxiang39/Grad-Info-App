@@ -4,7 +4,7 @@ import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
 function ExamCommitteeDataTable(props) {
-    var {tableData, columns} = props;
+    var {tableData, columns,committee} = props;
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
@@ -34,12 +34,20 @@ function ExamCommitteeDataTable(props) {
         cleanState();
         setisAddModalVisible(false);
     }
-    const changeCommitteeName = (e) =>{
-        setcurCommitteeName(e.target.value);
+    const changeCommitteeName = (value) =>{
+        setcurCommitteeName(value);
     }
     const changeCommitteeChar = (value) =>{
         setcurCommitteeChar(value);
     }
+    const filterCommitteeNameOption = (input, option) =>{
+        return option.children.toLowerCase().indexOf(input.toLowerCase()) == 0
+    }
+    const selectCommitteeOptionSelect = committee.map((item) => {
+        return (
+            <Select.Option key = {item} value = {item}>{item}</Select.Option>
+        )
+    })
     const AddCOMMITTEEModal = () =>{
         let char = ["CHAIR","CO-CHAIR","MEMBER"];
         const selectCharOption = char.map((item) => {
@@ -58,10 +66,13 @@ function ExamCommitteeDataTable(props) {
                 layout="horizontal"
             >
             <Form.Item label= "Name: ">
-                <Input
+                <Select 
+                    showSearch
                     value = {curCommitteeName}
-                    onChange = {changeCommitteeName}
-                ></Input>
+                    filterOption = {filterCommitteeNameOption}
+                    onChange = {changeCommitteeName}>
+                    {selectCommitteeOptionSelect}
+                </Select>
             </Form.Item>
             <Form.Item label= "Title: ">
                 <Select

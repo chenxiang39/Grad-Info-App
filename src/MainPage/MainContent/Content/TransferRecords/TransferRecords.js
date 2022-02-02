@@ -5,9 +5,8 @@ import { useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
 import { TransferCourseDataModel } from '../../../../Model/transferCourse/TransferCourseDataModel';
 import CourseDataTable from '../../../../Utility/DataTable/CourseDataTable';
-import TransferProgramOfStudyDataTable from '../../../../Utility/DataTable/TransferProgramOfStudyDataTable';
-import BachelorDegreeInfoTitleContent from '../../../../Utility/TitleContent/BachelorDegreeInfoTitleContent';
 import {StudentID, StudentPostData, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
+import TitleNoAddDataTable from '../../../../Utility/DataTable/TitleNoAddDataTable';
 import {TransferCourseTableData,TransferProgramOfStudyTableData, BachelorDegreeInfoData} from '../../../../Redux/Slices/TransferCourse'
 import useFetchTransferCourseTableData from '../../../../Hooks/Fetch/transferCourse/useFetchTransferCourseTableData';
 import useFetchTransferProgramOfStudy from '../../../../Hooks/Fetch/transferCourse/useFetchTransferProgramOfStudy';
@@ -25,49 +24,25 @@ export default function TransferRecords() {
     const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
     const [bachelorDegreeInfoLoading,bachelorDegreeInfoLoadingError] = useFetchBachelorDegreeInfo([curStudentID],[curStudentPostNumber,shouldRefresh]);
     const [transferProgramOfStudyDataTableLoading, transferProgramOfStudyDataTableLoadingError] = useFetchTransferProgramOfStudy([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
-    const TransferCourseDataTableColumns = [
-        {
-          title: '#',
-          dataIndex: 'key',
-          sorter: (a,b) => a.key - b.key
-        },
-        {
-          title: 'COURSE',
-          dataIndex: 'course',
-        },
-        {
-          title: 'TERM',
-          dataIndex: 'term',
-        },
-        {
-          title: 'GRADE',
-          dataIndex: 'grade',
-        },
-        {
-            title: 'UNITS',
-            dataIndex: 'units',
-        },
-        {
-            title: 'GPTS',
-            dataIndex: 'gpts',
-        },
-        {
-            title: 'APPLY CODE',
-            dataIndex: 'applyCode',
-        },
-        {
-            title: 'OPER',
-            dataIndex: 'oper',
-        },
-        {
-            title: 'TRANSACTION DATE',
-            dataIndex: 'transactiondate',
-        },
-        {
-            title: 'HISTORY',
-            dataIndex: 'history',
-        },
-    ];   
+    const bachelorDegreeInfoColums = [
+      {
+        title: '#',
+        dataIndex: 'key',
+        sorter: (a,b) => a.key - b.key
+      },
+      {
+        title: 'CEEB',
+        dataIndex: 'ceeb',
+      },
+      {
+        title: 'INSTITUTION NAME',
+        dataIndex: 'institutionName',
+      },
+      {
+        title: 'DATE EARNING',
+        dataIndex: 'attendanceDate'
+      }
+  ]; 
     const transferProgramOfStudyColums = [
         {
           title: '#',
@@ -87,7 +62,53 @@ export default function TransferRecords() {
           dataIndex: 'attendanceDate'
         }
     ];
-   
+    const TransferCourseDataTableColumns = [
+      {
+        title: '#',
+        dataIndex: 'key',
+        sorter: (a,b) => a.key - b.key
+      },
+      {
+        title: 'COURSE',
+        dataIndex: 'courseNumber',
+      },
+      {
+        title: 'LEVEL',
+        dataIndex: 'level',
+      },
+      {
+        title: 'TERM',
+        dataIndex: 'term',
+      },
+      {
+        title: 'GRADE',
+        dataIndex: 'grade',
+      },
+      {
+          title: 'UNITS',
+          dataIndex: 'units',
+      },
+      {
+          title: 'GPTS',
+          dataIndex: 'gpts',
+      },
+      {
+          title: 'APPLY CODE',
+          dataIndex: 'applyCode',
+      },
+      {
+          title: 'OPER',
+          dataIndex: 'oper',
+      },
+      {
+          title: 'TRANSACTION DATE',
+          dataIndex: 'transactiondate',
+      },
+      {
+          title: 'HISTORY',
+          dataIndex: 'history',
+      },
+  ]; 
     const TransferCourseDataTableProp = {
         type: "TransferCourse",
         tableData : curTransferCourseTableData, 
@@ -103,21 +124,28 @@ export default function TransferRecords() {
         <CourseDataTable {...TransferCourseDataTableProp}></CourseDataTable>
       )
     },[shouldRefresh,curTransferCourseTableData])
+    const BachcelorsDegreeTableProp = {
+      tableData : curBachelorDegreeInfoData,
+      columns: bachelorDegreeInfoColums,
+      title : "Bachelors Degree Verification"
+   }
     const TransferProgramOfStudyTableProp = {
       tableData : curTransferProgramOfStudyTableData,
       columns: transferProgramOfStudyColums,
+      title : "Transfer Program of Study"
    }
+   const renderBachelorDegreeInfoTitleContent = useCallback(()=>{
+    return (
+      <TitleNoAddDataTable {...BachcelorsDegreeTableProp}></TitleNoAddDataTable>
+    )
+  },[shouldRefresh,curBachelorDegreeInfoData])
     const renderTransferProgramOfStudyDataTable = useCallback(()=>{
         return (
-          <TransferProgramOfStudyDataTable {...TransferProgramOfStudyTableProp}></TransferProgramOfStudyDataTable>
+          <TitleNoAddDataTable {...TransferProgramOfStudyTableProp}></TitleNoAddDataTable>
         )
     },[shouldRefresh,curTransferProgramOfStudyTableData])
    
-    const renderBachelorDegreeInfoTitleContent = useCallback(()=>{
-      return (
-        <BachelorDegreeInfoTitleContent data = {curBachelorDegreeInfoData}></BachelorDegreeInfoTitleContent>
-      )
-    },[shouldRefresh,curBachelorDegreeInfoData])
+    
     const renderTopDataBar = useCallback(()=>{
       return (
         <TopDataBar data = {curStudentPostData}></TopDataBar>
