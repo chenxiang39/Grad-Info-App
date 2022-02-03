@@ -1,0 +1,51 @@
+@import "../../Styles/global.less";
+
+@titleHeight : 2rem;
+.container{
+    padding-top: 3rem;
+}
+.title{
+    color: @deepRed;
+    font-family: @defaultfont;
+    font-size: 26px;
+    text-align: left;
+    height: @titleHeight;
+    line-height: @titleHeight;
+}
+.inputContainer{
+    display: flex;
+    flex-direction: column;
+    margin-top: 4rem;
+    text-align: right;
+    margin-right: 40%;
+}
+.inputTitle{
+    margin-top: 1rem;
+    font-family: @defaultfont;
+    font-size: 18px;
+}
+.input{
+    margin-left: 1rem;
+    width: 6rem;
+    color: @deepRed;
+    font-family: @defaultfont;
+    font-size: 16px;
+}
+.buttonContainer{
+    text-align: right;
+    margin-top: 5rem;
+}
+.button{
+    
+    color: white;
+    font-family: @defaultfont;
+    font-weight: bolder;
+    width: 9rem;
+    height: 3rem;
+    border: 2px solid @deepRed ;
+    border-radius: 6px;
+}
+
+.inputTitle .ant-form-item-label{
+    font-size: 20px !important;
+}
