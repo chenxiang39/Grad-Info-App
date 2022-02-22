@@ -187,7 +187,7 @@ function ThesisCommitteeDataTable(props) {
                     onOk = {handlePaperTitleModalOk}
                     maskClosable = {false}
                     title = {[
-                        <div key = "paperTitle" className = {style.modalTitle} >PAPER TITLE</div>
+                        <div key = "TDTitle: " className = {style.modalTitle} >THESIS/DISSERTATION TITLE</div>
                     ]}
                     footer={[
                         <Button key="addEventOk" type="primary" onClick={handlePaperTitleModalOk}>
