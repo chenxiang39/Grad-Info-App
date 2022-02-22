@@ -57,7 +57,7 @@ function DegreeCheckForm(props) {
             alert("Catelog Year Requirement is unvalid");
             return;
         }
-        if(parseInt(catelogYearRequirement) < parseInt(catelogYearRequirement)){
+        if(parseInt(catelogYearRequirement) < parseInt(termOfAdmission)){
             alert("Catelog Year Requirement must be no ealier than TERM of admission");
             return;
         }
