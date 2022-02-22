@@ -2,9 +2,15 @@ import React, { useState } from 'react'
 import { Table, Input, Button, Modal, Form, Select} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
+import { useSelector } from 'react-redux';
+import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
+import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
+import {postExamCommitteeTableDataByCommitteeObj} from '../../Api/nonCourseRelatedEvent'
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
 function ExamCommitteeDataTable(props) {
-    var {tableData, columns,committee} = props;
+    var {tableData, columns,committee,mainPageShouldRefresh} = props;
+    const curStudentPostNumber = useSelector(StudentPostNumber);
+    const curStudentID = useSelector(StudentID);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
@@ -24,11 +30,20 @@ function ExamCommitteeDataTable(props) {
             alert("You must add all of items!");
             return;
         }
-        let realObj = CommitteeDataModel.examCommitteeDataModelObj(obj);
-        console.log(realObj);
-        //save 
-        cleanState();
-        setisAddModalVisible(false);
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        let dataObject = CommitteeDataModel.examCommitteeDataModelSubmitObj(obj,studentInfoObj)
+        let ConfrimProps = {
+            content: `One committee will be added.`,
+            responseDataModelFun : CommitteeDataModel.committeeDataModelResponseObj,
+            requestBody : dataObject,
+            fetchDataFun: postExamCommitteeTableDataByCommitteeObj,
+            mainPageShouldRefresh,
+            formDisapperFun : handleAddModalCancel
+        }
+        SubmitConfirm({...ConfrimProps});
     }
     const handleAddModalCancel = () =>{
         cleanState();
@@ -41,7 +56,7 @@ function ExamCommitteeDataTable(props) {
         setcurCommitteeChar(value);
     }
     const filterCommitteeNameOption = (input, option) =>{
-        return option.children.toLowerCase().indexOf(input.toLowerCase()) == 0
+        return option.children.toLowerCase().indexOf(input.toLowerCase()) === 0
     }
     const selectCommitteeOptionSelect = committee.map((item) => {
         return (

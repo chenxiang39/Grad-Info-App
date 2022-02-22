@@ -3,11 +3,17 @@ import { Table, Input, Button, Modal, Form} from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
+import { useSelector } from 'react-redux';
+import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
+import {postCommentTableDataByCommentObj} from '../../Api/comment'
+import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
 import {CommentDataModel} from '../../Model/comment/CommentDataModel'
 import moment from 'moment';
 const { TextArea } = Input;
 function CommentDataTable(props) {
-    var {tableData, columns} = props;
+    var {tableData, columns, mainPageShouldRefresh} = props;
+    const curStudentPostNumber = useSelector(StudentPostNumber);
+    const curStudentID = useSelector(StudentID);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [isCommentsModalVisible, setIsCommentsModalVisible] = useState(false);
     const [curComment, setcurComment] = useState("");
@@ -28,11 +34,20 @@ function CommentDataTable(props) {
             alert("You must add Comment!");
             return;
         }
-        let realObj = CommentDataModel.CommentDataModelObj(obj);
-        console.log(realObj);
-        //save 
-        clearState();
-        setisAddModalVisible(false);
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        let dataObject = CommentDataModel.CommentDataModelSubmitDataObj(obj,studentInfoObj);
+        let ConfrimProps = {
+            content: `One comment will be added.`,
+            responseDataModelFun : CommentDataModel.CommentDataModelResponseObj,
+            requestBody : dataObject,
+            fetchDataFun: postCommentTableDataByCommentObj,
+            mainPageShouldRefresh,
+            formDisapperFun : handleAddModalCancel
+        }
+        SubmitConfirm({...ConfrimProps});
     }
     const handleAddModalCancel = () =>{
         clearState();

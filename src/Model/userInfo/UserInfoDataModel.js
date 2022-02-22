@@ -13,7 +13,14 @@ function UserInfoDataModelObj(dataObj){
     }
     return curobj;
 }
-
+function CodeAndDescriptionDataModelArr(dataArr){
+    let res = dataArr.reduce(function(map,obj){
+        map[obj.eventCode] = obj.eventDescription;
+        return map;
+    },{});
+    return res;
+}
 export const UserInfoDataModel = {
-    UserInfoDataModelObj : UserInfoDataModelObj
+    UserInfoDataModelObj : UserInfoDataModelObj,
+    CodeAndDescriptionDataModelArr : CodeAndDescriptionDataModelArr
 }

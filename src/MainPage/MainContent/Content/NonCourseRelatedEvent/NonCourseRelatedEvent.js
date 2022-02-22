@@ -2,8 +2,8 @@ import React, { useCallback, useState } from 'react'
 import { Spin } from 'antd';
 import {useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
-import {codeDescription} from '../../../../Constant/codeDescription'
-import {committee} from '../../../../Constant/committee'
+import {thesisCommittee,examCommittee} from '../../../../Constant/committee'
+import {CodeAndDescription} from '../../../../Redux/Slices/UserInfo'
 import {StudentID, StudentPostData, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
 import {NonCourseRelatedEventTableData, ExamCommitteeTableData,ThesisCommitteeTableData} from '../../../../Redux/Slices/NonCourseRelatedEvent'
 import EventDataTable from '../../../../Utility/DataTable/EventDataTable';
@@ -15,16 +15,17 @@ import useFetchExamCommitteeTableData from '../../../../Hooks/Fetch/nonCourseRel
 import useFetchStudentPostData from '../../../../Hooks/Fetch/studentInfo/useFetchStudentPostData';
 export default function NonCourseRelatedEvent() {
     let curStudentPostData = useSelector(StudentPostData);
-    let curNonCourseRelatedEventTableData = useSelector(NonCourseRelatedEventTableData);
     let curStudentPostNumber = useSelector(StudentPostNumber);
     let curStudentID = useSelector(StudentID);
+    let curNonCourseRelatedEventTableData = useSelector(NonCourseRelatedEventTableData);
     let curExamCommitteeTableData = useSelector(ExamCommitteeTableData);
     let curThesisCommitteeTableData = useSelector(ThesisCommitteeTableData);
-    const [shouldRefresh, setshouldRefresh] = useState(false);
-    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
-    const [nonCourseRelatedEventTableLoading, nonCourseRelatedEventTableLoadingError] = useFetchNonCourseRelatedEventTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
-    const [thesisCommitteeTableDataLoading, thesisCommitteeTableDataLoadingError] = useFetchThesisCommitteeTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
-    const [examCommitteeTableDataLoading, examCommitteeTableDataLoadingError] = useFetchExamCommitteeTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber]);
+    let curCodeAndDescriptionArr = useSelector(CodeAndDescription);
+    const [shouldRefresh, setShouldRefresh] = useState(false);
+    const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
+    const [nonCourseRelatedEventTableLoading, nonCourseRelatedEventTableLoadingError] = useFetchNonCourseRelatedEventTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
+    const [thesisCommitteeTableDataLoading, thesisCommitteeTableDataLoadingError] = useFetchThesisCommitteeTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
+    const [examCommitteeTableDataLoading, examCommitteeTableDataLoadingError] = useFetchExamCommitteeTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
     const examColumns = [
         {
             title: '#',
@@ -94,7 +95,8 @@ export default function NonCourseRelatedEvent() {
     const EventDataTableProp = {
         tableData : curNonCourseRelatedEventTableData, 
         columns : eventColumns,
-        codeDescriptionArr : codeDescription,
+        codeDescriptionArr : curCodeAndDescriptionArr,
+        mainPageShouldRefresh : setShouldRefresh
     }
     const renderTopDataBar = useCallback(()=>{
         return (
@@ -110,7 +112,8 @@ export default function NonCourseRelatedEvent() {
     const examCommitteeDataTableProp = {
         tableData : curExamCommitteeTableData, 
         columns : examColumns,
-        committee : committee
+        committee : examCommittee,
+        mainPageShouldRefresh : setShouldRefresh
     }
     const renderExamCommitteeDataTable = useCallback(()=>{
         return (
@@ -120,7 +123,8 @@ export default function NonCourseRelatedEvent() {
     const thesisCommitteeDataTableProp = {
         tableData : curThesisCommitteeTableData, 
         columns : thesisColumns,
-        committee : committee
+        committee : thesisCommittee,
+        mainPageShouldRefresh : setShouldRefresh
     }
     const renderThesisCommitteeDataTable = useCallback(()=>{
         return (
@@ -129,18 +133,18 @@ export default function NonCourseRelatedEvent() {
     },[shouldRefresh,curThesisCommitteeTableData])
     return (
         <div>
-            {/* <Spin spinning = {topDataBarLoading}> */}
+            <Spin spinning = {topDataBarLoading}>
                 {renderTopDataBar()}
-            {/* </Spin> */}
-            {/* <Spin spinning = {nonCourseRelatedEventTableLoading}> */}
+            </Spin>
+            <Spin spinning = {nonCourseRelatedEventTableLoading}>
                 {renderEventDataTable()}
-            {/* </Spin> */}
-            {/* <Spin spinning = {examCommitteeTableDataLoading}> */}
+            </Spin>
+            <Spin spinning = {examCommitteeTableDataLoading}>
                 {renderExamCommitteeDataTable()}
-            {/* </Spin> */}
-            {/* <Spin spinning = {thesisCommitteeTableDataLoading}> */}
+            </Spin>
+            <Spin spinning = {thesisCommitteeTableDataLoading}>
                 {renderThesisCommitteeDataTable()}
-            {/* </Spin> */}
+            </Spin>
         </div>
     )
 }

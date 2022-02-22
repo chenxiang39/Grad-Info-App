@@ -4,7 +4,15 @@ import { Modal, message} from 'antd';
 import { ExclamationCircleOutlined} from '@ant-design/icons';
 const { confirm } = Modal;
 export default function SubmitConfirm(props){
-    const {content,responseDataModelFun,requestBody,fetchDataFun, mainPageShouldRefresh} = props;
+    const {content,responseDataModelFun,requestBody,fetchDataFun, mainPageShouldRefresh, formDisapperFun} = props;
+    const FormDisappear = () => {
+        if(!formDisapperFun){
+            return "";
+        }
+        else{
+            formDisapperFun();
+        }
+    }
     confirm({
         centered : true,
         title: "Do you want to submit ?",
@@ -28,14 +36,16 @@ export default function SubmitConfirm(props){
                 else{
                     message.success("Submit success !");
                     mainPageShouldRefresh(state => !state);
+                    FormDisappear();
                 }
             }catch(error){
                 console.log(error);
                 message.error("Network is broken !")
+                FormDisappear();
             }
         },
         onCancel() {
-
+            
         },
     });  
 }

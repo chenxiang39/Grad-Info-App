@@ -23,7 +23,39 @@ function CommentDataModelObj(dataObj){
     }
     return curobj;
 }
+function CommentDataModelSubmitDataObj(commentOriginalObj, studentInfoObj){
+    let res = {};
+    let commentOriginalObjFinal = CommentDataModelObj(commentOriginalObj);
+    if(validate.isEmpty(studentInfoObj)){
+        studentInfoObj = {};
+    }
+    let studentObj = {
+        studentId : !! studentInfoObj.id ? studentInfoObj.id : "",
+        spPostNumber : !! studentInfoObj.studentPostNumber ? studentInfoObj.studentPostNumber : ""
+    };
+    res = {
+        studentInfo : studentObj,
+        commentObject : commentOriginalObjFinal
+    }
+    return res;
+}
+function CommentDataModelResponseObj(dataObj){
+    let res = {};
+    if(validate.isEmpty(dataObj)){
+        dataObj = {
+            flag:false,
+            reason:[]
+        };
+    }
+    res = {
+        flag : !!dataObj.flag ? dataObj.flag: false,
+        reason : !!dataObj.reasonList ? dataObj.reasonList: []
+    }
+    return res;
+}
 export const CommentDataModel = {
     CommentDataModelArray :　CommentDataModelArray,
-    CommentDataModelObj : CommentDataModelObj
+    CommentDataModelObj : CommentDataModelObj,
+    CommentDataModelSubmitDataObj : CommentDataModelSubmitDataObj,
+    CommentDataModelResponseObj : CommentDataModelResponseObj
 }

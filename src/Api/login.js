@@ -8,3 +8,9 @@ export const getUserInfoByUsernameAndPassword = async (username,password) =>{
     const data = await response.data;
     return data;
 }
+
+export const getCodeAndDescription = async () =>{
+    const response = await axios.get(`${ipAddress}/login/getCodeAndDescription`);
+    const data = await response.data;
+    return data;
+}

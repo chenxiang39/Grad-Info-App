@@ -7,8 +7,10 @@ import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import style from './DataTable.module.less'
 import moment from 'moment';
 import { NonCourseRelatedEventDataModel } from '../../Model/nonCourseRelatedEvent/NonCourseRelatedEventDataModel';
+import {postNonCourseRelatedEventTableDataByEventObj} from '../../Api/nonCourseRelatedEvent'
+import SubmitConfirm from '../../Utility/PostConfirm/SubmitConfirm/SubmitConfirm'
 function EventDataTable(props) {
-    var {tableData, columns,codeDescriptionArr} = props;
+    var {tableData, columns,codeDescriptionArr,mainPageShouldRefresh} = props;
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
@@ -20,13 +22,13 @@ function EventDataTable(props) {
     const [code, setCode] = useState(""); 
     const [description, setDescription] = useState("");
     const [relatedYear, setRelatedYear] = useState("");
-    const [relatedSemster, setRelatedSemster] = useState("");
+    const [relatedSemster, setRelatedSemster] = useState(null);
     const [eventDate, setEventDate] = useState("");
     const cleanState = () =>{
         setCode("");
         setDescription("");
         setEventDate("");
-        setRelatedSemster("");
+        setRelatedSemster(null);
         setRelatedYear("");
     }
     const handleAdd = () =>{
@@ -49,9 +51,17 @@ function EventDataTable(props) {
             id : curStudentID,
             studentPostNumber: curStudentPostNumber
         }
-        let a = NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelSubmitDataObj(obj,studentInfoObj);
-        cleanState();
-        setisAddModalVisible(false);
+        let dataObject = NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelSubmitDataObj(obj,studentInfoObj);
+        let ConfrimProps = {
+            content: `One event will be added.`,
+            responseDataModelFun : NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelResponseDataObj,
+            requestBody : dataObject,
+            fetchDataFun: postNonCourseRelatedEventTableDataByEventObj,
+            mainPageShouldRefresh,
+            formDisapperFun : handleAddModalCancel
+        }
+
+        SubmitConfirm({...ConfrimProps});
     }
     const handleAddModalCancel = () =>{
         cleanState();
@@ -81,10 +91,10 @@ function EventDataTable(props) {
         return (
             <Form
                 labelCol={{
-                span: 5,
+                    span: 5,
                 }}
                 wrapperCol={{
-                span: 14,
+                    span: 14,
                 }}
                 layout="horizontal"
             >
@@ -101,15 +111,17 @@ function EventDataTable(props) {
               <Input key = {description} value = {description}></Input>
             </Form.Item>
             <Form.Item label="Related">
-                <DatePicker 
-                 allowClear = {false}
-                 placeholder = "Year"
-                 style={{ width: 120 }}
-                 onChange = {(value) => setRelatedYear(moment(value).valueOf())}
-                 picker="year"/>
+                <DatePicker
+                    allowClear = {false}
+                    placeholder = "Year"
+                    style={{ width: 120 }}
+                    value={ !relatedYear ? moment("").valueOf() : moment(relatedYear)}
+                    onChange = {(value) => setRelatedYear(moment(value).valueOf())}
+                    picker="year"/>
                 <Select
                     style={{ width: 100 }}
                     placeholder="Semster"
+                    value={relatedSemster}
                     onChange = {(value) => setRelatedSemster(value)}
                 >
                     {selectSemsterOption}
@@ -117,8 +129,9 @@ function EventDataTable(props) {
             </Form.Item>
             <Form.Item label="Date">
               <DatePicker 
+                value={ !eventDate ? moment("").valueOf() : moment(eventDate)}
                 allowClear = {false}
-                onChange={(value) => setEventDate(moment(value).valueOf())}/>
+                onChange={(value) => {setEventDate(moment(value).valueOf())}}/>
             </Form.Item>
           </Form>
         )

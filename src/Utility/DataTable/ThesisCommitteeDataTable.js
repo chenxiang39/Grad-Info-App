@@ -3,10 +3,15 @@ import { Table, Input, Button, Modal, Form, Select} from 'antd';
 import { FileTextOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less';
-import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel';
+import { useSelector } from 'react-redux';
+import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
+import {postThesisCommitteeTableDataByCommitteeObj} from '../../Api/nonCourseRelatedEvent'
+import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
+import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
 function ThesisCommitteeDataTable(props) {
-    const { confirm } = Modal;
-    var {tableData, columns,committee} = props;
+    var {tableData, columns,committee,mainPageShouldRefresh} = props;
+    const curStudentPostNumber = useSelector(StudentPostNumber);
+    const curStudentID = useSelector(StudentID);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
@@ -21,23 +26,6 @@ function ThesisCommitteeDataTable(props) {
     const handleAdd = () =>{
         setisAddModalVisible(true);
     }
-    function showConfirm(obj) {
-        confirm({
-          title: 'Do you want to submit? ',
-          icon: <ExclamationCircleOutlined />,
-          content: `Thesis/Dissertation title: ${obj.paperTitle}`,
-          onOk() {
-            let realObj = CommitteeDataModel.thesisCommitteeDataModelObj(obj);
-            console.log(realObj);
-            //save 
-            cleanState();
-            setisAddModalVisible(false);
-          },
-          onCancel() {
-            
-          },
-        });
-    }
     const handleAddModalOk = () =>{
         let obj = {
             committeeName: curCommitteeName,
@@ -48,7 +36,20 @@ function ThesisCommitteeDataTable(props) {
             alert("You must add all of items!");
             return;
         }
-        showConfirm(obj);
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        let dataObject = CommitteeDataModel.thesisCommitteeDataModelSubmitObj(obj,studentInfoObj)
+        let ConfrimProps = {
+            content: `One committee will be added. T/D title is ${curPaperTitle}.`,
+            responseDataModelFun : CommitteeDataModel.committeeDataModelResponseObj,
+            requestBody : dataObject,
+            fetchDataFun: postThesisCommitteeTableDataByCommitteeObj,
+            mainPageShouldRefresh,
+            formDisapperFun : handleAddModalCancel
+        }
+        SubmitConfirm({...ConfrimProps});
         
     }
     const handleAddModalCancel = () =>{

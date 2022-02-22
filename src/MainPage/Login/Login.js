@@ -1,37 +1,38 @@
 import React, { useState } from 'react'
 import 'antd/dist/antd.less';
 import { Form, Input, Button, Checkbox,Spin,message} from 'antd';
-import {getUserInfoByUsernameAndPassword} from '../../Api/login'
+import {getCodeAndDescription, getUserInfoByUsernameAndPassword} from '../../Api/login'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import {UserInfoDataModel} from '../../Model/userInfo/UserInfoDataModel';
-import {SaveUserInfo} from '../../Redux/Slices/UserInfo'
+import {SaveCodeAndDescription, SaveUserInfo} from '../../Redux/Slices/UserInfo'
 import style from './Login.module.less';
 import { useNavigate } from "react-router-dom";
 export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const fetchUserInfo = (values) => {
-        setLoading(true);
-        getUserInfoByUsernameAndPassword(values.username,values.password).then((res)=>{
-            let userInfo = UserInfoDataModel.UserInfoDataModelObj(res);
+    const onFinish = async (values) => {
+        try{
+            setLoading(true);
+            let UserInfoRes = await getUserInfoByUsernameAndPassword(values.username,values.password);
+            let CodeAndDescriptionRes = await getCodeAndDescription();
+            let userInfo = UserInfoDataModel.UserInfoDataModelObj(UserInfoRes);
+            let codeAndDescription = UserInfoDataModel.CodeAndDescriptionDataModelArr(CodeAndDescriptionRes);
             if(!userInfo.username){
                 message.error("Username or Password is wrong!", 1);
                 setLoading(false);
-                return;
             }
             else{
                 dispatch(SaveUserInfo(userInfo));
+                dispatch(SaveCodeAndDescription(codeAndDescription));
                 navigate("/Search",{replace : true});
             }
-        },(err)=>{
+        }catch(err){
             setLoading(false);
             message.error("Network is broken !", 1);
-        });
-    }
-    const onFinish = async (values) => {
-        fetchUserInfo(values);
+        }
+        
     };
     
     return (

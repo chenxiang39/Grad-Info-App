@@ -21,6 +21,22 @@ function examCommitteeDataModelArr(dataArr){
     }
     return res;
 }
+function examCommitteeDataModelSubmitObj(committeeOriginalObj, studentInfoObj){
+    let res = {};
+    let committeeOriginalObjFinal = examCommitteeDataModelObj(committeeOriginalObj);
+    if(validate.isEmpty(studentInfoObj)){
+        studentInfoObj = {};
+    }
+    let studentObj = {
+        studentId : !! studentInfoObj.id ? studentInfoObj.id : "",
+        spPostNumber : !! studentInfoObj.studentPostNumber ? studentInfoObj.studentPostNumber : ""
+    };
+    res = {
+        studentInfo : studentObj,
+        examCommitteeObject : committeeOriginalObjFinal
+    }
+    return res;
+}
 function thesisCommitteeDataModelObj(dataObj){
     let curObj = {
         thesisCommitteeName : dataObj.committeeName,
@@ -45,9 +61,42 @@ function thesisCommitteeDataModelArr(dataArr){
     }
     return res;
 }
+function thesisCommitteeDataModelSubmitObj(committeeOriginalObj, studentInfoObj){
+    let res = {};
+    let committeeOriginalObjFinal = thesisCommitteeDataModelObj(committeeOriginalObj);
+    if(validate.isEmpty(studentInfoObj)){
+        studentInfoObj = {};
+    }
+    let studentObj = {
+        studentId : !! studentInfoObj.id ? studentInfoObj.id : "",
+        spPostNumber : !! studentInfoObj.studentPostNumber ? studentInfoObj.studentPostNumber : ""
+    };
+    res = {
+        studentInfo : studentObj,
+        thesisCommitteeObject : committeeOriginalObjFinal
+    }
+    return res;
+}
+function committeeDataModelResponseObj(dataObj){
+    let res = {};
+    if(validate.isEmpty(dataObj)){
+        dataObj = {
+            flag:false,
+            reason:[]
+        };
+    }
+    res = {
+        flag : !!dataObj.flag ? dataObj.flag: false,
+        reason : !!dataObj.reasonList ? dataObj.reasonList: []
+    }
+    return res;
+}
 export const CommitteeDataModel = {
     examCommitteeDataModelObj : examCommitteeDataModelObj,
     examCommitteeDataModelArr : examCommitteeDataModelArr,
+    examCommitteeDataModelSubmitObj : examCommitteeDataModelSubmitObj,
     thesisCommitteeDataModelObj : thesisCommitteeDataModelObj,
-    thesisCommitteeDataModelArr : thesisCommitteeDataModelArr
+    thesisCommitteeDataModelArr : thesisCommitteeDataModelArr,
+    thesisCommitteeDataModelSubmitObj : thesisCommitteeDataModelSubmitObj,
+    committeeDataModelResponseObj : committeeDataModelResponseObj
 }
