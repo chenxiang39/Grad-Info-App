@@ -52,6 +52,15 @@ function DegreeCheckForm(props) {
             alert("Anticipated graduation TERM must be later than TERM of admission");
             return;
         }
+        let semster2 = catelogYearRequirement.charAt(catelogYearRequirement.length - 1);
+        if( catelogYearRequirement.length !== 5 || (semster2 !== '1' && semster2 !== '2' && semster2 !== '3')){
+            alert("Catelog Year Requirement is unvalid");
+            return;
+        }
+        if(parseInt(catelogYearRequirement) <= parseInt(catelogYearRequirement)){
+            alert("Catelog Year Requirement must be later than TERM of admission");
+            return;
+        }
         const studentInfoObj = {
             id : curStudentID,
             studentPostNumber: curStudentPostNumber
