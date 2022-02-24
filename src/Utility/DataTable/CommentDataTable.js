@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Modal, Form} from 'antd';
+import { Table, Input, Button, Modal, Form, message} from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
@@ -31,7 +31,7 @@ function CommentDataTable(props) {
             oper:"VS5"
         }
         if(!curComment){
-            alert("You must add Comment!");
+            message.warning("You must add Comment!",1);
             return;
         }
         const studentInfoObj = {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Modal, Form, Select} from 'antd';
+import { Table, Input, Button, Modal, Form, Select, message} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import { useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ function ExamCommitteeDataTable(props) {
             committeeChar: curCommitteeChar,
         }
         if(!curCommitteeName || !curCommitteeChar){
-            alert("You must add all of items!");
+            message.warning("You must add all of items!",1);
             return;
         }
         const studentInfoObj = {

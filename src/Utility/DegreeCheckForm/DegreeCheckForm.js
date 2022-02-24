@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import 'antd/dist/antd.less';
 import style from './DegreeCheckForm.module.less'
-import { Input , Button, Radio, Space} from 'antd';
+import { Input , Button, Radio, Space, message} from 'antd';
 import { DegreeCheckDataModel } from '../../Model/degreeCheck/DegreeCheckDataModel';
 import {postDegreeCheckByDegreeCheckObj} from '../../Api/degreeCheck'
 import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm'
@@ -9,21 +9,21 @@ function DegreeCheckForm(props) {
     var {curStudentPostData,curStudentPostNumber,curStudentID,degreeCheckFormData, mainPageShouldRefresh} = props;
     const [termOfAdmission, setTermOfAdmission] = useState("");
     const [anticipatedTerm, setAnticipatedTerm] = useState("");
-    const [catelogYearRequirement, setCatelogYearRequirement] = useState("");
+    const [catalogYearRequirement, setcatalogYearRequirement] = useState("");
     const [foreignLanguageMet, setForeignLanguageMet] = useState("");
     const [shouldDisable, setShouldDisable] = useState(false);
     useEffect(() => {
         if(degreeCheckFormData.completed){
             setTermOfAdmission(degreeCheckFormData.admissionTerm);
             setAnticipatedTerm(degreeCheckFormData.anticipatedTerm);
-            setCatelogYearRequirement(degreeCheckFormData.catalogYear);
+            setcatalogYearRequirement(degreeCheckFormData.catalogYear);
             setForeignLanguageMet(degreeCheckFormData.foreignLanguage);
             setShouldDisable(true);
         }
         else{
             setTermOfAdmission(curStudentPostData[4].Admit)
             setAnticipatedTerm("");
-            setCatelogYearRequirement(curStudentPostData[4].Admit);
+            setcatalogYearRequirement(curStudentPostData[4].Admit);
             setForeignLanguageMet("");
             setShouldDisable(false);
         }
@@ -33,32 +33,33 @@ function DegreeCheckForm(props) {
     }, [curStudentPostData,degreeCheckFormData])
     const submit = () =>{
         let obj = {
+            id: degreeCheckFormData.id,
             program : degreeCheckFormData.program,
-            termOfAdmission :termOfAdmission,
+            admissionTerm : termOfAdmission,
             anticipatedTerm :anticipatedTerm,
-            catelogYearRequirement :catelogYearRequirement,
-            foreignLanguageMet :foreignLanguageMet
+            catalogYear :catalogYearRequirement,
+            foreignLanguage :foreignLanguageMet,
         }
-        if(!termOfAdmission || !anticipatedTerm || !catelogYearRequirement || !foreignLanguageMet){
-            alert("You must add all of items!");
+        if(!termOfAdmission || !anticipatedTerm || !catalogYearRequirement || !foreignLanguageMet){
+            message.warning("You must add all of items!",1);
             return;
         }
         let semster = anticipatedTerm.charAt(anticipatedTerm.length - 1);
         if( anticipatedTerm.length !== 5 || (semster !== '1' && semster !== '2' && semster !== '3')){
-            alert("Anticipated graduation TERM is unvalid");
+            message.warning("Anticipated graduation TERM is unvalid!",1);
             return;
         }
         if(parseInt(anticipatedTerm) <= parseInt(termOfAdmission)){
-            alert("Anticipated graduation TERM must be later than TERM of admission");
+            message.warning("Anticipated graduation TERM must be later than TERM of admission!",1);
             return;
         }
-        let semster2 = catelogYearRequirement.charAt(catelogYearRequirement.length - 1);
-        if( catelogYearRequirement.length !== 5 || (semster2 !== '1' && semster2 !== '2' && semster2 !== '3')){
-            alert("Catelog Year Requirement is unvalid");
+        let semster2 = catalogYearRequirement.charAt(catalogYearRequirement.length - 1);
+        if( catalogYearRequirement.length !== 5 || (semster2 !== '1' && semster2 !== '2' && semster2 !== '3')){
+            message.warning("catalog Year Requirement is unvalid!",1);
             return;
         }
-        if(parseInt(catelogYearRequirement) < parseInt(termOfAdmission)){
-            alert("Catelog Year Requirement must be no ealier than TERM of admission");
+        if(parseInt(catalogYearRequirement) < parseInt(termOfAdmission)){
+            message.warning("catalog Year Requirement must be no ealier than TERM of admission!",1);
             return;
         }
         const studentInfoObj = {
@@ -67,7 +68,7 @@ function DegreeCheckForm(props) {
         }
         let dataObject = DegreeCheckDataModel.DegreeCheckTableDataModelSubmitObj(obj,studentInfoObj);
         let ConfrimProps = {
-            content: `One program will be submit.`,
+            content: `One program will be submitted.`,
             responseDataModelFun : DegreeCheckDataModel.DegreeCheckDataModelResponseObj,
             requestBody : dataObject,
             fetchDataFun: postDegreeCheckByDegreeCheckObj,
@@ -99,8 +100,8 @@ function DegreeCheckForm(props) {
                     <Input
                         disabled = {shouldDisable}
                         className = {style.input}
-                        value={catelogYearRequirement}
-                        onChange = {(e) => setCatelogYearRequirement(e.target.value)}
+                        value={catalogYearRequirement}
+                        onChange = {(e) => setcatalogYearRequirement(e.target.value)}
                     ></Input>
                 </div>
                 <div className = {style.inputTitle}>Foreign language/research component has been met:

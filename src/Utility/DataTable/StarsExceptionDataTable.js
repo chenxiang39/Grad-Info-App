@@ -2,8 +2,18 @@ import React, { useState } from 'react'
 import { Table, Input, Button, Modal, Form, Select} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
-export default function StarExceptionDataTable(props) {
-    var {tableData, columns} = props;
+import SubmitConfirm from '../../Utility/PostConfirm/SubmitConfirm/SubmitConfirm'
+import { useSelector } from 'react-redux';
+import {UserInfo} from '../../Redux/Slices/UserInfo'
+import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
+import { StarsExceptionDataModel } from '../../Model/starsException/StarsExceptionDataModel';
+import {postStarExceptionByStarsObj} from '../../Api/starsException'
+import moment from 'moment';
+function StarExceptionDataTable(props) {
+    var {StarsExceptionTableData, columns, mainPageShouldRefresh} = props;
+    const curUserInfo = useSelector(UserInfo);
+    const curStudentPostNumber = useSelector(StudentPostNumber);
+    const curStudentID = useSelector(StudentID);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curExceptionType, setcurExceptionType] = useState("RA");
     const [curRname, setcurRname] = useState(null);
@@ -12,7 +22,7 @@ export default function StarExceptionDataTable(props) {
     const [curRcourse, setcurRcourse] = useState(null);
     const [curReqct, setcurReqct] = useState(null);
     const [curReqhrs, setcurReqhrs] = useState(null);
-    const [curRep, setcurRep] = useState(null);
+    const [curDeptRep, setcurDeptRep] = useState(null);
     const [curDept, setcurDept] = useState(null);
     const cleanState = () => {
         setcurExceptionType("RA");
@@ -22,7 +32,7 @@ export default function StarExceptionDataTable(props) {
         setcurRcourse(null);
         setcurReqct(null);
         setcurReqhrs(null);
-        setcurRep(null);
+        setcurDeptRep(null);
         setcurDept(null);
     }
     const handleAdd = () =>{
@@ -30,10 +40,32 @@ export default function StarExceptionDataTable(props) {
     }
     const handleAddModalOk = () =>{
         let obj = {
-           
+            cd : curExceptionType,
+            rname : curRname,
+            psname : curPSname,
+            reqct : curReqct,
+            reqhrs : curReqhrs,
+            deptrep : curDeptRep,
+            dept : curDept,
+            oper : curUserInfo.useroper,
+            transdate: moment().format("MM/DD/YYYY"),
+            course : curCourse,
+            rcourse : curRcourse
         }
-        cleanState();
-        setisAddModalVisible(false);
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        let dataObject = StarsExceptionDataModel.StarsExceptionDataModelSubmitDataObj(obj,studentInfoObj);
+        let ConfrimProps = {
+            content: `One Stars Exception will be submitted.`,
+            responseDataModelFun : StarsExceptionDataModel.StarsExceptionDataModelResponseObj,
+            requestBody : dataObject,
+            fetchDataFun: postStarExceptionByStarsObj,
+            mainPageShouldRefresh,
+            formDisapperFun : handleAddModalCancel
+        }
+        SubmitConfirm({...ConfrimProps});
     }
     const handleAddModalCancel = () =>{
         cleanState();
@@ -116,8 +148,8 @@ export default function StarExceptionDataTable(props) {
             }
             <Form.Item label= "Dept/Rep: ">
                 <Input
-                    value = {curRep}
-                    onChange = {(e) => setcurRep(e.target.value)}
+                    value = {curDeptRep}
+                    onChange = {(e) => setcurDeptRep(e.target.value)}
                 ></Input>
             </Form.Item>
             <Form.Item label= "Dept: ">
@@ -160,10 +192,12 @@ export default function StarExceptionDataTable(props) {
                 <Table
                     className = {style.header}
                     columns = {columns}
-                    dataSource = {tableData}
+                    dataSource = {StarsExceptionTableData}
                 >
                 </Table>                         
             </div>
             
     )
 }
+
+export default React.memo(StarExceptionDataTable);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Modal, Form, Select} from 'antd';
+import { Table, Input, Button, Modal, Form, Select, message} from 'antd';
 import { FileTextOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less';
@@ -33,7 +33,7 @@ function ThesisCommitteeDataTable(props) {
             paperTitle: curPaperTitle
         }
         if(!curCommitteeName || !curCommitteeChar || !curPaperTitle){
-            alert("You must add all of items!");
+            message.warning("You must add all of items!",1);
             return;
         }
         const studentInfoObj = {

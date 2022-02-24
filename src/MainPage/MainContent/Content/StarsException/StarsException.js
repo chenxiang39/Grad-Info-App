@@ -1,13 +1,18 @@
-import React,{useEffect} from 'react'
-import {StudentID, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
-import { useSelector , useDispatch} from 'react-redux';
+import React,{useState,useEffect,useCallback} from 'react'
+import 'antd/dist/antd.less';
 import style from './StarsException.module.less'
+import { useSelector} from 'react-redux';
+import {StudentID, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
+import {StarsExceptionTableData} from '../../../../Redux/Slices/StarsException'
 import StarsExceptionDataTable from '../../../../Utility/DataTable/StarsExceptionDataTable'
-import moment from 'moment';
-export default function NonCourseRelatedEvent() {
-    const dispatch = useDispatch();
+import useFetchStarsExceptionTableData from '../../../../Hooks/Fetch/starsException/useFetchStarsExceptionTableData'
+import { Spin } from 'antd';
+export default function StarsException() {
     let curStudentPostNumber = useSelector(StudentPostNumber);
     let curStudentID = useSelector(StudentID);
+    let curStarsExceptionTableData = useSelector(StarsExceptionTableData);
+    const [shouldRefresh, setShouldRefresh] = useState(false);
+    const [starsExceptionDataTableLoading, starsExceptionDataTableLoadingError] = useFetchStarsExceptionTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
     const starsExceptionColumns = [
         {
             title: '#',
@@ -48,7 +53,7 @@ export default function NonCourseRelatedEvent() {
         },
         {
             title: 'DEPT/REP',
-            dataIndex: 'rep'
+            dataIndex: 'deptrep'
         },
         {
             title: 'DEPT',
@@ -63,30 +68,21 @@ export default function NonCourseRelatedEvent() {
             dataIndex: 'transdate'
         }
     ]  
-    const  starsExceptionTableData = [
-        {
-            key: 1,
-            cd: 'RA',
-            rname: 'MAJ-HIST',  
-            psname: 'MAJ-HISTA',
-            reqct:-1,
-            reqhrs:'0400',
-            course:'HIST499',
-            rcourse:'HIST198',
-            cline:'ADDED COURSE HIST499',
-            rep:'REG',
-            dept:'REG',
-            oper:'VS5',
-            transdate:moment().format('DD/MM/YYYY')
-        }
-    ]
     const starsExceptionTableDataProp = {
-        tableData : starsExceptionTableData, 
+        StarsExceptionTableData : curStarsExceptionTableData, 
         columns : starsExceptionColumns,
+        mainPageShouldRefresh : setShouldRefresh
     }
+    const renderStarsExceptionDataTable = useCallback(()=>{
+        return (
+            <StarsExceptionDataTable {...starsExceptionTableDataProp}></StarsExceptionDataTable>
+        )
+    },[shouldRefresh,curStarsExceptionTableData])
     return (
         <div className = {style.container}>
-            <StarsExceptionDataTable {...starsExceptionTableDataProp}></StarsExceptionDataTable>
+            <Spin spinning = {starsExceptionDataTableLoading}>
+                {renderStarsExceptionDataTable()}
+            </Spin>
         </div>
     )
 }

@@ -1,9 +1,8 @@
 import  validate  from "validate.js";
-import moment from "moment";
-
 
 function DegreeCheckDataModelObj(dataObj){
     let curObj = {
+        degreeCheckId : dataObj.id,
         degreeName : dataObj.program,
         degreeAdmissionTerm :　dataObj.admissionTerm,
         degreeGraduationTerm  : dataObj.anticipatedTerm,
@@ -41,6 +40,7 @@ function DegreeCheckTableDataModelArray(dataArr){
     }   
     for(let i = 0; i < dataArr.length; i++){
         let curobj = {
+            id : !!dataArr[i].degreeCheckId ? dataArr[i].degreeCheckId : "",
             program : !!dataArr[i].degreeName ? dataArr[i].degreeName : "",
             admissionTerm : !!dataArr[i].degreeAdmissionTerm ? dataArr[i].degreeAdmissionTerm : "",
             anticipatedTerm : !!dataArr[i].degreeGraduationTerm ? dataArr[i].degreeGraduationTerm : "",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Modal, Form, DatePicker, Select} from 'antd';
+import { Table, Input, Button, Modal, Form, DatePicker, Select, message} from 'antd';
 import 'antd/dist/antd.less';
 import { useSelector } from 'react-redux';
 import {UserInfo} from '../../Redux/Slices/UserInfo'
@@ -44,7 +44,7 @@ function EventDataTable(props) {
             oper: curUserInfo.useroper
         }
         if(!code || !relatedSemster || !eventDate){
-            alert("You must add all of items!");
+            message.warning("You must add all of items!",1);
             return;
         }
         const studentInfoObj = {
