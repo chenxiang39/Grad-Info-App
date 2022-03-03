@@ -10,7 +10,7 @@ export default function TopScrollNavBarItem(props){
     let match = useMatch({ path: resolved.pathname, end: true });
     let selected = match ? style.selected : style.notselected;
     return (
-        <Menu.Item key = {key} className = {[selected, style.item]}>
+        <Menu.Item key = {key} className = {[selected, style.item, style.itemText]}>
             {title}
             <MyLink to = {link}></MyLink>
         </Menu.Item>

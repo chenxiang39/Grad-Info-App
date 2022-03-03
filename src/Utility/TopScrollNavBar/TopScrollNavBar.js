@@ -8,7 +8,7 @@ function TopScrollNavBar(){
     //https://howtofix.io/antd-menu-generated-dynmically-from-array-leads-to-duplicated-key-undefined-used-in-menu-by-path-id35476
     const createMenu = () => titleDataArr.map((data,index) => {
       let props = {
-        key:data+index,
+        key:data + index,
         title : data.title,
         link : data.link
       }

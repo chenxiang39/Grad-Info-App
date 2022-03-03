@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from './Header/Header'
+import Header from '../Utility/Header/Header'
 import MainContent from './MainContent/MainContent';
 import { Routes, Route, Navigate} from "react-router-dom";
 import Search from './Search/Search'

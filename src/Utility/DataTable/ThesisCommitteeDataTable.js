@@ -8,6 +8,7 @@ import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
 import {postThesisCommitteeTableDataByCommitteeObj} from '../../Api/nonCourseRelatedEvent'
 import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
+import FilterSamePersonInCommitteeTable from '../../Utility/CommonFunc/FilterSamePersonInCommitteeTable'
 function ThesisCommitteeDataTable(props) {
     var {tableData, columns,committee,mainPageShouldRefresh} = props;
     const curStudentPostNumber = useSelector(StudentPostNumber);
@@ -34,6 +35,10 @@ function ThesisCommitteeDataTable(props) {
         }
         if(!curCommitteeName || !curCommitteeChar || !curPaperTitle){
             message.warning("You must add all of items!",1);
+            return;
+        }
+        if(FilterSamePersonInCommitteeTable(tableData,curCommitteeName)){
+            message.warning("Same person should not be added again!",1); 
             return;
         }
         const studentInfoObj = {

@@ -7,6 +7,7 @@ import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
 import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
 import {postExamCommitteeTableDataByCommitteeObj} from '../../Api/nonCourseRelatedEvent'
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
+import FilterSamePersonInCommitteeTable from '../CommonFunc/FilterSamePersonInCommitteeTable';
 function ExamCommitteeDataTable(props) {
     var {tableData, columns,committee,mainPageShouldRefresh} = props;
     const curStudentPostNumber = useSelector(StudentPostNumber);
@@ -28,6 +29,10 @@ function ExamCommitteeDataTable(props) {
         }
         if(!curCommitteeName || !curCommitteeChar){
             message.warning("You must add all of items!",1);
+            return;
+        }
+        if(FilterSamePersonInCommitteeTable(tableData,curCommitteeName)){
+            message.warning("Same person should not be added again!",1); 
             return;
         }
         const studentInfoObj = {
