@@ -136,7 +136,7 @@ function ThesisCommitteeDataTable(props) {
                     {selectCommitteeOptionSelect}
                 </Select>
                 </Form.Item>
-                <Form.Item label= "Title: ">
+                <Form.Item label= "Role: ">
                     <Select
                         style={{ width: 130 }}
                         value = {curCommitteeChar}

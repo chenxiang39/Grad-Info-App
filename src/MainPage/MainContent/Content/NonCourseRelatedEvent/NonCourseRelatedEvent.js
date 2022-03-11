@@ -37,7 +37,7 @@ export default function NonCourseRelatedEvent() {
             dataIndex: 'committeeName',
         },
         {
-            title: 'TITLE',
+            title: 'ROLE',
             dataIndex: 'committeeChar',
         },
     ]  
@@ -53,7 +53,7 @@ export default function NonCourseRelatedEvent() {
             dataIndex: 'committeeName',
         },
         {
-            title: 'TITLE',
+            title: 'ROLE',
             dataIndex: 'committeeChar',
         },
         {
