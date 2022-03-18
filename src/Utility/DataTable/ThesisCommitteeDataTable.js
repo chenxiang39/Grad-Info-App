@@ -4,25 +4,25 @@ import { FileTextOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less';
 import { useSelector } from 'react-redux';
+import {AccessPostNumberList} from '../../Redux/Slices/UserInfo'
 import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
 import {postThesisCommitteeTableDataByCommitteeObj} from '../../Api/nonCourseRelatedEvent'
 import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
 import FilterSamePersonInCommitteeTable from '../../Utility/CommonFunc/FilterSamePersonInCommitteeTable'
+import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 function ThesisCommitteeDataTable(props) {
     var {tableData, columns,committee,mainPageShouldRefresh} = props;
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
+    const accessPostNumberList = useSelector(AccessPostNumberList);
+    const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
-    const [curPaperTitle, setcurPaperTitle] = useState("");
-    const [isPaperTitleModalVisible, setIsPaperTitleModalVisible] = useState(false);
-    const [curCheckPaperTitle, setcurCheckPaperTitle] = useState("");
     const cleanState = () =>{
         setcurCommitteeName("");
         setcurCommitteeChar("");
-        setcurPaperTitle("");
     }
     const handleAdd = () =>{
         setisAddModalVisible(true);
@@ -31,9 +31,8 @@ function ThesisCommitteeDataTable(props) {
         let obj = {
             committeeName: curCommitteeName,
             committeeChar: curCommitteeChar,
-            paperTitle: curPaperTitle
         }
-        if(!curCommitteeName || !curCommitteeChar || !curPaperTitle){
+        if(!curCommitteeName || !curCommitteeChar){
             message.warning("You must add all of items!",1);
             return;
         }
@@ -47,7 +46,7 @@ function ThesisCommitteeDataTable(props) {
         }
         let dataObject = CommitteeDataModel.thesisCommitteeDataModelSubmitObj(obj,studentInfoObj)
         let ConfrimProps = {
-            content: `One committee will be added. T/D title is ${curPaperTitle}.`,
+            content: `One committee will be added.`,
             responseDataModelFun : CommitteeDataModel.committeeDataModelResponseObj,
             requestBody : dataObject,
             fetchDataFun: postThesisCommitteeTableDataByCommitteeObj,
@@ -60,13 +59,6 @@ function ThesisCommitteeDataTable(props) {
     const handleAddModalCancel = () =>{
         cleanState();
         setisAddModalVisible(false);
-    }
-    const clickPaperTitleBtn = (value) =>{
-        setcurCheckPaperTitle(value);
-        setIsPaperTitleModalVisible(true);
-    }
-    const handlePaperTitleModalOk = ()=> {
-        setIsPaperTitleModalVisible(false);
     }
     const changeCommitteeChar = (value) => {
         setcurCommitteeChar(value);
@@ -82,34 +74,6 @@ function ThesisCommitteeDataTable(props) {
             <Select.Option key = {item} value = {item}>{item}</Select.Option>
         )
     })
-    const addPaperTitleColumn = () =>{
-        columns = columns.map((item) => {
-            let PaperTitlesContent = {
-                render: PaperTitle => {
-                    if(!!PaperTitle){
-                        return (
-                            <Button
-                                className = {style.commentButton}
-                                key = {item}
-                                onClick = {() => clickPaperTitleBtn(PaperTitle)}
-                                shape="circle"
-                                size = "large"
-                                icon = {<FileTextOutlined />}
-                            >
-                            </Button>
-                        )
-                    }
-                }
-            }
-            if(item.dataIndex === "paperTitle"){
-                return {...item,...PaperTitlesContent};
-            }
-            else{
-                return item;
-            }
-        })
-    }
-    addPaperTitleColumn();
     const AddCOMMITTEEModal = () =>{
         let char = ["CHAIR","CO-CHAIR","MEMBER"];
         const selectCharOption = char.map((item) => {
@@ -145,13 +109,6 @@ function ThesisCommitteeDataTable(props) {
                         {selectCharOption}
                     </Select>
                 </Form.Item>
-                <Form.Item label= "T/D Title: ">
-                    <Input
-                        // style={{ width: 120 }}
-                        value = {curPaperTitle}
-                        onChange = {(e) => setcurPaperTitle(e.target.value)}
-                    ></Input>
-                </Form.Item>
             </Form>
         )
     }
@@ -159,6 +116,7 @@ function ThesisCommitteeDataTable(props) {
             <div>
                 <div className = {style.tableTitle}>Thesis/Dissertation Committee</div>
                 <Button
+                    disabled = {functionDisable}
                     onClick={() => handleAdd()}
                     className={[style.button, style.topButton]}
                     >
@@ -183,23 +141,6 @@ function ThesisCommitteeDataTable(props) {
                         </Button>,]}
                     >
                     {AddCOMMITTEEModal()}
-                </Modal>
-                <Modal 
-                    key = "showPaperTitle"
-                    centered
-                    visible={isPaperTitleModalVisible} 
-                    onCancel = {handlePaperTitleModalOk}
-                    onOk = {handlePaperTitleModalOk}
-                    maskClosable = {false}
-                    title = {[
-                        <div key = "TDTitle: " className = {style.modalTitle} >THESIS/DISSERTATION TITLE</div>
-                    ]}
-                    footer={[
-                        <Button key="addEventOk" type="primary" onClick={handlePaperTitleModalOk}>
-                            OK  
-                        </Button>,]}
-                    >
-                    {curCheckPaperTitle}
                 </Modal>
                 <Table
                     className = {style.header}

@@ -41,7 +41,6 @@ function thesisCommitteeDataModelObj(dataObj){
     let curObj = {
         thesisCommitteeName : dataObj.committeeName,
         thesisCommitteeChar :　dataObj.committeeChar,
-        thesisCommitteeTitle : dataObj.paperTitle
     }
     return curObj;
 }
@@ -55,7 +54,6 @@ function thesisCommitteeDataModelArr(dataArr){
             key: i + 1,
             committeeName : !!dataArr[i].thesisCommitteeName ? dataArr[i].thesisCommitteeName : "",
             committeeChar :　!!dataArr[i].thesisCommitteeChar ? dataArr[i].thesisCommitteeChar : "",
-            paperTitle: !!dataArr[i].thesisCommitteeTitle ? dataArr[i].thesisCommitteeTitle : "",
         }
         res.push(curObj);
     }

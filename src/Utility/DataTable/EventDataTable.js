@@ -2,18 +2,21 @@ import React, { useState } from 'react'
 import { Table, Input, Button, Modal, Form, DatePicker, Select, message} from 'antd';
 import 'antd/dist/antd.less';
 import { useSelector } from 'react-redux';
-import {UserInfo} from '../../Redux/Slices/UserInfo'
+import {UserInfo,AccessPostNumberList} from '../../Redux/Slices/UserInfo'
 import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import style from './DataTable.module.less'
 import moment from 'moment';
 import { NonCourseRelatedEventDataModel } from '../../Model/nonCourseRelatedEvent/NonCourseRelatedEventDataModel';
 import {postNonCourseRelatedEventTableDataByEventObj} from '../../Api/nonCourseRelatedEvent'
 import SubmitConfirm from '../../Utility/PostConfirm/SubmitConfirm/SubmitConfirm'
+import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 function EventDataTable(props) {
     var {tableData, columns,codeDescriptionArr,mainPageShouldRefresh} = props;
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
+    const accessPostNumberList = useSelector(AccessPostNumberList);
+    const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     var selectCodeOption = [];
     for(let key in codeDescriptionArr){
         selectCodeOption.push(key + " : " + codeDescriptionArr[key]);
@@ -139,6 +142,7 @@ function EventDataTable(props) {
     return (
             <div>
                 <Button
+                    disabled = {functionDisable}
                     onClick={() => handleAdd()}
                     className={[style.button, style.topButton]}
                     >

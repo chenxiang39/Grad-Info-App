@@ -14,3 +14,15 @@ export const getCodeAndDescription = async () =>{
     const data = await response.data;
     return data;
 }
+
+export const getAllSpPostNumber = async () => {
+    const response = await axios.get(`${ipAddress}/login/getAllSpPostNumber`);
+    const data = await response.data;
+    return data;
+}
+
+export const getPostNumberByUserID = async (userId) => {
+    const response = await axios.get(`${ipAddress}/login/getPostNumberByUserID?userId=${userId}`);
+    const data = await response.data;
+    return data;
+}

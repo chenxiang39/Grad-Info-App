@@ -5,7 +5,8 @@ export const UserInfoSlice = createSlice({
     name : "UserInfo",
     initialState : {
         userInfo: UserInfoDataModel.UserInfoDataModelObj({}),
-        codeDescriptionArr : UserInfoDataModel.CodeAndDescriptionDataModelArr([])
+        codeDescriptionArr : UserInfoDataModel.CodeAndDescriptionDataModelArr([]),
+        accessPostNumberList : UserInfoDataModel.AccessPostNumberListDataModelArr([])
     },
     reducers: {
         SaveUserInfo : (state, action) => {
@@ -13,11 +14,15 @@ export const UserInfoSlice = createSlice({
         },
         SaveCodeAndDescription : (state, action) => {
             state.codeDescriptionArr = action.payload
+        },
+        SaveAccessPostNumberList : (state, action) => {
+            state.accessPostNumberList = action.payload
         }
     }
 })
 
-export const {SaveUserInfo,SaveCodeAndDescription} = UserInfoSlice.actions;
+export const {SaveUserInfo,SaveCodeAndDescription,SaveAccessPostNumberList} = UserInfoSlice.actions;
 export const UserInfo = state => state.UserInfo.userInfo;
 export const CodeAndDescription = state => state.UserInfo.codeDescriptionArr;
+export const AccessPostNumberList = state => state.UserInfo.accessPostNumberList;
 export default UserInfoSlice.reducer;

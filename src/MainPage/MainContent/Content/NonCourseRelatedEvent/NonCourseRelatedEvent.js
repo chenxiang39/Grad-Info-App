@@ -13,6 +13,7 @@ import useFetchNonCourseRelatedEventTableData from '../../../../Hooks/Fetch/nonC
 import useFetchThesisCommitteeTableData from '../../../../Hooks/Fetch/nonCourseRelatedEvent/useFetchThesisCommitteeTableData';
 import useFetchExamCommitteeTableData from '../../../../Hooks/Fetch/nonCourseRelatedEvent/useFetchExamCommitteeTableData'
 import useFetchStudentPostData from '../../../../Hooks/Fetch/studentInfo/useFetchStudentPostData';
+import ThesisTitle from '../../../../Utility/ThesisTitle/ThesisTitle';
 export default function NonCourseRelatedEvent() {
     let curStudentPostData = useSelector(StudentPostData);
     let curStudentPostNumber = useSelector(StudentPostNumber);
@@ -55,10 +56,6 @@ export default function NonCourseRelatedEvent() {
         {
             title: 'ROLE',
             dataIndex: 'committeeChar',
-        },
-        {
-            title: 'THESIS/DISSERTATION TITLE',
-            dataIndex: 'paperTitle',
         },
     ]  
     const eventColumns = [
@@ -131,6 +128,15 @@ export default function NonCourseRelatedEvent() {
             <ThesisCommitteeDataTable {...thesisCommitteeDataTableProp}></ThesisCommitteeDataTable>
         )
     },[shouldRefresh,curThesisCommitteeTableData])
+    const paperTitleProp = {
+        studentPostData : curStudentPostData,
+        mainPageShouldRefresh : setShouldRefresh
+    }
+    const renderPaperTitle = useCallback(()=>{
+        return (
+            <ThesisTitle {...paperTitleProp}></ThesisTitle>
+        )
+    },[shouldRefresh,curStudentPostData])
     return (
         <div>
             <Spin spinning = {topDataBarLoading}>
@@ -141,6 +147,9 @@ export default function NonCourseRelatedEvent() {
             </Spin>
             <Spin spinning = {examCommitteeTableDataLoading}>
                 {renderExamCommitteeDataTable()}
+            </Spin>
+            <Spin spinning = {topDataBarLoading}>
+                {renderPaperTitle()}
             </Spin>
             <Spin spinning = {thesisCommitteeTableDataLoading}>
                 {renderThesisCommitteeDataTable()}

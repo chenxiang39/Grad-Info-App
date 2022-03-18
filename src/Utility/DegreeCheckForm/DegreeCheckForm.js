@@ -1,12 +1,17 @@
 import React, {useEffect, useState} from 'react'
 import 'antd/dist/antd.less';
 import style from './DegreeCheckForm.module.less'
+import { useSelector } from 'react-redux';
+import {AccessPostNumberList} from '../../Redux/Slices/UserInfo'
 import { Input , Button, Radio, Space, message} from 'antd';
 import { DegreeCheckDataModel } from '../../Model/degreeCheck/DegreeCheckDataModel';
 import {postDegreeCheckByDegreeCheckObj} from '../../Api/degreeCheck'
 import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm'
+import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 function DegreeCheckForm(props) {
     var {curStudentPostData,curStudentPostNumber,curStudentID,degreeCheckFormData, mainPageShouldRefresh} = props;
+    const accessPostNumberList = useSelector(AccessPostNumberList);
+    const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     const [termOfAdmission, setTermOfAdmission] = useState("");
     const [anticipatedTerm, setAnticipatedTerm] = useState("");
     const [catalogYearRequirement, setcatalogYearRequirement] = useState("");
@@ -21,9 +26,9 @@ function DegreeCheckForm(props) {
             setShouldDisable(true);
         }
         else{
-            setTermOfAdmission(curStudentPostData[4].Admit)
+            setTermOfAdmission(curStudentPostData.Admit)
             setAnticipatedTerm("");
-            setcatalogYearRequirement(curStudentPostData[4].Admit);
+            setcatalogYearRequirement(curStudentPostData.Admit);
             setForeignLanguageMet("");
             setShouldDisable(false);
         }
@@ -74,7 +79,6 @@ function DegreeCheckForm(props) {
             fetchDataFun: postDegreeCheckByDegreeCheckObj,
             mainPageShouldRefresh
         }
-
         SubmitConfirm({...ConfrimProps});
     }
     return (
@@ -121,7 +125,7 @@ function DegreeCheckForm(props) {
                 </div>
             </div>
             <div className = {style.buttonContainer}>
-                <Button disabled = {shouldDisable} onClick = {submit} type="primary" className = {[style.button,]}>{shouldDisable ? "COMPELETED" : "SUBMIT"}</Button>
+                <Button disabled = {shouldDisable || functionDisable} onClick = {submit} type="primary" className = {[style.button,]}>{shouldDisable ? "COMPELETED" : "SUBMIT"}</Button>
             </div>
         </div>
     )

@@ -10,6 +10,8 @@ function UserInfoDataModelObj(dataObj){
         userpassword : !!dataObj.userPassword ? dataObj.userPassword : "",
         useroper: !!dataObj.userOper ? dataObj.userOper : "",
         userlocked: !!dataObj.userLocked ? dataObj.userLocked : "",
+        userEventAccessLevel: !!dataObj.userEventAccessLevel ? dataObj.userEventAccessLevel : "",
+        userSuper : !!dataObj.userSuper ? dataObj.userSuper : ""
     }
     return curobj;
 }
@@ -20,7 +22,18 @@ function CodeAndDescriptionDataModelArr(dataArr){
     },{});
     return res;
 }
+function AccessPostNumberListDataModelArr(dataArr){
+    let res = [];
+    if(validate.isEmpty(dataArr)){
+        return res;
+    }
+    for(let i = 0; i < dataArr.length; i++){
+        res.push( !! dataArr[i].spPostNumber ? dataArr[i].spPostNumber : "");
+    }
+    return res;
+}
 export const UserInfoDataModel = {
     UserInfoDataModelObj : UserInfoDataModelObj,
-    CodeAndDescriptionDataModelArr : CodeAndDescriptionDataModelArr
+    CodeAndDescriptionDataModelArr : CodeAndDescriptionDataModelArr,
+    AccessPostNumberListDataModelArr : AccessPostNumberListDataModelArr
 }

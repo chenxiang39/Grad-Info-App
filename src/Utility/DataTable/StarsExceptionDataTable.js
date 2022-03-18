@@ -4,16 +4,19 @@ import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import SubmitConfirm from '../../Utility/PostConfirm/SubmitConfirm/SubmitConfirm'
 import { useSelector } from 'react-redux';
-import {UserInfo} from '../../Redux/Slices/UserInfo'
+import {UserInfo,AccessPostNumberList} from '../../Redux/Slices/UserInfo'
 import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import { StarsExceptionDataModel } from '../../Model/starsException/StarsExceptionDataModel';
 import {postStarExceptionByStarsObj} from '../../Api/starsException'
+import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 import moment from 'moment';
 function StarExceptionDataTable(props) {
     var {StarsExceptionTableData, columns, mainPageShouldRefresh} = props;
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
+    const accessPostNumberList = useSelector(AccessPostNumberList);
+    const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curExceptionType, setcurExceptionType] = useState("RA");
     const [curRname, setcurRname] = useState(null);
@@ -164,6 +167,7 @@ function StarExceptionDataTable(props) {
     return (
             <div>
                 <Button
+                    disabled = {functionDisable}
                     onClick={() => handleAdd()}
                     className={[style.button, style.topButton]}
                     >

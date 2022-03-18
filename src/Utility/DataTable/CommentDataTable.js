@@ -4,16 +4,20 @@ import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import { useSelector } from 'react-redux';
+import {AccessPostNumberList} from '../../Redux/Slices/UserInfo'
 import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
 import {postCommentTableDataByCommentObj} from '../../Api/comment'
-import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
+import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm'
 import {CommentDataModel} from '../../Model/comment/CommentDataModel'
+import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 import moment from 'moment';
 const { TextArea } = Input;
 function CommentDataTable(props) {
     var {tableData, columns, mainPageShouldRefresh} = props;
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
+    const accessPostNumberList = useSelector(AccessPostNumberList);
+    const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [isCommentsModalVisible, setIsCommentsModalVisible] = useState(false);
     const [curComment, setcurComment] = useState("");
@@ -118,6 +122,7 @@ function CommentDataTable(props) {
     return (
             <div>
                 <Button
+                    disabled = {functionDisable}
                     onClick={() => handleAdd()}
                     className={[style.button, style.topButton]}
                     >

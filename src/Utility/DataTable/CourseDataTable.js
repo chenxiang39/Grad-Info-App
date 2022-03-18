@@ -4,13 +4,14 @@ import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import { InfoOutlined} from '@ant-design/icons';
 import { useSelector } from 'react-redux';
-import {UserInfo} from '../../Redux/Slices/UserInfo'
+import {UserInfo, AccessPostNumberList} from '../../Redux/Slices/UserInfo'
 import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import {AdmissionCourseDataModel} from '../../Model/admissionCourse/AdmissionCourseDataModel'
 import {TransferCourseDataModel} from '../../Model/transferCourse/TransferCourseDataModel'
-import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
-import { postAdmissionCourseTableDataByNewArr } from '../../Api/admissionCourse';
+import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm'
+import { postAdmissionCourseTableDataByNewArr } from '../../Api/admissionCourse'
 import { postTransferCourseTableDataByNewArr} from '../../Api/transferCourse'
+import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 function CourseDataTable(props) {
     var {title,tableData, columns, type, mainPageShouldRefresh, ChosedArray,CanBeChosedArray, ChooseDisableOrAble} = props;
     var DefaultChooseData = ChosedArray(tableData);
@@ -18,10 +19,12 @@ function CourseDataTable(props) {
     const curUserInfo = useSelector(UserInfo);
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
+    const accessPostNumberList = useSelector(AccessPostNumberList);
     const [selectedRowKeys, setselectedRowKeys] = useState(DefaultChooseDataKeys);
     const [selectedRows, setselectedRows] = useState(DefaultChooseData);
     const [isHistoryModalVisible, setisHistoryModalVisible] = useState(false);
     const [currentcheckedHistoryArr, setcurrentcheckedHistoryArr] = useState([]);
+    const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     useEffect(() => {
         setselectedRows(DefaultChooseData);
         setselectedRowKeys(DefaultChooseDataKeys);
@@ -177,7 +180,7 @@ function CourseDataTable(props) {
                 </Table>
                 <div className = {style.buttonContainer}>
                     <Button onClick = {selectAll} className = {style.button}>SELECT ALL</Button>
-                    <Button onClick = {submitFun} type="primary" className = {[style.button, style.Pbutton, ]}>SUBMIT</Button>
+                    <Button disabled = {functionDisable} onClick = {submitFun} type="primary" className = {[style.button, style.Pbutton, ]}>SUBMIT</Button>
                 </div>              
             </div>
             

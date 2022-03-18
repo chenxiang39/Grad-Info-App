@@ -3,15 +3,19 @@ import { Table, Input, Button, Modal, Form, Select, message} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import { useSelector } from 'react-redux';
+import {AccessPostNumberList} from '../../Redux/Slices/UserInfo'
 import {StudentID,StudentPostNumber} from '../../Redux/Slices/StudentInfo'
-import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
 import {postExamCommitteeTableDataByCommitteeObj} from '../../Api/nonCourseRelatedEvent'
 import {CommitteeDataModel} from '../../Model/nonCourseRelatedEvent/CommitteeDataModel'
 import FilterSamePersonInCommitteeTable from '../CommonFunc/FilterSamePersonInCommitteeTable';
+import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm';
+import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 function ExamCommitteeDataTable(props) {
     var {tableData, columns,committee,mainPageShouldRefresh} = props;
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
+    const accessPostNumberList = useSelector(AccessPostNumberList);
+    const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     const [isAddModalVisible, setisAddModalVisible] = useState(false);
     const [curCommitteeName, setcurCommitteeName] = useState("");
     const [curCommitteeChar, setcurCommitteeChar] = useState("");
@@ -110,6 +114,7 @@ function ExamCommitteeDataTable(props) {
             <div>
                 <div className = {style.tableTitle}>Comp/Qualifying Exam Committee</div>
                 <Button
+                    disabled = {functionDisable}
                     onClick={() => handleAdd()}
                     className={[style.button, style.topButton]}
                     >

@@ -36,3 +36,9 @@ export const postThesisCommitteeTableDataByCommitteeObj = async (dataObj) =>{
     const data = await response.data;
     return data;
 }
+
+export const postPaperTitleByPaperTitleObj = async (dataObj) => {
+    const response = await axios.post(`${ipAddress}/noncourseevent/postPaperTitleByPaperTitleObj`, dataObj);
+    const data = await response.data;
+    return data;
+}

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import 'antd/dist/antd.less';
 import { Form, Input, Button, Checkbox,Spin,message} from 'antd';
-import {getCodeAndDescription, getUserInfoByUsernameAndPassword} from '../../Api/login'
+import {getCodeAndDescription, getUserInfoByUsernameAndPassword, getAllSpPostNumber, getPostNumberByUserID} from '../../Api/login'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import {UserInfoDataModel} from '../../Model/userInfo/UserInfoDataModel';
-import {SaveCodeAndDescription, SaveUserInfo} from '../../Redux/Slices/UserInfo'
+import {SaveAccessPostNumberList, SaveCodeAndDescription, SaveUserInfo} from '../../Redux/Slices/UserInfo'
 import style from './Login.module.less';
 import { useNavigate } from "react-router-dom";
 export default function Login() {
@@ -26,13 +26,21 @@ export default function Login() {
             else{
                 dispatch(SaveUserInfo(userInfo));
                 dispatch(SaveCodeAndDescription(codeAndDescription));
+                let accessPostNumberListRes = [];
+                if(userInfo.userSuper === "1"){
+                    accessPostNumberListRes = await getAllSpPostNumber();
+                }
+                else{
+                    accessPostNumberListRes = await getPostNumberByUserID(userInfo.userid);
+                }
+                let accessPostNumberList = UserInfoDataModel.AccessPostNumberListDataModelArr(accessPostNumberListRes);
+                dispatch(SaveAccessPostNumberList(accessPostNumberList));
                 navigate("/Search",{replace : true});
             }
         }catch(err){
             setLoading(false);
             message.error("Network is broken !", 1);
         }
-        
     };
     
     return (
