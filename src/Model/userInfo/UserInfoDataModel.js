@@ -15,12 +15,21 @@ function UserInfoDataModelObj(dataObj){
     }
     return curobj;
 }
-function CodeAndDescriptionDataModelArr(dataArr){
-    let res = dataArr.reduce(function(map,obj){
-        map[obj.eventCode] = obj.eventDescription;
-        return map;
-    },{});
-    return res;
+function EventListDataModelArr(dataArr){
+    let arr = [];
+    if(validate.isEmpty(dataArr)){
+        return arr;
+    }
+    for(let i = 0; i < dataArr.length; i++){
+        let curobj = {
+            key : i + 1,
+            code : !!dataArr[i].eventCode ? dataArr[i].eventCode: "",
+            description : !!dataArr[i].eventDescription ? dataArr[i].eventDescription: "",
+            format : !!dataArr[i].eventFormat ? dataArr[i].eventFormat: "",
+        }
+        arr.push(curobj);
+    }
+    return arr;
 }
 function AccessPostNumberListDataModelArr(dataArr){
     let res = [];
@@ -34,6 +43,6 @@ function AccessPostNumberListDataModelArr(dataArr){
 }
 export const UserInfoDataModel = {
     UserInfoDataModelObj : UserInfoDataModelObj,
-    CodeAndDescriptionDataModelArr : CodeAndDescriptionDataModelArr,
+    EventListDataModelArr : EventListDataModelArr,
     AccessPostNumberListDataModelArr : AccessPostNumberListDataModelArr
 }

@@ -43,7 +43,7 @@ function AdmissionCourseTableDataModelArray(tableData){
 }
 
 function AdmissionCourseTableDataModelChooseDisableOrAble(item){
-    if(item.applyCode === "X"){
+    if(item.applyCode === "X" || item.grade === "C-" || item.grade.indexOf("D") !== -1){
         return {
             disabled: true,
             key: item.key,
@@ -57,7 +57,7 @@ function AdmissionCourseTableDataModelChooseDisableOrAble(item){
 }
 function AdmissionCourseTableDataModelItemCanBeChosedArray(tableData){
     const result = tableData.filter((item) => {
-        return item.applyCode !== "X";
+        return item.applyCode !== "X" && item.grade !== "C-" && item.grade.indexOf("D") === -1;
     })
     return result;
 }

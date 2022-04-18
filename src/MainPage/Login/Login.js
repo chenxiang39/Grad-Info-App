@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import 'antd/dist/antd.less';
 import { Form, Input, Button, Checkbox,Spin,message} from 'antd';
-import {getCodeAndDescription, getUserInfoByUsernameAndPassword, getAllSpPostNumber, getPostNumberByUserID} from '../../Api/login'
+import {getEventList, getUserInfoByUsernameAndPassword, getAllSpPostNumber, getPostNumberByUserID} from '../../Api/login'
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import {UserInfoDataModel} from '../../Model/userInfo/UserInfoDataModel';
-import {SaveAccessPostNumberList, SaveCodeAndDescription, SaveUserInfo} from '../../Redux/Slices/UserInfo'
+import {SaveAccessPostNumberList, SaveEventList, SaveUserInfo} from '../../Redux/Slices/UserInfo'
 import style from './Login.module.less';
 import { useNavigate } from "react-router-dom";
 export default function Login() {
@@ -16,16 +16,16 @@ export default function Login() {
         try{
             setLoading(true);
             let UserInfoRes = await getUserInfoByUsernameAndPassword(values.username,values.password);
-            let CodeAndDescriptionRes = await getCodeAndDescription();
+            let EventListRes = await getEventList();
             let userInfo = UserInfoDataModel.UserInfoDataModelObj(UserInfoRes);
-            let codeAndDescription = UserInfoDataModel.CodeAndDescriptionDataModelArr(CodeAndDescriptionRes);
+            let EventList = UserInfoDataModel.EventListDataModelArr(EventListRes);
             if(!userInfo.username){
                 message.error("Username or Password is wrong!", 1);
                 setLoading(false);
             }
             else{
                 dispatch(SaveUserInfo(userInfo));
-                dispatch(SaveCodeAndDescription(codeAndDescription));
+                dispatch(SaveEventList(EventList));
                 let accessPostNumberListRes = [];
                 if(userInfo.userSuper === "1"){
                     accessPostNumberListRes = await getAllSpPostNumber();
@@ -75,9 +75,8 @@ export default function Login() {
                     },
                     ]}
                 >
-                    <Input
+                    <Input.Password
                         prefix={<LockOutlined className="site-form-item-icon" />}
-                        type="password"
                         placeholder="Password"
                     />
                 </Form.Item>

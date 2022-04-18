@@ -9,7 +9,7 @@ export const getUserInfoByUsernameAndPassword = async (username,password) =>{
     return data;
 }
 
-export const getCodeAndDescription = async () =>{
+export const getEventList = async () =>{
     const response = await axios.get(`${ipAddress}/login/getCodeAndDescription`);
     const data = await response.data;
     return data;

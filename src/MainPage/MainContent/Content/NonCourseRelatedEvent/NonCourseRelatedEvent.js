@@ -2,18 +2,18 @@ import React, { useCallback, useState } from 'react'
 import { Spin } from 'antd';
 import {useSelector} from 'react-redux';
 import TopDataBar from '../../../../Utility/TopDataBar/TopDataBar';
-import {thesisCommittee,examCommittee} from '../../../../Constant/committee'
-import {CodeAndDescription} from '../../../../Redux/Slices/UserInfo'
-import {StudentID, StudentPostData, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo'
-import {NonCourseRelatedEventTableData, ExamCommitteeTableData,ThesisCommitteeTableData} from '../../../../Redux/Slices/NonCourseRelatedEvent'
+import {thesisCommittee,examCommittee} from '../../../../Constant/committee';
+import {EventList} from '../../../../Redux/Slices/UserInfo';
+import {StudentID, StudentPostData, StudentPostNumber} from '../../../../Redux/Slices/StudentInfo';
+import {NonCourseRelatedEventTableData, ExamCommitteeTableData,ThesisCommitteeTableData} from '../../../../Redux/Slices/NonCourseRelatedEvent';
 import EventDataTable from '../../../../Utility/DataTable/EventDataTable';
-import ExamCommitteeDataTable from '../../../../Utility/DataTable/ExamCommitteeDataTable'
-import ThesisCommitteeDataTable from '../../../../Utility/DataTable/ThesisCommitteeDataTable'
+import ExamCommitteeDataTable from '../../../../Utility/DataTable/ExamCommitteeDataTable';
+import ThesisCommitteeDataTable from '../../../../Utility/DataTable/ThesisCommitteeDataTable';
+import ThesisTitle from '../../../../Utility/ThesisTitle/ThesisTitle';
 import useFetchNonCourseRelatedEventTableData from '../../../../Hooks/Fetch/nonCourseRelatedEvent/useFetchNonCourseRelatedEventTableData';
 import useFetchThesisCommitteeTableData from '../../../../Hooks/Fetch/nonCourseRelatedEvent/useFetchThesisCommitteeTableData';
-import useFetchExamCommitteeTableData from '../../../../Hooks/Fetch/nonCourseRelatedEvent/useFetchExamCommitteeTableData'
+import useFetchExamCommitteeTableData from '../../../../Hooks/Fetch/nonCourseRelatedEvent/useFetchExamCommitteeTableData';
 import useFetchStudentPostData from '../../../../Hooks/Fetch/studentInfo/useFetchStudentPostData';
-import ThesisTitle from '../../../../Utility/ThesisTitle/ThesisTitle';
 export default function NonCourseRelatedEvent() {
     let curStudentPostData = useSelector(StudentPostData);
     let curStudentPostNumber = useSelector(StudentPostNumber);
@@ -21,7 +21,7 @@ export default function NonCourseRelatedEvent() {
     let curNonCourseRelatedEventTableData = useSelector(NonCourseRelatedEventTableData);
     let curExamCommitteeTableData = useSelector(ExamCommitteeTableData);
     let curThesisCommitteeTableData = useSelector(ThesisCommitteeTableData);
-    let curCodeAndDescriptionArr = useSelector(CodeAndDescription);
+    let curEventListArr = useSelector(EventList);
     const [shouldRefresh, setShouldRefresh] = useState(false);
     const [topDataBarLoading, topDataBarLoadingError] = useFetchStudentPostData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
     const [nonCourseRelatedEventTableLoading, nonCourseRelatedEventTableLoadingError] = useFetchNonCourseRelatedEventTableData([curStudentID, curStudentPostNumber],[curStudentPostNumber,shouldRefresh]);
@@ -92,7 +92,7 @@ export default function NonCourseRelatedEvent() {
     const EventDataTableProp = {
         tableData : curNonCourseRelatedEventTableData, 
         columns : eventColumns,
-        codeDescriptionArr : curCodeAndDescriptionArr,
+        eventList : curEventListArr,
         mainPageShouldRefresh : setShouldRefresh
     }
     const renderTopDataBar = useCallback(()=>{

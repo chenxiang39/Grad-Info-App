@@ -12,6 +12,7 @@ import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm'
 import { postAdmissionCourseTableDataByNewArr } from '../../Api/admissionCourse'
 import { postTransferCourseTableDataByNewArr} from '../../Api/transferCourse'
 import PostNumberAccess from '../CommonFunc/PostNumberAccess'
+import { async } from 'validate.js';
 function CourseDataTable(props) {
     var {title,tableData, columns, type, mainPageShouldRefresh, ChosedArray,CanBeChosedArray, ChooseDisableOrAble} = props;
     var DefaultChooseData = ChosedArray(tableData);
@@ -25,6 +26,23 @@ function CourseDataTable(props) {
     const [isHistoryModalVisible, setisHistoryModalVisible] = useState(false);
     const [currentcheckedHistoryArr, setcurrentcheckedHistoryArr] = useState([]);
     const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
+    //每次进的时候先提交一遍,不处理意外
+    useEffect( async ()=> {
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        if(type === "AdmissionCourse"){
+            let requestBody = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo);
+            await postAdmissionCourseTableDataByNewArr(requestBody);
+            mainPageShouldRefresh(state => !state);
+        }
+        else if(type === "TransferCourse"){
+            let requestBody = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo);
+            await postTransferCourseTableDataByNewArr(requestBody);
+            mainPageShouldRefresh(state => !state);
+        }
+    },[])
     useEffect(() => {
         setselectedRows(DefaultChooseData);
         setselectedRowKeys(DefaultChooseDataKeys);
@@ -132,7 +150,7 @@ function CourseDataTable(props) {
         else if(type === "TransferCourse"){
             let requestBody = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo);
             let ConfrimProps = {
-                content: `${selectedRows.length} course(s) will be applied.`,
+                content: `${selectedRows.length} course(s) will be applied. A maximum of 12 transfer units will be applied.`,
                 responseDataModelFun : TransferCourseDataModel.TransferCourseTableDataModelSubmitResponseDataObj,
                 requestBody,
                 fetchDataFun: postTransferCourseTableDataByNewArr,
