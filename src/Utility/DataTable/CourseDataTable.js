@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react'
-import { Table,Button, Modal, Tag} from 'antd';
+import { Table,Button, Modal} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import { InfoOutlined} from '@ant-design/icons';
@@ -12,7 +12,6 @@ import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm'
 import { postAdmissionCourseTableDataByNewArr } from '../../Api/admissionCourse'
 import { postTransferCourseTableDataByNewArr} from '../../Api/transferCourse'
 import PostNumberAccess from '../CommonFunc/PostNumberAccess'
-import { async } from 'validate.js';
 function CourseDataTable(props) {
     var {title,tableData, columns, type, mainPageShouldRefresh, ChosedArray,CanBeChosedArray, ChooseDisableOrAble} = props;
     var DefaultChooseData = ChosedArray(tableData);

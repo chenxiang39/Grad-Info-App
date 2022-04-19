@@ -54,17 +54,22 @@ function DegreeCheckForm(props) {
             message.warning("Anticipated graduation TERM is unvalid!",1);
             return;
         }
+        let catalogYearSemster = catalogYearRequirement.charAt(catalogYearRequirement.length - 1);
+        if( catalogYearRequirement.length !== 5 || (catalogYearSemster !== '1' && catalogYearSemster !== '2' && catalogYearSemster !== '3')){
+            message.warning("Catalog Year Requirement is unvalid!",1);
+            return;
+        }
         if(parseInt(anticipatedTerm) <= parseInt(termOfAdmission)){
             message.warning("Anticipated graduation TERM must be later than TERM of admission!",1);
             return;
         }
-        let semster2 = catalogYearRequirement.charAt(catalogYearRequirement.length - 1);
-        if( catalogYearRequirement.length !== 5 || (semster2 !== '1' && semster2 !== '2' && semster2 !== '3')){
-            message.warning("catalog Year Requirement is unvalid!",1);
+       
+        if(parseInt(catalogYearRequirement) < parseInt(termOfAdmission)){
+            message.warning("Catalog Year Requirement must be no ealier than TERM of admission!",1);
             return;
         }
-        if(parseInt(catalogYearRequirement) < parseInt(termOfAdmission)){
-            message.warning("catalog Year Requirement must be no ealier than TERM of admission!",1);
+        if(parseInt(catalogYearRequirement) > parseInt(anticipatedTerm)){
+            message.warning("Catalog Year Requirement can not be later than Anticipated graduation TERM!",1);
             return;
         }
         const studentInfoObj = {

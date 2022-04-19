@@ -10,7 +10,7 @@ export const getUserInfoByUsernameAndPassword = async (username,password) =>{
 }
 
 export const getEventList = async () =>{
-    const response = await axios.get(`${ipAddress}/login/getCodeAndDescription`);
+    const response = await axios.get(`${ipAddress}/login/getEventList`);
     const data = await response.data;
     return data;
 }

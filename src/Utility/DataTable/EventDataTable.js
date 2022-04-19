@@ -9,6 +9,7 @@ import moment from 'moment';
 import { NonCourseRelatedEventDataModel } from '../../Model/nonCourseRelatedEvent/NonCourseRelatedEventDataModel';
 import {postNonCourseRelatedEventTableDataByEventObj} from '../../Api/nonCourseRelatedEvent'
 import SubmitConfirm from '../../Utility/PostConfirm/SubmitConfirm/SubmitConfirm'
+import AddFormModal from '../../Utility/AddFormModal/AddFormModal';
 import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 function EventDataTable(props) {
     var {tableData, columns,eventList,mainPageShouldRefresh} = props;
@@ -16,92 +17,36 @@ function EventDataTable(props) {
     const curStudentPostNumber = useSelector(StudentPostNumber);
     const curStudentID = useSelector(StudentID);
     const accessPostNumberList = useSelector(AccessPostNumberList);
+    const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
+    var formatGlobal = "NONE";
     var EventListOption = [];
     for(let i = 0; i < eventList.length; i++){
         EventListOption.push(eventList[i].code + " : " + eventList[i].description);
     }
-    const [isAddModalVisible, setisAddModalVisible] = useState(false);
-    const [code, setCode] = useState(""); 
-    const [description, setDescription] = useState("");
-    const [format, setFormat] = useState("NONE");
-    const [relatedYear, setRelatedYear] = useState("");
-    const [relatedSemster, setRelatedSemster] = useState(null);
-    const [units, setUnits] = useState(null);
-    const [freeForm, setFreeForm] = useState("");
-    const [eventDate, setEventDate] = useState("");
-    const cleanState = () =>{
-        setCode("");
-        setDescription("");
-        setRelatedSemster(null);
-        setRelatedYear("");
-        setUnits(null);
-        setFreeForm("");
-        setEventDate("");
+    const showAddEventModalFun = () =>{
+        setIsAddModalVisible(true);
     }
-    const handleAdd = () =>{
-        setisAddModalVisible(true);
-    }
-    const handleAddModalOk = () =>{
-        let curRelated = "";
-        if(format === "TERM"){
-            curRelated = `${moment(relatedYear).format("YYYY")}${relatedSemster}`;
+    const EventAddForm = ({form}) => {
+        const [format, setFormat] = useState("NONE");
+        const filterAddEventOption = (input, option) =>{
+            return option.children.toLowerCase().indexOf(input.toLowerCase()) === 0
         }
-        else if(format === "UNITS"){
-            curRelated = units;
-        }
-        else{
-            curRelated = freeForm;
-        }
-        let obj = {
-            code : code,
-            description : description,
-            related : curRelated,
-            date : moment(eventDate).format("MM/DD/YYYY"),
-            transactiondate : moment().format("MM/DD/YYYY"),
-            oper: curUserInfo.useroper
-        }
-        if(!code || !curRelated || !eventDate){
-            message.warning("You must add all of items!",1);
-            return;
-        }
-        const studentInfoObj = {
-            id : curStudentID,
-            studentPostNumber: curStudentPostNumber
-        }
-        let dataObject = NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelSubmitDataObj(obj,studentInfoObj);
-        let ConfrimProps = {
-            content: `One event will be added.`,
-            responseDataModelFun : NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelResponseDataObj,
-            requestBody : dataObject,
-            fetchDataFun: postNonCourseRelatedEventTableDataByEventObj,
-            mainPageShouldRefresh,
-            formDisapperFun : handleAddModalCancel
-        }
-
-        SubmitConfirm({...ConfrimProps});
-    }
-    const handleAddModalCancel = () =>{
-        cleanState();
-        setisAddModalVisible(false);
-    }
-    const handleCodeChange = (value) =>{
-        let dataArr = value.split(":");
-        let code = dataArr[0].substring(0, dataArr[0].length - 1);
-        let description = dataArr[1].substring(1, dataArr[1].length);
-        setCode(code);
-        setDescription(description);
-        for(let i = 0; i < eventList.length; i++){
-            if(code === eventList[i].code){
-                setFormat(eventList[i].format);
-                break;
+        const handleCodeChange = (value) =>{
+            let dataArr = value.split(":");
+            let code = dataArr[0].substring(0, dataArr[0].length - 1);
+            let description = dataArr[1].substring(1, dataArr[1].length);
+            form.setFieldsValue({
+                description : description
+            })
+            for(let i = 0; i < eventList.length; i++){
+                if(code === eventList[i].code){
+                    setFormat(eventList[i].format);
+                    formatGlobal = eventList[i].format;
+                    break;
+                }
             }
         }
-    }
-    const filterAddEventOption = (input, option) =>{
-        return option.children.toLowerCase().indexOf(input.toLowerCase()) === 0
-    }
-    const AddModalForm = () => {
         const selectEventOption = EventListOption.map((item) => {
             return (
                 <Select.Option key = {item} value = {item}>{item}</Select.Option>
@@ -115,23 +60,42 @@ function EventDataTable(props) {
         });
         const selectRelatedYearAndSemster = () => {
             return (
-                <Form.Item>
-                    <DatePicker
-                        allowClear = {false}
-                        placeholder = "Year"
-                        style={{ width: 120 }}
-                        value={ !relatedYear ? moment("").valueOf() : moment(relatedYear)}
-                        onChange = {(value) => setRelatedYear(moment(value).valueOf())}
-                        picker="year"/>
-                    <Select
-                        style={{ width: 100 }}
-                        placeholder="Semster"
-                        value={relatedSemster}
-                        onChange = {(value) => setRelatedSemster(value)}
+                <div>
+                    <Form.Item
+                        name = "relatedYear"
+                        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please choose one year!',
+                            },
+                        ]}
                     >
-                    {selectSemsterOption}
-                    </Select>   
-                </Form.Item>   
+                        <DatePicker
+                            allowClear = {false}
+                            placeholder = "Year"
+                            style={{ width: 120 }}
+                            picker="year"/>
+                    </Form.Item>
+                    <Form.Item
+                        name = "relatedSemster"
+                        style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please choose one semster!',
+                            },
+                        ]}
+                    >
+                        <Select
+                            style={{ width: 100 }}
+                            placeholder="Semster"
+                        >
+                        {selectSemsterOption}
+                        </Select>   
+                    </Form.Item>   
+                </div>
+                
             )
         }
         const selectRelatedUnits = () => {
@@ -141,11 +105,11 @@ function EventDataTable(props) {
                     rules={[
                         {
                             pattern : /^\d+(.\d{1,2})?$/,
-                            message : 'You should input a number(up to two decimal places) '
+                            message : 'You should input a number(up to two decimal places)'
                         }
                     ]}
                 >
-                    <Input placeholder = "Please input units" value={units} onChange={(value)=>{setUnits(value)}}/>
+                    <Input placeholder = "Please input units" />
                 </Form.Item>            
             )
         }
@@ -156,12 +120,12 @@ function EventDataTable(props) {
                     rules={[
                         {
                             type: 'string',
-                            max : 36,
-                            message : 'You can input anything(Max length is 36)'
+                            max : 20,
+                            message : 'Exceed the length limit(Max length is 20)'
                         }
                     ]}
                 >
-                    <Input placeholder = "Please input anything" value={freeForm} onChange={(value)=>{setFreeForm(value)}}/>
+                    <Input placeholder = "Please input anything"/>
                 </Form.Item>            
             )
         }
@@ -178,6 +142,7 @@ function EventDataTable(props) {
         }
         return (
             <Form
+                form={form}
                 labelCol={{
                     span: 5,
                 }}
@@ -186,68 +151,118 @@ function EventDataTable(props) {
                 }}
                 layout="horizontal"
             >
-            <Form.Item label="Code">
-              <Select 
-                showSearch
-                value = {code}
-                filterOption = {filterAddEventOption}
-                onChange = {handleCodeChange}>
-                {selectEventOption}
-              </Select>
-            </Form.Item>
-            <Form.Item label="Description">
-              <Input key = {description} value = {description}></Input>
-            </Form.Item>
-            <Form.Item style = {{marginBottom:0}} label="Related">
-               {selectRelated()}
-            </Form.Item>
-            <Form.Item label="Date">
-              <DatePicker 
-                value={ !eventDate ? moment("").valueOf() : moment(eventDate)}
-                allowClear = {false}
-                onChange={(value) => {setEventDate(moment(value).valueOf())}}/>
-            </Form.Item>
-          </Form>
+                <Form.Item 
+                    name = "code"
+                    label="Code : "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please choose one code!',
+                        },
+                    ]}
+                >
+                    <Select 
+                        placeholder = "Please choose one code"
+                        showSearch
+                        filterOption = {filterAddEventOption}
+                        onChange = {handleCodeChange}
+                    >
+                        {selectEventOption}
+                    </Select>
+                </Form.Item>
+                <Form.Item 
+                    name = "description"
+                    label = "Description : "
+                >
+                    <Input 
+                        readOnly = {true}
+                    />
+                 </Form.Item>
+                 <Form.Item style = {{marginBottom:0}} label="Related : ">
+                    {selectRelated()}
+                </Form.Item>
+                <Form.Item 
+                    name = "date"
+                    label = "Date"
+                    style = {{marginBottom:0}}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please choose one date!',
+                        },
+                    ]}
+                >
+                <DatePicker 
+                    allowClear = {false}
+                />
+                </Form.Item>
+            </Form>
         )
     }
+    const submitEventAddFormFun = (values, form) => {
+        let curRelated = "";
+        if(formatGlobal === "TERM"){
+            curRelated = `${moment(values.relatedYear).format("YYYY")}${values.relatedSemster}`;
+        }
+        else if(formatGlobal === "UNITS"){
+            curRelated = values.units;
+        }
+        else{
+            curRelated = values.freeForm;
+        }
+        let curCodeArr = values.code.split(":");
+        let curCode = curCodeArr[0].substring(0, curCodeArr[0].length - 1);
+        let obj = {
+            code : curCode,
+            description : values.description,
+            related : curRelated,
+            date : moment(values.date).format("MM/DD/YYYY"),
+            transactiondate : moment().format("MM/DD/YYYY"),
+            oper: curUserInfo.useroper
+        }
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        let dataObject = NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelSubmitDataObj(obj,studentInfoObj);
+        let ConfrimProps = {
+            content: `One event will be added.`,
+            responseDataModelFun : NonCourseRelatedEventDataModel.NonCourseRelatedEventDataModelResponseDataObj,
+            requestBody : dataObject,
+            fetchDataFun: postNonCourseRelatedEventTableDataByEventObj,
+            mainPageShouldRefresh,
+            formDisapperFun : () => cancelEventFormFun(form)
+        }
+        SubmitConfirm({...ConfrimProps});
+    }
+    const cancelEventFormFun = (form) => {
+        setIsAddModalVisible(false);
+        form.resetFields();
+    }
     return (
-            <div>
-                <Button
-                    disabled = {functionDisable}
-                    onClick={() => handleAdd()}
-                    className={[style.button, style.topButton]}
-                    >
-                    ADD EVENT
-                </Button>
-                <Modal 
-                    key = "addEvent"
-                    centered
-                    visible={isAddModalVisible} 
-                    onCancel = {handleAddModalCancel}
-                    onOk = {handleAddModalOk}
-                    maskClosable = {false}
-                    title = {[
-                        <div key = "addEventTitle" className = {style.modalTitle} >ADD EVENT</div>
-                    ]}
-                    footer={[
-                        <Button  key = "addEventCancel" onClick = {handleAddModalCancel}>
-                            Cancel
-                        </Button>,
-                        <Button key="addEventOk" type="primary" onClick={handleAddModalOk}>
-                            Submit  
-                        </Button>,]}
-                    >
-                    {AddModalForm()}
-                </Modal>
-                <Table
-                    key = "EventTable"
-                    className = {style.header}
-                    columns = {columns}
-                    dataSource = {tableData}
+        <div>
+            <Button
+                disabled = {functionDisable}
+                onClick={() => showAddEventModalFun()}
+                className={[style.button, style.topButton]}
                 >
-                </Table>                         
-            </div>
-            
+                ADD EVENT
+            </Button>
+            <AddFormModal
+                title = "ADD EVENT"
+                visible = {isAddModalVisible}
+                onOk = {submitEventAddFormFun}
+                onCancel = {cancelEventFormFun}
+                AddFormComponent = {EventAddForm}
+            ></AddFormModal>
+            <Table
+                key = "EventTable"
+                className = {style.header}
+                columns = {columns}
+                dataSource = {tableData}
+            >
+            </Table>   
+        </div>
     )
 }
 

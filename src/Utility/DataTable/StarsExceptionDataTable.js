@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Modal, Form, Select} from 'antd';
+import { Table, Input, Button, Modal, Form, Select, message} from 'antd';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
 import SubmitConfirm from '../../Utility/PostConfirm/SubmitConfirm/SubmitConfirm'
@@ -96,7 +96,10 @@ function StarExceptionDataTable(props) {
                 <Select
                     style={{ width: 100 }}
                     value = {curExceptionType}
-                    onChange = {(value)=>setcurExceptionType(value)}
+                    onChange = {(value)=>{
+                        cleanState();
+                        setcurExceptionType(value);
+                    }}
                 >
                     {selectCharOption}
                 </Select>
@@ -124,7 +127,17 @@ function StarExceptionDataTable(props) {
             }
             {
                 curExceptionType === "CW" ? 
-                <Form.Item label= "Reqct: ">
+                <Form.Item label= "Reqct: "
+                    name= "reqct"
+                    rules={[
+                        {
+                            type : 'enum',
+                            enum : ['-1'],
+                            message : 'Reqct should always be ‘-1’',
+                            warningOnly : true
+                        }
+                    ]}
+                >
                     <Input
                         value = {curReqct}
                         onChange = {(e) => setcurReqct(e.target.value)}
@@ -133,7 +146,17 @@ function StarExceptionDataTable(props) {
             }
             {
                 curExceptionType === "RA" || curExceptionType === "RE" || curExceptionType === "CW" ? 
-                <Form.Item label= "Course: ">
+                <Form.Item 
+                    label= "Course: "
+                    name= "course"
+                    rules={[
+                        {
+                            pattern : /^[A-Za-z\s]{4,4}[0-9]/,
+                            message : 'Course should be 4 alphabetical characters or spaces followed by numbers, like AAAA101',
+                            warningOnly : true
+                        }
+                    ]}
+                >
                     <Input
                         value = {curCourse}
                         onChange = {(e) => setcurCourse(e.target.value)}
