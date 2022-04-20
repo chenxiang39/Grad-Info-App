@@ -25,23 +25,6 @@ function CourseDataTable(props) {
     const [isHistoryModalVisible, setisHistoryModalVisible] = useState(false);
     const [currentcheckedHistoryArr, setcurrentcheckedHistoryArr] = useState([]);
     const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
-    //每次进的时候先提交一遍,不处理意外
-    useEffect(()=> {
-        if(DefaultChooseData.length !== 0){
-            const studentInfoObj = {
-                id : curStudentID,
-                studentPostNumber: curStudentPostNumber
-            }
-            if(type === "AdmissionCourse"){
-                let requestBody = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(DefaultChooseData,studentInfoObj, curUserInfo);
-                postAdmissionCourseTableDataByNewArr(requestBody);
-            }
-            else if(type === "TransferCourse"){
-                let requestBody = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(DefaultChooseData,studentInfoObj, curUserInfo);
-                postTransferCourseTableDataByNewArr(requestBody);
-            }
-        }
-    },[DefaultChooseData.length])
     useEffect(() => {
         setselectedRows(DefaultChooseData);
         setselectedRowKeys(DefaultChooseDataKeys);
