@@ -271,7 +271,7 @@ function StarExceptionDataTable(props) {
             curContent = `One Stars Exception will be submitted.`;
         }
         else{
-            curContent += `Would you like to continue submitting them?`
+            curContent += `Would you like to continue submitting this Stars Exception?`
         }
         const studentInfoObj = {
             id : curStudentID,
