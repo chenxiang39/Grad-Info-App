@@ -249,6 +249,7 @@ function EventDataTable(props) {
                 ADD EVENT
             </Button>
             <AddFormModal
+                key = "ADD EVENT"
                 title = "ADD EVENT"
                 visible = {isAddModalVisible}
                 onOk = {submitEventAddFormFun}

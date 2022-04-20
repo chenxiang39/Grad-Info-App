@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Input, Button, Modal, Form, message} from 'antd';
+import { Table, Input, Button, Modal, Form} from 'antd';
 import { FileTextOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.less';
 import style from './DataTable.module.less'
@@ -11,6 +11,7 @@ import SubmitConfirm from '../PostConfirm/SubmitConfirm/SubmitConfirm'
 import {CommentDataModel} from '../../Model/comment/CommentDataModel'
 import PostNumberAccess from '../CommonFunc/PostNumberAccess'
 import moment from 'moment';
+import AddFormModal from '../AddFormModal/AddFormModal';
 const { TextArea } = Input;
 function CommentDataTable(props) {
     var {tableData, columns, mainPageShouldRefresh} = props;
@@ -18,44 +19,11 @@ function CommentDataTable(props) {
     const curStudentID = useSelector(StudentID);
     const accessPostNumberList = useSelector(AccessPostNumberList);
     const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
-    const [isAddModalVisible, setisAddModalVisible] = useState(false);
+    const [isAddModalVisible, setIsAddModalVisible] = useState(false);
     const [isCommentsModalVisible, setIsCommentsModalVisible] = useState(false);
-    const [curComment, setcurComment] = useState("");
     const [checkComment, setCheckComment] = useState("");
-    const clearState = () => {
-        setcurComment("");
-    }
-    const handleAdd = () =>{
-        setisAddModalVisible(true);
-    }
-    const handleAddModalOk = () =>{
-        let obj = {
-            content : curComment,
-            transactiondate : moment().format("MM/DD/YYYY"),
-            oper:"VS5"
-        }
-        if(!curComment){
-            message.warning("You must add Comment!",1);
-            return;
-        }
-        const studentInfoObj = {
-            id : curStudentID,
-            studentPostNumber: curStudentPostNumber
-        }
-        let dataObject = CommentDataModel.CommentDataModelSubmitDataObj(obj,studentInfoObj);
-        let ConfrimProps = {
-            content: `One comment will be added.`,
-            responseDataModelFun : CommentDataModel.CommentDataModelResponseObj,
-            requestBody : dataObject,
-            fetchDataFun: postCommentTableDataByCommentObj,
-            mainPageShouldRefresh,
-            formDisapperFun : handleAddModalCancel
-        }
-        SubmitConfirm({...ConfrimProps});
-    }
-    const handleAddModalCancel = () =>{
-        clearState();
-        setisAddModalVisible(false);
+    const showAddCommentModalFun = () =>{
+        setIsAddModalVisible(true);
     }
     const clickCommentBtn = (comment) => {
         setCheckComment(comment);
@@ -91,65 +59,91 @@ function CommentDataTable(props) {
     const handleCommentModalCancel = () =>{
         setIsCommentsModalVisible(false);
     }
-    const AddCommentModal = () =>{
+    const CommentAddForm = ({form}) =>{
         return (
             <Form
+                form = {form}
                 labelCol={{
-                span: 4,
-                }}
-                wrapperCol={{
-                span: 14,
+                    span: 4,
                 }}
                 layout="horizontal"
             >
-              <TextArea
-                    maxLength = {1000}
-                    autoSize = {
+                <Form.Item
+                    name = "comment"
+                    rules={[
                         {
-                            minRows : 0,
-                            maxRows : 16
+                            required: true,
+                            message: 'Please input something!',
+                        },
+                        {
+                            type: 'string',
+                            max : 512,
+                            message : 'Exceed the length limit(Max length is 512)'
                         }
-                    }
-                    className = {style.textArea}
-                    value = {curComment}
-                    maskClosable = {false}
-                    onChange = {(e) => setcurComment(e.target.value)}
-                ></TextArea>  
+                    ]}
+                    style = {{marginBottom:0}} 
+                >
+                    <TextArea
+                        maxLength = {1000}
+                        autoSize = {
+                            {
+                                minRows : 0,
+                                maxRows : 16
+                            }
+                        }
+                        className = {style.textArea}
+                        maskClosable = {false}
+                    ></TextArea>  
+                </Form.Item>
+                
           </Form>
         )
     }
     addCommentsColumn();
+    const submitAddCommentFun = (value, form) => {
+        let obj = {
+            content : value.comment,
+            transactiondate : moment().format("MM/DD/YYYY"),
+            oper:"VS5"
+        }
+        const studentInfoObj = {
+            id : curStudentID,
+            studentPostNumber: curStudentPostNumber
+        }
+        let dataObject = CommentDataModel.CommentDataModelSubmitDataObj(obj,studentInfoObj);
+        let ConfrimProps = {
+            content: `One comment will be added.`,
+            responseDataModelFun : CommentDataModel.CommentDataModelResponseObj,
+            requestBody : dataObject,
+            fetchDataFun: postCommentTableDataByCommentObj,
+            mainPageShouldRefresh,
+            formDisapperFun : () => cancelAddCommentFun(form)
+        }
+        SubmitConfirm({...ConfrimProps});
+    }
+    const cancelAddCommentFun = (form) => {
+        setIsAddModalVisible(false);
+        form.resetFields();
+    }
     return (
             <div>
                 <Button
                     disabled = {functionDisable}
-                    onClick={() => handleAdd()}
+                    onClick={() => showAddCommentModalFun()}
                     className={[style.button, style.topButton]}
                     >
                     ADD COMMENT
                 </Button>
+                <AddFormModal
+                    key = "ADD COMMENT"
+                    title = "ADD COMMENT"
+                    visible = {isAddModalVisible}
+                    onOk = {submitAddCommentFun}
+                    onCancel = {cancelAddCommentFun}
+                    AddFormComponent = {CommentAddForm}
+                >
+                </AddFormModal>
                 <Modal 
-                    key = "addEvent"
-                    centered          
-                    visible={isAddModalVisible} 
-                    onCancel = {handleAddModalCancel}
-                    onOk = {handleAddModalOk}
-                    maskClosable = {false}
-                    title = {[
-                        <div key = "addEventTitle" className = {style.modalTitle} >ADD COMMENT</div>
-                    ]}
-                    footer={[
-                        <Button  key = "addEventCancel" onClick = {handleAddModalCancel}>
-                            Cancel
-                        </Button>,
-                        <Button key="addEventOk" type="primary" onClick={handleAddModalOk}>
-                            Submit  
-                        </Button>,]}
-                    >
-                    {AddCommentModal()}
-                </Modal>
-                <Modal 
-                    key = "showComment"
                     centered
                     visible={isCommentsModalVisible} 
                     onCancel = {handleCommentModalCancel}

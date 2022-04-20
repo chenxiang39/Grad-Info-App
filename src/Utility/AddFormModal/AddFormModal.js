@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { Table, Input, Button, Modal, Form, message} from 'antd';
-import { FileTextOutlined } from '@ant-design/icons';
+import React from 'react'
+import { Button, Modal, Form, message} from 'antd';
 import 'antd/dist/antd.less';
 import style from './AddFormModal.module.less'
 const AddFormModal = ({title, visible, onOk, onCancel, AddFormComponent}) => {
@@ -14,23 +13,25 @@ const AddFormModal = ({title, visible, onOk, onCancel, AddFormComponent}) => {
     }
     return (
         <Modal
+            key = {title + "Modal"}
             centered
             visible = {visible} 
             onCancel = {() => onCancel(FormInstance)}
             onOk = {onOkFun}
             maskClosable = {false}
             title = {[
-                <div className = {style.modalTitle} >{title}</div>
+                <div key = {title + "Title"} className = {style.modalTitle} >{title}</div>
             ]}
             footer={[
-                <Button onClick = {() => onCancel(FormInstance)}>
+                <Button key = {title + "Cancel"} onClick = {() => onCancel(FormInstance)}>
                     Cancel
                 </Button>,
-                <Button type="primary" onClick={onOkFun}>
+                <Button key = {title + "Submit"} type="primary" onClick={onOkFun}>
                     Submit  
                 </Button>,]}
         >
             <AddFormComponent
+                key = {title + "Form"}
                 form = {FormInstance}
             ></AddFormComponent>
         </Modal>

@@ -127,6 +127,7 @@ function ExamCommitteeDataTable(props) {
                     ADD COMMITTEE
                 </Button>
                 <AddFormModal
+                    key = "ADD EXAM COMMITTEE"
                     title = "ADD COMMITTEE"
                     visible = {isAddModalVisible}
                     onOk = {submitAddCommitteeFun}

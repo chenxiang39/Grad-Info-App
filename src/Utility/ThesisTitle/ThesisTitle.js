@@ -20,11 +20,16 @@ function ThesisTitle(props) {
     const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [isShowModalVisible,setIsShowModalVisible] = useState(false);
+    const [canBeEdit, setCanBeEdit] = useState(false);
     const [curPaperTitle, setCurPaperTitle] = useState("");
     const handleCancel = () => {
         setIsEditModalVisible(false);
         setIsShowModalVisible(false);
+        setCanBeEdit(false);
         setCurPaperTitle("");
+    }
+    const handleEdit = () => {
+        setCanBeEdit(state => !state);
     }
     const openEditModal = () => {
         setIsEditModalVisible(true);
@@ -74,11 +79,30 @@ function ThesisTitle(props) {
                     <div key = "showEditThesisTitleHeader" className = {style.modalTitle} >Thesis Title</div>
                 ]}
                 footer={
-                    <Button key="cancelPaperTitleBtn" type="primary" onClick={handleCancel}>
-                        OK  
-                    </Button>}
+                    [
+                        <Button key="editPaperTitleBtn" onClick={handleEdit}>
+                            Edit  
+                        </Button>,
+                        <Button key="cancelPaperTitleBtn" type="primary" onClick={ !canBeEdit ? handleCancel : submitPaperTitle}>
+                            OK  
+                        </Button>
+                    ]
+                    }
                 >
-               {paperTitle}
+               { !canBeEdit ? paperTitle : <TextArea
+                    key = "textArea"
+                    maxLength = {1000}
+                    autoSize = {
+                        {
+                            minRows : 0,
+                            maxRows : 16
+                        }
+                    }
+                    className = {style.textArea}
+                    value = {curPaperTitle}
+                    maskClosable = {false}
+                    onChange = {(e) => setCurPaperTitle(e.target.value)}
+                ></TextArea> }
            </Modal>
         )
     }
@@ -132,7 +156,7 @@ function ThesisTitle(props) {
         }
         let dataObject = StudentPostDataModel.StudentPostDataModelPaperTitleSubmitDataObj(obj,studentInfoObj);
         let ConfrimProps = {
-            content: `Thesis title will be added.`,
+            content: `Thesis title will be ${canBeEdit ? 'changed' : 'added'}.`,
             responseDataModelFun : StudentPostDataModel.StudentPostDataModelPaperTitleResponceDataObj,
             requestBody : dataObject,
             fetchDataFun: postPaperTitleByPaperTitleObj,

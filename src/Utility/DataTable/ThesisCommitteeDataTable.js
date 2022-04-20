@@ -128,6 +128,7 @@ function ThesisCommitteeDataTable(props) {
                     ADD COMMITTEE
                 </Button>
                 <AddFormModal
+                    key = "ADD THESIS COMMITTEE"
                     title = "ADD COMMITTEE"
                     visible = {isAddModalVisible}
                     onOk = {submitAddCommitteeFun}
