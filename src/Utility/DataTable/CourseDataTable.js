@@ -26,22 +26,24 @@ function CourseDataTable(props) {
     const [currentcheckedHistoryArr, setcurrentcheckedHistoryArr] = useState([]);
     const functionDisable = PostNumberAccess(accessPostNumberList, curStudentPostNumber);
     //每次进的时候先提交一遍,不处理意外
-    useEffect( async ()=> {
-        const studentInfoObj = {
-            id : curStudentID,
-            studentPostNumber: curStudentPostNumber
+    useEffect(async ()=> {
+        if(DefaultChooseData.length !== 0){
+            const studentInfoObj = {
+                id : curStudentID,
+                studentPostNumber: curStudentPostNumber
+            }
+            if(type === "AdmissionCourse"){
+                let requestBody = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(DefaultChooseData,studentInfoObj, curUserInfo);
+                await postAdmissionCourseTableDataByNewArr(requestBody);
+                mainPageShouldRefresh(state => !state);
+            }
+            else if(type === "TransferCourse"){
+                let requestBody = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(DefaultChooseData,studentInfoObj, curUserInfo);
+                await postTransferCourseTableDataByNewArr(requestBody);
+                mainPageShouldRefresh(state => !state);
+            }
         }
-        if(type === "AdmissionCourse"){
-            let requestBody = AdmissionCourseDataModel.AdmissionCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo);
-            await postAdmissionCourseTableDataByNewArr(requestBody);
-            mainPageShouldRefresh(state => !state);
-        }
-        else if(type === "TransferCourse"){
-            let requestBody = TransferCourseDataModel.TransferCourseTableDataModelSubmitDataObj(selectedRows,studentInfoObj, curUserInfo);
-            await postTransferCourseTableDataByNewArr(requestBody);
-            mainPageShouldRefresh(state => !state);
-        }
-    },[])
+    },[DefaultChooseData.length])
     useEffect(() => {
         setselectedRows(DefaultChooseData);
         setselectedRowKeys(DefaultChooseDataKeys);
