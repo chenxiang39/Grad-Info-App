@@ -39,7 +39,6 @@ export default function SubmitConfirm(props){
                     FormDisappear();
                 }
             }catch(error){
-                console.log(error);
                 message.error("Network is broken !")
                 FormDisappear();
             }
