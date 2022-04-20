@@ -16,14 +16,14 @@ export default function Login() {
         try{
             setLoading(true);
             let UserInfoRes = await getUserInfoByUsernameAndPassword(values.username,values.password);
-            let EventListRes = await getEventList();
             let userInfo = UserInfoDataModel.UserInfoDataModelObj(UserInfoRes);
-            let EventList = UserInfoDataModel.EventListDataModelArr(EventListRes);
             if(!userInfo.username){
                 message.error("Username or Password is wrong!", 1);
                 setLoading(false);
             }
             else{
+                let EventListRes = await getEventList();
+                let EventList = UserInfoDataModel.EventListDataModelArr(EventListRes);
                 dispatch(SaveUserInfo(userInfo));
                 dispatch(SaveEventList(EventList));
                 let accessPostNumberListRes = [];
