@@ -110,7 +110,6 @@ function ThesisCommitteeDataTable(props) {
             mainPageShouldRefresh,
             formDisapperFun : () => cancelAddCommitteeFun (form)
         }
-        console.log(dataObject);
         SubmitConfirm({...ConfrimProps});
     }
     const cancelAddCommitteeFun = (form) =>{
