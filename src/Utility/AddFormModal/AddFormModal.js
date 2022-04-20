@@ -8,7 +8,11 @@ const AddFormModal = ({title, visible, onOk, onCancel, AddFormComponent}) => {
         FormInstance.validateFields().then((values) => {
             onOk(values, FormInstance);
         }).catch((info) =>{
-            message.warn(`Validate : Something is unvalid ! `,1)
+            let messageArr = info.errorFields;
+            for (let i = 0; i < messageArr.length; i++){
+                let validateMessage = `Your ${messageArr[i].name[0]} is unvalid.`;
+                message.error(validateMessage,1);
+            }
         })
     }
     return (

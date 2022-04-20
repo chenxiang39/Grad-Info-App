@@ -10,7 +10,8 @@ import { NonCourseRelatedEventDataModel } from '../../Model/nonCourseRelatedEven
 import {postNonCourseRelatedEventTableDataByEventObj} from '../../Api/nonCourseRelatedEvent'
 import SubmitConfirm from '../../Utility/PostConfirm/SubmitConfirm/SubmitConfirm'
 import AddFormModal from '../../Utility/AddFormModal/AddFormModal';
-import PostNumberAccess from '../CommonFunc/PostNumberAccess'
+import PostNumberAccess from '../CommonFunc/PostNumberAccess';
+import {shouldBeNumberUpToTwoDecimal} from '../../Constant/regexMatch'
 function EventDataTable(props) {
     var {tableData, columns,eventList,mainPageShouldRefresh} = props;
     const curUserInfo = useSelector(UserInfo);
@@ -60,7 +61,10 @@ function EventDataTable(props) {
         });
         const selectRelatedYearAndSemster = () => {
             return (
-                <div>
+                <Form.Item
+                    label = "Related : "
+                    style={{ marginBottom : 0 }}
+                >
                     <Form.Item
                         name = "relatedYear"
                         style={{ display: 'inline-block', width: 'calc(50% - 8px)' }}
@@ -94,17 +98,17 @@ function EventDataTable(props) {
                         {selectSemsterOption}
                         </Select>   
                     </Form.Item>   
-                </div>
-                
+                </Form.Item>
             )
         }
         const selectRelatedUnits = () => {
             return (
                 <Form.Item
-                    name="units"
+                    label = "Units : "
+                    name = "units"
                     rules={[
                         {
-                            pattern : /^\d+(.\d{1,2})?$/,
+                            pattern : shouldBeNumberUpToTwoDecimal,
                             message : 'You should input a number(up to two decimal places)'
                         }
                     ]}
@@ -116,7 +120,8 @@ function EventDataTable(props) {
         const selectFreeForm = () => {
             return (
                 <Form.Item
-                    name="freeForm"
+                    label = "FreeForm : "
+                    name = "freeForm"
                     rules={[
                         {
                             type: 'string',
@@ -178,9 +183,7 @@ function EventDataTable(props) {
                         readOnly = {true}
                     />
                  </Form.Item>
-                 <Form.Item style = {{marginBottom:0}} label="Related : ">
-                    {selectRelated()}
-                </Form.Item>
+                {selectRelated()}
                 <Form.Item 
                     name = "date"
                     label = "Date"

@@ -9,7 +9,9 @@ import { StudentPostNumber, StudentID} from '../../Redux/Slices/StudentInfo'
 import { StarsExceptionDataModel } from '../../Model/starsException/StarsExceptionDataModel';
 import {postStarExceptionByStarsObj} from '../../Api/starsException'
 import PostNumberAccess from '../CommonFunc/PostNumberAccess'
+import CheckRegex from '../CommonFunc/CheckRegex';
 import AddFormModal from '../AddFormModal/AddFormModal';
+import {shouldBeNegativeFollowedByFourNumbers, shouldBeFourCharactersFollowedByNumbers,shouldBeNegativeOne} from '../../Constant/regexMatch'
 import moment from 'moment';
 function StarExceptionDataTable(props) {
     var {StarsExceptionTableData, columns, mainPageShouldRefresh} = props;
@@ -31,14 +33,32 @@ function StarExceptionDataTable(props) {
         });
         const RnameInput = () => {
             return (
-                <Form.Item name = "rname" label= "Rname: ">
+                <Form.Item 
+                    name = "rname" 
+                    label= "Rname: "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input Rname!',
+                        },
+                    ]}
+                >
                     <Input/>
                 </Form.Item>
             )
         }
         const PsNameInput = () => {
             return (
-                <Form.Item name = "psname" label= "PsName: ">
+                <Form.Item 
+                    name = "psname" 
+                    label= "PsName: "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input PsName!',
+                        },
+                    ]}
+                >
                     <Input/>
                 </Form.Item>
             )
@@ -50,7 +70,11 @@ function StarExceptionDataTable(props) {
                     label= "Reqhrs: "
                     rules={[
                         {
-                            pattern : /^-(([0-9]){4})$/,
+                            required: true,
+                            message: 'Please input Reqhrs!',
+                        },
+                        {
+                            pattern : shouldBeNegativeFollowedByFourNumbers,
                             message : "Reqhrs should be a negative sign followed by 4 numbers",
                             warningOnly : true
                         }
@@ -67,8 +91,11 @@ function StarExceptionDataTable(props) {
                     label= "Reqct: "
                     rules={[
                         {
-                            type : 'enum',
-                            enum : ['-1'],
+                            required: true,
+                            message: 'Please input Reqct!',
+                        },
+                        {
+                            pattern : shouldBeNegativeOne,
                             message : 'Reqct should always be ‘-1’',
                             warningOnly : true
                         }
@@ -85,7 +112,11 @@ function StarExceptionDataTable(props) {
                     label= "Course: " 
                     rules={[
                         {
-                            pattern : /^[A-Za-z\s]{4,4}[0-9]/,
+                            required: true,
+                            message: 'Please input Course!',
+                        },
+                        {
+                            pattern : shouldBeFourCharactersFollowedByNumbers,
                             message : 'Course should be 4 alphabetical characters or spaces followed by numbers, like AAAA101',
                             warningOnly : true
                         }
@@ -97,21 +128,48 @@ function StarExceptionDataTable(props) {
         }
         const RcourseInput = () => {
             return (
-                <Form.Item name = "rcourse" label= "Rcourse: ">
+                <Form.Item 
+                    name = "rcourse" 
+                    label= "Rcourse: "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input Rcourse!',
+                        },
+                    ]}
+                >
                     <Input/>
                 </Form.Item>
             )
         }
         const DeptRepInput = () => {
             return (
-                <Form.Item name = "deptRep" label= "Dept/Rep: ">
+                <Form.Item 
+                    name = "deptRep" 
+                    label= "Dept/Rep: "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input Dept/Rep!',
+                        },
+                    ]}
+                >
                     <Input/>
                 </Form.Item>
             )
         }
         const DeptInput = () => {
             return (
-                <Form.Item name = "dept" label= "Dept: ">
+                <Form.Item 
+                    name = "dept" 
+                    label= "Dept: "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input Dept!',
+                        },
+                    ]}
+                >
                     <Input/>
                 </Form.Item>
             )
@@ -131,6 +189,12 @@ function StarExceptionDataTable(props) {
                     initialValue = "RA"
                     name = "type"
                     label = "Exception type: "
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please choose one type!',
+                        },
+                    ]}
                 >
                     <Select
                         style={{ width: 100 }}
@@ -178,6 +242,7 @@ function StarExceptionDataTable(props) {
             </Form>
         )
     }
+
     const submitAddExceptionFun = (value, form) =>{
         let obj = {
             cd : !!value.type ? value.type : "",
@@ -192,13 +257,29 @@ function StarExceptionDataTable(props) {
             course : !!value.course ? value.course : "",
             rcourse : !!value.rcourse ? value.rcourse : ""
         }
+        let curContent = "";
+        if(!CheckRegex(obj.course, shouldBeFourCharactersFollowedByNumbers)){
+            curContent += "Course does not match the expected format. \n"
+        }
+        if(!CheckRegex(obj.reqct, shouldBeNegativeOne)){
+            curContent += "Reqct does not match the expected format. \n"
+        }
+        if(!CheckRegex(obj.reqhrs, shouldBeNegativeFollowedByFourNumbers)){
+            curContent += "Reqhrs does not match the expected format. \n"
+        }
+        if(!curContent){
+            curContent = `One Stars Exception will be submitted.`;
+        }
+        else{
+            curContent += `Would you like to continue submitting them?`
+        }
         const studentInfoObj = {
             id : curStudentID,
             studentPostNumber: curStudentPostNumber
         }
         let dataObject = StarsExceptionDataModel.StarsExceptionDataModelSubmitDataObj(obj,studentInfoObj);
         let ConfrimProps = {
-            content: `One Stars Exception will be submitted.`,
+            content: curContent,
             responseDataModelFun : StarsExceptionDataModel.StarsExceptionDataModelResponseObj,
             requestBody : dataObject,
             fetchDataFun: postStarExceptionByStarsObj,
