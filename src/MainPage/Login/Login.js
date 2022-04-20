@@ -12,37 +12,42 @@ export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const onFinish = async (values) => {
-        try{
-            setLoading(true);
-            let UserInfoRes = await getUserInfoByUsernameAndPassword(values.username,values.password);
+    const onFinish = (values) => {
+        setLoading(true);
+        getUserInfoByUsernameAndPassword(values.username,values.password).then((UserInfoRes) => {
             let userInfo = UserInfoDataModel.UserInfoDataModelObj(UserInfoRes);
             if(!userInfo.username){
                 message.error("Username or Password is wrong!", 1);
                 setLoading(false);
+                return new Promise((resolve, reject) => {
+                    reject("validate error");
+                })
             }
             else{
-                let EventListRes = await getEventList();
-                let EventList = UserInfoDataModel.EventListDataModelArr(EventListRes);
                 dispatch(SaveUserInfo(userInfo));
-                dispatch(SaveEventList(EventList));
-                let accessPostNumberListRes = [];
-                if(userInfo.userSuper === "1"){
-                    accessPostNumberListRes = await getAllSpPostNumber();
+                let getSpPostNumberFun = () =>{
+                    if(userInfo.userSuper === "1"){
+                        return getAllSpPostNumber();
+                    }
+                    else{
+                        return getPostNumberByUserID(userInfo.userid);
+                    }
                 }
-                else{
-                    accessPostNumberListRes = await getPostNumberByUserID(userInfo.userid);
-                }
-                let accessPostNumberList = UserInfoDataModel.AccessPostNumberListDataModelArr(accessPostNumberListRes);
-                dispatch(SaveAccessPostNumberList(accessPostNumberList));
-                navigate("/Search",{replace : true});
+                return Promise.all([getEventList(),getSpPostNumberFun()]);
             }
-        }catch(err){
+        }).then((res) => {
+            let eventList = UserInfoDataModel.EventListDataModelArr(res[0]); 
+            let accessPostNumberList = UserInfoDataModel.AccessPostNumberListDataModelArr(res[1]);
+            dispatch(SaveEventList(eventList));
+            dispatch(SaveAccessPostNumberList(accessPostNumberList));
+            navigate("/Search",{replace : true});
+        }).catch(error => {
             setLoading(false);
-            message.error("Network is broken !", 1);
-        }
-    };
-    
+            if(error !== 'validate error'){
+                message.error( `Network is broken !`, 1);
+            }
+        })
+    }
     return (
         <Spin className = {style.spinContainer} size = "large" spinning = {loading}>
             <Form

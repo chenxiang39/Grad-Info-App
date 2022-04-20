@@ -80,7 +80,7 @@ function ThesisTitle(props) {
                 ]}
                 footer={
                     [
-                        <Button key="editPaperTitleBtn" onClick={handleEdit}>
+                        <Button disabled = {functionDisable} key="editPaperTitleBtn" onClick={handleEdit}>
                             Edit  
                         </Button>,
                         <Button key="cancelPaperTitleBtn" type="primary" onClick={ !canBeEdit ? handleCancel : submitPaperTitle}>
