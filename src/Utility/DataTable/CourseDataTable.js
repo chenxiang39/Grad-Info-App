@@ -93,6 +93,9 @@ function CourseDataTable(props) {
             let obj = (
                 <div key = {item + i} className = {style.historyItem}>
                      {`Course ${item.course} was ${item.apply ? "applied":"unapplied"} by ${item.oper} on ${item.transactiondate}`}
+                    <div>
+                        <br />
+                    </div>
                 </div>
             )
             res.push(obj);
