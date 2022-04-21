@@ -25,7 +25,7 @@ export default function Search() {
     }
     const submit = async () =>{
         if(!curSearchStudentID){
-            message.warning("You must input POST ID!" , 1);
+            message.warning("You must input STUDENT ID!" , 1);
             return;
         }
         try{
@@ -34,7 +34,7 @@ export default function Search() {
             studentInfo = StudentInfoDataModel.StudentInfoDataModelObj(studentInfo);
             if(!studentInfo.id){
                 setLoading(false);
-                message.warning("POST ID is not exist!" , 1);
+                message.warning("STUDENT ID is not exist!" , 1);
                 return;
             }
             else{
@@ -54,7 +54,7 @@ export default function Search() {
             <div 
                 onKeyDown = {keyPress}
                 className = {style.container}>
-                POST ID : &nbsp;&nbsp;&nbsp;
+                STUDENT ID : &nbsp;&nbsp;&nbsp;
                 <Input
                     style = {{width:250}}
                     className = {style.input}
